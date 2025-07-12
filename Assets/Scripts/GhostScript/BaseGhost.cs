@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class ContactGhost : MonoBehaviour
+public class BaseGhost : MonoBehaviour
 {
     [Header("Target Settings")]
     public Transform target;
@@ -14,29 +14,32 @@ public class ContactGhost : MonoBehaviour
     [Header("Damage Settings")]
     [HideInInspector] public float invulnerabilityDuration = 1.5f;
 
-    private Vector2 velocityPosition;
-    private float floatTimer;
-    private float lastDamageTime = -Mathf.Infinity;
+    protected Vector2 velocityPosition;
+    protected float floatTimer;
+    protected float lastDamageTime = -Mathf.Infinity;
     [HideInInspector] public bool isAttacking;
-    [HideInInspector] public bool isPulling = true;
+    [HideInInspector] public bool isPulling;
     [HideInInspector] public string GhostType = "Contact";
 
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
+    protected Vector2 externalForce = Vector2.zero;
 
-    private Vector2 externalForce = Vector2.zero;
-
-
-
-    void Start()
+    protected virtual void Start()
     {
+        isPulling = false;
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (target == null) return;
 
+        MoveGhost();
+    }
+
+    protected virtual void MoveGhost()
+    {
         Vector2 direction = ((Vector2)target.position - velocityPosition).normalized;
         floatTimer += Time.deltaTime;
         float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
@@ -46,12 +49,12 @@ public class ContactGhost : MonoBehaviour
         rb.MovePosition(velocityPosition + new Vector2(0f, floatOffset));
     }
 
-    public void ApplyExternalForce(Vector2 force)
+    public virtual void ApplyExternalForce(Vector2 force)
     {
         externalForce += force;
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
+    protected virtual void OnCollisionStay2D(Collision2D collision)
     {
         if (!collision.gameObject.CompareTag("Player"))
             return;
@@ -61,6 +64,7 @@ public class ContactGhost : MonoBehaviour
             isAttacking = false;
             return;
         }
+
         if (collision.gameObject.TryGetComponent(out PlayerController controller))
         {
             controller.TakeDamege(1);

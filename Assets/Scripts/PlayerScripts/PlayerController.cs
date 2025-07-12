@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         foreach (var hit in raycastHits) {
             if (hit.collider.gameObject.CompareTag("Ghost"))
             {
-                ContactGhost ghost = hit.collider.gameObject.GetComponent<ContactGhost>();
+                BaseGhost ghost = hit.collider.gameObject.GetComponent<BaseGhost>();
                 if (ghost != null)
                 {
                     ghost.ApplyExternalForce(-direction * pullForceMultiplier);

@@ -4,17 +4,28 @@ using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class GhostBullet : MonoBehaviour
+public class ChildBullet : MonoBehaviour
 {
     private float startTime;
     private float timeToLive = 5f;
+    private float timeToBeTriggered = 3f;
+
+
     void Awake()
     {
+        GetComponent<BoxCollider2D>().isTrigger = true;
+
         startTime = Time.time;
+
     }
 
     void Update()
     {
+        if (Time.time - startTime >= timeToBeTriggered)
+        {
+            GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);
@@ -23,6 +34,7 @@ public class GhostBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        
         if (collision.gameObject.CompareTag("Ghost"))
         {
             var controller = collision.gameObject.GetComponent<BaseGhost>();

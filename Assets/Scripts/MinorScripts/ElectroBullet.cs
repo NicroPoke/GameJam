@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class GhostBullet : MonoBehaviour
+public class ElectroBullet : MonoBehaviour
 {
     private float startTime;
     private float timeToLive = 5f;

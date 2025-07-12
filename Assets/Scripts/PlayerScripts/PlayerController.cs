@@ -7,11 +7,12 @@ using UnityEngine.Timeline;
 
 public class PlayerController : MonoBehaviour
 {
-    private int health = 100;
+    [HideInInspector] public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
     [SerializeField] private float speed = 4;
     private Rigidbody2D rb;
     private Vector2 inputVector;
+    private BaseGhost lastGhost;
 
     void FixedUpdate()
     {
@@ -25,9 +26,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Awake()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        lastGhost = null;  
     }
 
     void OnMove(InputValue value)
@@ -46,19 +49,34 @@ public class PlayerController : MonoBehaviour
         float distance = Vector2.Distance(transform.position, mouseToWorld);
 
         RaycastHit2D[] raycastHits = Physics2D.RaycastAll(transform.position, direction, distance);
-        
-        foreach (var hit in raycastHits) {
+
+        BaseGhost currentGhost = null;
+        foreach (var hit in raycastHits)
+        {
             if (hit.collider.gameObject.CompareTag("Ghost"))
             {
-                ContactGhost ghost = hit.collider.gameObject.GetComponent<ContactGhost>();
+                BaseGhost ghost = hit.collider.gameObject.GetComponent<BaseGhost>();
                 if (ghost != null)
                 {
                     ghost.ApplyExternalForce(-direction * pullForceMultiplier);
 
                     ghost.isPulling = true;
+
+                    currentGhost = ghost;
+
+                    break;
                 }
             }
         }
+
+        if (lastGhost != null && lastGhost != currentGhost)
+        {
+            lastGhost.isPulling = false;
+
+            Debug.Log("Changed and trigered");
+        }
+
+        lastGhost = currentGhost;
     }
 
     void Die()

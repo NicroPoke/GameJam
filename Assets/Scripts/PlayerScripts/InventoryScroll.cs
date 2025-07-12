@@ -34,7 +34,7 @@ public class InventoryScroll : MonoBehaviour
         Debug.Log("Written");
         for (int i = 0; i < 10; i++)
         {
-            inventory.Add(new InventorySlot(1, "Empty"));
+            inventory.Add(new InventorySlot(10, "Empty"));
         }
         Debug.Log("Inventory initialized. Count: " + inventory.Count);
     }
@@ -49,17 +49,19 @@ public class InventoryScroll : MonoBehaviour
         {
             currentSlot += (int)scrollDirenction.y;
         }
-
-        Debug.Log(inventory[currentSlot].amount);
     }
 
     void ShotGhost()
     {
-        switch (inventory[currentSlot].type)
+        if (!(inventory[currentSlot].amount <= 0))
         {
-            case "Empty":
-                ShotRound();
-                break;
+            switch (inventory[currentSlot].type)
+            {
+                case "Empty":
+                    ShotBasic();
+                    break;
+            }
+            inventory[currentSlot].amount--;
         }
     }
 
@@ -110,9 +112,10 @@ public class InventoryScroll : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ghost"))
         {
-            var controller = gameObject.GetComponent<ContactGhost>();
 
-            if (controller.isPulling)
+            var controller = gameObject.GetComponent<BaseGhost>();
+
+            if (isPulled)
             {
                 ConsumeGhost(collision.gameObject);
             }

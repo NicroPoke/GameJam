@@ -20,7 +20,6 @@ public class ToxicGas : MonoBehaviour
         {
             controller.TakeDamege(1);
             isAttacking = true;
-            Debug.Log("Contact with player.");
             lastDamageTime = Time.time;
         }
     }

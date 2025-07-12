@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
+using JetBrains.Annotations;
 using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class GhostBullet : MonoBehaviour
+public class LoudBullet : MonoBehaviour
 {
     private float startTime;
     private float timeToLive = 5f;
@@ -32,12 +34,21 @@ public class GhostBullet : MonoBehaviour
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             rb.gravityScale = 10;
 
-            Debug.Log(_rb.linearVelocity.normalized);
-
             controller.ApplyExternalForce(transform.right * 30);
+
+            controller.ApplySlow(3, 3);
 
             Destroy(gameObject);
         }
+    }
+
+    IEnumerator SlowDown(BaseGhost controller)
+    {
+        controller.Speed -= 3;
+
+        yield return new WaitForSeconds(3f);
+
+        controller.Speed += 3;
     }
 
 }

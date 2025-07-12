@@ -40,4 +40,9 @@ public class GhostBullet : MonoBehaviour
         }
     }
 
+    void SpawnExplosion()
+    {
+        
+    }
+
 }

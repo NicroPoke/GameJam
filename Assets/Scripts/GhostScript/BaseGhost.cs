@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -69,8 +71,24 @@ public class BaseGhost : MonoBehaviour
         {
             controller.TakeDamege(1);
             isAttacking = true;
-            Debug.Log("Contact with player.");
             lastDamageTime = Time.time;
         }
+    }
+
+    public void ApplySlow(float amount, float duration)
+    {
+        StartCoroutine(SlowDown(amount, duration));
+    }
+
+    System.Collections.IEnumerator SlowDown(float amount, float duration)
+    {
+        Speed -= amount;
+        yield return new WaitForSeconds(duration);
+        Speed += amount;
+    }
+
+    public void GotHit(Action action)
+    {
+        action?.Invoke();
     }
 }

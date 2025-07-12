@@ -11,7 +11,7 @@ public class ScreamGhost : BaseGhost
     protected override void Start()
     {
         base.Start();
-        Speed = 4f;
+        Speed = 2.5f;
         GhostType = "Scream";
         isPulling = false;
         Scream.SetActive(false);

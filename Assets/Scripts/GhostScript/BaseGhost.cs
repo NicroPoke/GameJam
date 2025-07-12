@@ -9,9 +9,12 @@ public class BaseGhost : MonoBehaviour
     public Transform target;
 
     [Header("Movement Settings")]
-    [HideInInspector] public float Speed = 5f;
+    [HideInInspector] public float Speed = 3f;
     [HideInInspector] public float Amplitude = 0.1f;
     [HideInInspector] public float Frequency = 2f;
+    [HideInInspector] public float Acceleration = 5f;
+    [HideInInspector] public float MaxSpeed = 3.5f;
+    [HideInInspector] public float TurningSpeed = 3f;
 
     [Header("Damage Settings")]
     [HideInInspector] public float invulnerabilityDuration = 1.5f;
@@ -25,30 +28,47 @@ public class BaseGhost : MonoBehaviour
 
     protected Rigidbody2D rb;
     protected Vector2 externalForce = Vector2.zero;
+    protected Vector2 currentVelocity = Vector2.zero;
 
     protected virtual void Start()
     {
         isPulling = false;
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
+
+        Collider2D myCollider = GetComponent<Collider2D>();
+        Collider2D[] allColliders = FindObjectsOfType<Collider2D>();
+        foreach (Collider2D col in allColliders)
+        {
+            if (col != myCollider && col.CompareTag("Ghost"))
+            {
+                Physics2D.IgnoreCollision(myCollider, col);
+            }
+        }
     }
 
     protected virtual void Update()
     {
         if (target == null) return;
-
         MoveGhost();
     }
 
     protected virtual void MoveGhost()
     {
-        Vector2 direction = ((Vector2)target.position - velocityPosition).normalized;
+        Vector2 toTarget = ((Vector2)target.position - velocityPosition);
+        Vector2 desiredDirection = toTarget.normalized * (isPulling ? -1f : 1f);
+
+        currentVelocity = Vector2.MoveTowards(currentVelocity, desiredDirection * MaxSpeed, Acceleration * Time.deltaTime);
+
         floatTimer += Time.deltaTime;
         float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
-        Vector2 movement = (isPulling ? -direction : direction) * Speed * Time.deltaTime;
-        velocityPosition += movement + externalForce * Time.deltaTime;
+
+        Vector2 movement = currentVelocity * Time.deltaTime + externalForce * Time.deltaTime;
+        velocityPosition += movement;
         externalForce = Vector2.Lerp(externalForce, Vector2.zero, Time.deltaTime * 5f);
-        rb.MovePosition(velocityPosition + new Vector2(0f, floatOffset));
+
+        Vector2 finalPosition = velocityPosition + new Vector2(0f, floatOffset);
+        rb.MovePosition(finalPosition);
     }
 
     public virtual void ApplyExternalForce(Vector2 force)

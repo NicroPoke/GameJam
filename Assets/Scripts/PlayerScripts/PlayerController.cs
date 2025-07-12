@@ -8,7 +8,7 @@ using UnityEngine.Timeline;
 public class PlayerController : MonoBehaviour
 {
     private int health = 100;
-    [SerializeField] private float pullForceMultiplier = 10;
+    [SerializeField] private float pullForceMultiplier = 5f;
     [SerializeField] private float speed = 4;
     private Rigidbody2D rb;
     private Vector2 inputVector;
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
             Die();
         }
     }
-
 
     public void Awake()
     {
@@ -51,11 +50,15 @@ public class PlayerController : MonoBehaviour
         foreach (var hit in raycastHits) {
             if (hit.collider.gameObject.CompareTag("Ghost"))
             {
-                Rigidbody2D rb = hit.collider.gameObject.GetComponent<Rigidbody2D>();
-                rb.AddForce(-direction * pullForceMultiplier);
+                ContactGhost ghost = hit.collider.gameObject.GetComponent<ContactGhost>();
+                if (ghost != null)
+                {
+                    ghost.ApplyExternalForce(-direction * pullForceMultiplier);
+                }
             }
         }
     }
+
     void Die()
     {
         Destroy(gameObject);

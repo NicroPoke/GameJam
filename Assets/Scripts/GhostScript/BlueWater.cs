@@ -1,33 +1,10 @@
 using UnityEngine;
 
-public class Screamer : MonoBehaviour
+public class BlueWater : MonoBehaviour
 {
     private float lastDamageTime = -Mathf.Infinity;
-    private float lastEffectTime = -Mathf.Infinity;
-    private float invulnerabilityDuration = 2f;
+    private float invulnerabilityDuration = 0.5f;
     private bool isAttacking = false;
-    private bool isSlowed = false;
-
-    [SerializeField] private float slowDuration = 2f;
-    [SerializeField] private float slowSpeed = 1f;
-    private Transform player;
-
-    private void Start()
-    {
-        var playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-            player = playerObj.transform;
-    }
-
-    private void Update()
-    {
-        if (player != null)
-        {
-            Vector3 dir = player.position - transform.position;
-            float angle = Mathf.Atan2(-dir.y, -dir.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, angle);
-        }
-    }
 
     private void OnTriggerStay2D(Collider2D other)
     {
@@ -41,6 +18,7 @@ public class Screamer : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out PlayerController controller))
         {
+            controller.TakeDamege(1);
             controller.speed = 2f;
             isAttacking = true;
             Debug.Log("Contact with player.");
@@ -56,6 +34,9 @@ public class Screamer : MonoBehaviour
             controller.speed = 6f;
         }
     }
-    
+    private void Update()
+    {
+        Destroy(gameObject, 10f);
+    }
 }
 

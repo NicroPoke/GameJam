@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         float distance = Vector2.Distance(transform.position, mouseToWorld);
 
         RaycastHit2D[] raycastHits = Physics2D.RaycastAll(transform.position, direction, distance);
-
+        
         foreach (var hit in raycastHits) {
             if (hit.collider.gameObject.CompareTag("Ghost"))
             {
@@ -54,6 +54,8 @@ public class PlayerController : MonoBehaviour
                 if (ghost != null)
                 {
                     ghost.ApplyExternalForce(-direction * pullForceMultiplier);
+
+                    ghost.isPulling = true;
                 }
             }
         }

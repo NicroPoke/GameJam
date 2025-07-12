@@ -18,7 +18,7 @@ public class ContactGhost : MonoBehaviour
     private float floatTimer;
     private float lastDamageTime = -Mathf.Infinity;
     [HideInInspector] public bool isAttacking;
-    [HideInInspector] public bool isPulling = true;
+    [HideInInspector] public bool isPulling = false;
     [HideInInspector] public string GhostType = "Contact";
 
     private Rigidbody2D rb;
@@ -29,6 +29,7 @@ public class ContactGhost : MonoBehaviour
 
     void Start()
     {
+        isPulling = false;
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
     }

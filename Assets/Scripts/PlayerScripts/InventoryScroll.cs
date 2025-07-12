@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
 
-struct InventorySlot {
+class InventorySlot {
     public int amount;
     public string type;
 
@@ -19,10 +19,11 @@ struct InventorySlot {
 }
 public class InventoryScroll : MonoBehaviour
 {
+    private bool isPulled = false;
     private float cullDown = 0.35f;
     private float timeOfLastShot = 0;
     private float bulletSpeed = 4f;
-    public GameObject basicGhost; 
+    public GameObject basicGhost;
     private Vector2 mousePosition;
     private int currentSlot = 1;
     private List<InventorySlot> inventory = new List<InventorySlot>();
@@ -48,7 +49,8 @@ public class InventoryScroll : MonoBehaviour
         {
             currentSlot += (int)scrollDirenction.y;
         }
-        Debug.Log(currentSlot);
+
+        Debug.Log(inventory[currentSlot].amount);
     }
 
     void ShotGhost()
@@ -97,6 +99,26 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
+    void ConsumeGhost(GameObject ghost)
+    {
+        Destroy(ghost);
+
+        inventory[currentSlot].amount++; 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ghost"))
+        {
+            var controller = gameObject.GetComponent<ContactGhost>();
+
+            if (controller.isPulling)
+            {
+                ConsumeGhost(collision.gameObject);
+            }
+        }
+    }
+
     void ShotBasic()
     {
         if (Time.time - timeOfLastShot <= cullDown)
@@ -131,5 +153,17 @@ public class InventoryScroll : MonoBehaviour
     void OnScroll(InputValue input)
     {
         scrollDirenction = input.Get<Vector2>();
+    }
+
+    void OnPull(InputValue input)
+    {
+        if (input.Get<Vector2>() == new Vector2(0, 0))
+        {
+            isPulled = false;
+        }
+        else
+        {
+            isPulled = true;
+        }
     }
 }

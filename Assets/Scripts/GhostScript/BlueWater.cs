@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BlueWater : MonoBehaviour
+public class Toxines : MonoBehaviour
 {
     private float lastDamageTime = -Mathf.Infinity;
     private float invulnerabilityDuration = 0.5f;

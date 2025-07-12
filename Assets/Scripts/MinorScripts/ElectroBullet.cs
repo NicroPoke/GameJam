@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ElectroBullet : MonoBehaviour
 {
+    public GameObject electricField;
     private float startTime;
     private float timeToLive = 5f;
     void Awake()
@@ -36,8 +37,9 @@ public class ElectroBullet : MonoBehaviour
 
             controller.ApplyExternalForce(transform.right * 30);
 
+            Instantiate(electricField, transform.position, transform.rotation);
+
             Destroy(gameObject);
         }
     }
-
 }

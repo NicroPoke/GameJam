@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class HomelessBullet : MonoBehaviour
 {
+    public GameObject electricField;
+    public Vector3 targetSize = new Vector3(4f, 4f, 4f);
     private float startTime;
     private float timeToLive = 5f;
     void Awake()
@@ -35,6 +37,8 @@ public class HomelessBullet : MonoBehaviour
             Debug.Log(_rb.linearVelocity.normalized);
 
             controller.ApplyExternalForce(transform.right * 30);
+
+            Instantiate(electricField, transform.position, transform.rotation);
 
             Destroy(gameObject);
         }

@@ -4,8 +4,10 @@ using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEngine;
 
-public class GhostBullet : MonoBehaviour
+public class ToxicBattle : MonoBehaviour
 {
+    public GameObject electricField;
+    public Vector3 targetSize = new Vector3(4f, 4f, 4f);
     private float startTime;
     private float timeToLive = 5f;
     void Awake()
@@ -36,13 +38,15 @@ public class GhostBullet : MonoBehaviour
 
             controller.ApplyExternalForce(transform.right * 30);
 
+            Instantiate(electricField, transform.position, transform.rotation);
+
             Destroy(gameObject);
         }
     }
 
     void SpawnExplosion()
     {
-        
+
     }
 
 }

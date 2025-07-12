@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     [HideInInspector] public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
-    [SerializeField] private float speed = 4;
+    [SerializeField] public float speed = 4f;
     private Rigidbody2D rb;
     private Vector2 inputVector;
     private BaseGhost lastGhost;

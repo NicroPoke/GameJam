@@ -79,6 +79,13 @@ public class InventoryScroll : MonoBehaviour
 
     }
 
+    void StartPullCollider()
+    {
+        GameObject pullColliderObject = new GameObject("PullCollider");
+        pullColliderObject.transform.parent = this.transform;
+        pullCollider = pullColliderObject.AddComponent<BoxCollider2D>();
+    }
+
     void ShotGhost()
     {
         if (!(inventory[currentSlot].amount <= 0))
@@ -152,11 +159,11 @@ public class InventoryScroll : MonoBehaviour
                 float t = Time.time - timerAnalogue;
                 float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
+                
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
-
-                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.45f)
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f)
                 {
                     ConsumeGhost(other.gameObject);
                 }
@@ -243,7 +250,6 @@ public class InventoryScroll : MonoBehaviour
 
         pullCollider.size = new Vector2(distance, 2f);
         pullCollider.offset = transform.InverseTransformPoint(midPoint);
-        pullCollider.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 
 

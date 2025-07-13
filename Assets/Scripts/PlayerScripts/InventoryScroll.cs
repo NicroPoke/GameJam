@@ -23,7 +23,7 @@ public class InventoryScroll : MonoBehaviour
 {
     private float timerAnalogue = 0;
     public float maxRange = 5;
-    private float growthRate = 1.3f;
+    private float growthRate = 1f;
     public float pullForceMultiplier = 0.04f;
     private Vector2 mousePos;
     private LineRenderer line;

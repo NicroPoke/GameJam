@@ -7,6 +7,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Timeline;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -54,5 +56,17 @@ public class PlayerController : MonoBehaviour
     public void TakeDamege(int damage)
     {
         health -= damage;
+
+        ChangeSliderHP();
+    }
+
+    void ChangeSliderHP()
+    {
+        GameObject target = GameObject.Find("SliderHP");
+
+        if (target != null)
+        {
+            target.GetComponent<SliderScript>().ChangeSliderValue(health);
+        }
     }
 }

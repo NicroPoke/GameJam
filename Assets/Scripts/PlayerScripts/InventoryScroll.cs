@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 class InventorySlot {
     public int amount;
@@ -19,7 +21,10 @@ class InventorySlot {
 }
 public class InventoryScroll : MonoBehaviour
 {
-    public float pullForceMultiplier = 5f;
+    private float timerAnalogue = 0;
+    public float maxRange = 5;
+    private float growthRate = 1.3f;
+    public float pullForceMultiplier = 0.04f;
     private Vector2 mousePos;
     private LineRenderer line;
     private bool isPulled = false;
@@ -64,11 +69,14 @@ public class InventoryScroll : MonoBehaviour
         if (isPulled)
         {
             Pull(mousePos);
+
         }
         else
         {
             DrawNothing();
+            timerAnalogue = Time.time;
         }
+
     }
 
     void ShotGhost()
@@ -83,6 +91,11 @@ public class InventoryScroll : MonoBehaviour
             }
             inventory[currentSlot].amount--;
         }
+    }
+
+    float GetExponentialForce(float time, float initialForce, float growthRate)
+    {
+        return initialForce * Mathf.Exp(growthRate * time);
     }
 
     List<Vector2> GenerateCircleVectors(int num)
@@ -128,20 +141,6 @@ public class InventoryScroll : MonoBehaviour
         inventory[currentSlot].amount++;
     }
 
-    // void OnTriggerEnter2D(Collider2D collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Ghost"))
-    //     {
-
-    //         var controller = gameObject.GetComponent<BaseGhost>();
-
-    //         if (isPulled)
-    //         {
-    //             ConsumeGhost(collision.gameObject);
-    //         }
-    //     }
-    // }
-
     void OnTriggerStay2D(Collider2D other)
     {
         Debug.Log("Is staying");
@@ -150,9 +149,17 @@ public class InventoryScroll : MonoBehaviour
             BaseGhost ghost = other.GetComponent<BaseGhost>();
             if (ghost != null)
             {
+                float t = Time.time - timerAnalogue;
+                float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
-                ghost.ApplyExternalForce(direction * pullForceMultiplier);
+                ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
+
+
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.45f)
+                {
+                    ConsumeGhost(other.gameObject);
+                }
             }
         }
     }
@@ -230,34 +237,13 @@ public class InventoryScroll : MonoBehaviour
 
         Vector2 direction = ((Vector2)mouseToWorld - (Vector2)transform.position).normalized;
         float distance = Vector2.Distance(transform.position, mouseToWorld);
+
+        distance = Mathf.Clamp(0, maxRange, distance);
         float angle = Mathf.Atan2(direction.y, direction.x) + Mathf.Rad2Deg;
 
         pullCollider.size = new Vector2(distance, 2f);
         pullCollider.offset = transform.InverseTransformPoint(midPoint);
         pullCollider.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        // BaseGhost currentGhost = null;
-        // foreach (var hit in raycastHits)
-        // {
-        //     if (hit.collider.gameObject.CompareTag("Ghost"))
-        //     {
-        //         BaseGhost ghost = hit.collider.gameObject.GetComponent<BaseGhost>();
-        //         if (ghost != null)
-        //         {
-        //             ghost.ApplyExternalForce(-direction * 4f);
-
-        //             ghost.isPulling = true;
-
-        //             currentGhost = ghost;
-
-        //             break;
-        //         }
-        //         else
-        //         {
-        //             currentGhost.isPulling = false;
-        //         }
-        //     }
-        // }
     }
 
 
@@ -293,7 +279,6 @@ public class InventoryScroll : MonoBehaviour
 
         Gizmos.color = Color.green;
 
-        // Получаем мировую позицию и поворот
         Vector3 pos = pullCollider.transform.position + (Vector3)pullCollider.offset;
         Vector3 size = pullCollider.size;
 

@@ -24,8 +24,8 @@ class InventorySlot {
 public class InventoryScroll : MonoBehaviour
 {
     private bool isOverheat;
-    private float overheatValueRecoveryRate = 4f;
-    private float overheatValueChagneRate = 2f;
+    private float overheatValueRecoveryRate = 15f;
+    private float overheatValueChagneRate = 10f;
     private float overheatValue = 0;
     private float timerAnalogue = 0;
     public float maxRange = 5;
@@ -73,11 +73,18 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
+        line.enabled = !isOverheat;
+
         if (isPulled)
         {
             Pull(mousePos);
 
-            overheatValue += Time.deltaTime * overheatValueChagneRate;
+            if (!isOverheat)
+            {
+                overheatValue += Time.deltaTime * overheatValueChagneRate;
+                ChangeSliderHP();
+            }
+
 
         }
         else
@@ -85,23 +92,21 @@ public class InventoryScroll : MonoBehaviour
             DrawNothing();
             timerAnalogue = Time.time;
 
-            if (isOverheat)
+            overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
+
+            if (overheatValue <= 0)
             {
-                overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
-
-                if (overheatValue <= 0)
-                {
-                    isOverheat = false;
-                    overheatValue = 0;
-                }
+                isOverheat = false;
+                overheatValue = 0;
             }
-
+            ChangeSliderHP();
         }
 
         if (overheatValue >= 100)
         {
             isOverheat = true;
             overheatValue = 100;
+            ChangeSliderHP();
         }
     }
 
@@ -194,7 +199,7 @@ public class InventoryScroll : MonoBehaviour
         Destroy(ghost);
 
         inventory[currentSlot].amount++;
-        
+
         ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
     }
 
@@ -208,7 +213,7 @@ public class InventoryScroll : MonoBehaviour
                 float t = Time.time - timerAnalogue;
                 float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
-                
+
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
@@ -286,6 +291,9 @@ public class InventoryScroll : MonoBehaviour
 
     void Pull(Vector2 input)
     {
+        if (isOverheat)
+            return;
+        
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(input);
         mouseToWorld.z = 0;
 
@@ -328,7 +336,7 @@ public class InventoryScroll : MonoBehaviour
         line.SetPosition(0, transform.position);
         line.SetPosition(1, transform.position);
     }
-    
+
     void OnDrawGizmos()
     {
         if (pullCollider == null)
@@ -342,5 +350,15 @@ public class InventoryScroll : MonoBehaviour
         Gizmos.matrix = pullCollider.transform.localToWorldMatrix;
 
         Gizmos.DrawWireCube(Vector3.zero + (Vector3)pullCollider.offset, size);
+    }
+    
+    void ChangeSliderHP()
+    {
+        GameObject target = GameObject.Find("SliderOverheat");
+
+        if (target != null)
+        {
+            target.GetComponent<SliderScript>().ChangeSliderValue((int)overheatValue);
+        }
     }
 }

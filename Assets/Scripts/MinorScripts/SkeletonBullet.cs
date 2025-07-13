@@ -46,19 +46,15 @@ public class SkeletonBullet : MonoBehaviour
     {
         int bulletNumber = (int)Random.Range(3, 6);
 
-        Debug.Log(bulletNumber);
-
-
-
         for (int i = 0; i <= bulletNumber; i++)
         {
-            float direction_y = Random.Range(-1, 1);
-            float direction_x = Random.Range(-1, 1);
+            float direction_y = Random.Range(-1f, 1f);
+            float direction_x = Random.Range(-1f, 1f);
 
             Debug.Log(direction_y);
             Debug.Log(direction_x);
 
-            Vector2 direction = new Vector2(direction_x, direction_y);
+            Vector2 direction = new Vector2(direction_x, direction_y).normalized;
 
 
             float rotationZ = Mathf.Atan2(direction_y, direction_x) * Mathf.Rad2Deg;
@@ -66,8 +62,9 @@ public class SkeletonBullet : MonoBehaviour
             Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
 
             GameObject ghostBullet = Instantiate(basicBullet, transform.position, rotation);
-            float scale = Random.Range(0.4f, 0.8f);
-            ghostBullet.transform.localScale = new Vector3(scale, scale, scale);
+
+            float baseScale = Random.Range(0.4f, 0.8f);
+            ghostBullet.transform.localScale = new Vector3(baseScale * 0.5f, baseScale, 1f);
             ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * Random.Range(1.5f, 4f);
         }
     }

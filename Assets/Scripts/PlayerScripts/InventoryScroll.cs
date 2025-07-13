@@ -34,7 +34,7 @@ public class InventoryScroll : MonoBehaviour
     private Vector2 mousePos;
     private LineRenderer line;
     private bool isPulled = false;
-    private float cullDown = 0.35f;
+    private float cullDown = 0.4f;
     private float timeOfLastShot = 0;
     private float bulletSpeed = 4f;
     public GameObject basicGhost;
@@ -52,14 +52,18 @@ public class InventoryScroll : MonoBehaviour
     {
         GameObject ui = GameObject.FindGameObjectWithTag("UI");
 
-        ui_controller = ui.GetComponent<InGameUIsctipts>();
-        ui_controller.SetSelected(currentSlot);
+        if (ui != null)
+        {
+            ui_controller = ui.GetComponent<InGameUIsctipts>();
+            ui_controller.SetSelected(currentSlot);
+        }
+
 
         for (int i = 0; i < 8; i++)
         {
             inventory.Add(new InventorySlot(4, "Empty"));
-            ui_controller.ChangeSlotAmount(i, inventory[i].amount);
-
+            if (ui_controller != null)
+                ui_controller.ChangeSlotAmount(i, inventory[i].amount);
         }
 
         line = GetComponent<LineRenderer>();
@@ -67,8 +71,6 @@ public class InventoryScroll : MonoBehaviour
 
         pullCollider = gameObject.AddComponent<BoxCollider2D>();
         pullCollider.isTrigger = true;
-
-
     }
 
     void Update()
@@ -113,7 +115,7 @@ public class InventoryScroll : MonoBehaviour
     void Scroll()
     {
         Debug.Log("Created smthg");
-        if (math.abs(scrollDirenction.y) > 0.5)
+        if (math.abs(scrollDirenction.y) > 0.5 && ui_controller != null)
         {
             if ((currentSlot + (int)scrollDirenction.y) > 8)
             {
@@ -139,8 +141,10 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotGhost()
     {
-        if (!(inventory[currentSlot].amount <= 0))
+        if (!(inventory[currentSlot].amount <= 0) && ui_controller != null)
         {
+            if (Time.time - timeOfLastShot <= cullDown)
+                return;
             switch (inventory[currentSlot].type)
             {
                 case "Empty":
@@ -176,9 +180,6 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotRound()
     {
-        if (Time.time - timeOfLastShot <= cullDown)
-            return;
-
         List<Vector2> vectors = GenerateCircleVectors(10);
 
         foreach (Vector2 direction in vectors)
@@ -200,7 +201,8 @@ public class InventoryScroll : MonoBehaviour
 
         inventory[currentSlot].amount++;
 
-        ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
+        if (ui_controller != null)
+            ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -237,9 +239,6 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotBasic()
     {
-        if (Time.time - timeOfLastShot <= cullDown)
-            return;
-
         Vector2 direction = CreateDirectionVector(mousePosition);
 
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

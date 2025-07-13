@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8285093811466448398}
   m_Layer: 0
   m_Name: ElectricBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -176,4 +176,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   electricField: {fileID: 3559155685330890492, guid: b1993931420e01441b72e8312c4caf0f, type: 3}
-  targetSize: {x: 4, y: 4, z: 4}

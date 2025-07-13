@@ -6,6 +6,10 @@ using UnityEngine;
 public class BaseGhost : MonoBehaviour
 {
     public Transform target;
+    public GameObject Bullet;
+    [HideInInspector] bool isDying;
+    [HideInInspector] bool HardGhost;
+    [HideInInspector] bool Alive;
     [HideInInspector] public float aggroRange = 8f;
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
@@ -41,6 +45,8 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Start()
     {
+        HardGhost = true;
+        Alive = true;
         isPulling = false;
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
@@ -59,6 +65,12 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (!Alive)
+        {
+            isDying = true;
+            Destroy(gameObject, 3f);
+            return;
+        }
         if (target == null) return;
 
         float distanceToTarget = Vector2.Distance(rb.position, target.position);
@@ -76,6 +88,8 @@ public class BaseGhost : MonoBehaviour
 
     protected void MoveToTarget()
     {
+        if (!Alive) return;
+
         Vector2 toTarget = ((Vector2)target.position - velocityPosition).normalized;
 
         if (isPulling)
@@ -83,7 +97,7 @@ public class BaseGhost : MonoBehaviour
             struggleTimer += Time.deltaTime * StruggleSpeed;
             Vector2 perpendicular = new Vector2(-toTarget.y, toTarget.x);
             float sway = Mathf.Sin(struggleTimer) * StruggleAmplitude;
-            Vector2 struggleDir = (-toTarget * 5f + perpendicular * sway).normalized; 
+            Vector2 struggleDir = (-toTarget * 5f + perpendicular * sway).normalized;
             currentVelocity = Vector2.Lerp(currentVelocity, struggleDir * Speed, TurningSpeed * Time.deltaTime);
         }
         else
@@ -94,9 +108,10 @@ public class BaseGhost : MonoBehaviour
         MoveWithFloat();
     }
 
-
     protected void Wander()
     {
+        if (!Alive) return;
+
         wanderTimer -= Time.deltaTime;
         if (wanderTimer <= 0f)
         {
@@ -109,6 +124,8 @@ public class BaseGhost : MonoBehaviour
 
     private void SetRandomWanderDirection()
     {
+        if (!Alive) return;
+
         float angle = UnityEngine.Random.Range(0f, 360f);
         wanderDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
         wanderTimer = UnityEngine.Random.Range(2f, 5f);
@@ -116,6 +133,8 @@ public class BaseGhost : MonoBehaviour
 
     private void MoveWithFloat()
     {
+        if (!Alive) return;
+
         floatTimer += Time.deltaTime;
         float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
         Vector2 movement = currentVelocity * Time.deltaTime + externalForce * Time.deltaTime;
@@ -127,6 +146,8 @@ public class BaseGhost : MonoBehaviour
 
     protected bool HasLineOfSight()
     {
+        if (!Alive) return false;
+
         Vector2 direction = target.position - transform.position;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, aggroRange, lineOfSightMask);
         return hit.collider != null && hit.collider.transform == target;
@@ -134,11 +155,15 @@ public class BaseGhost : MonoBehaviour
 
     public virtual void ApplyExternalForce(Vector2 force)
     {
+        if (!Alive) return;
+
         externalForce += force;
     }
 
     protected virtual void OnCollisionStay2D(Collision2D collision)
     {
+        if (!Alive) return;
+
         if (!collision.gameObject.CompareTag("Player")) return;
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
@@ -155,8 +180,25 @@ public class BaseGhost : MonoBehaviour
         }
     }
 
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Bullet")&& !HardGhost)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            Alive = false;
+        }
+        if (other.gameObject.CompareTag("Bullet") && HardGhost)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            Alive = false;
+            Instantiate(Bullet, transform.position, transform.rotation);
+        }
+    }
+
     public void ApplySlow(float amount, float duration)
     {
+        if (!Alive) return;
+
         StartCoroutine(SlowDown(amount, duration));
     }
 
@@ -169,6 +211,8 @@ public class BaseGhost : MonoBehaviour
 
     public void teleport(Vector2 newPos)
     {
+        if (!Alive) return;
+
         rb.position = newPos;
         velocityPosition = newPos;
         externalForce = Vector2.zero;
@@ -177,6 +221,8 @@ public class BaseGhost : MonoBehaviour
 
     public void GotHit(Action action)
     {
+        if (!Alive) return;
+
         action?.Invoke();
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using NUnit.Framework;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
@@ -219,7 +220,7 @@ public class InventoryScroll : MonoBehaviour
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
-                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f)
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
                 {
                     ConsumeGhost(other.gameObject);
                 }
@@ -306,7 +307,7 @@ public class InventoryScroll : MonoBehaviour
         distance = Mathf.Clamp(0, maxRange, distance);
         float angle = Mathf.Atan2(direction.y, direction.x) + Mathf.Rad2Deg;
 
-        pullCollider.size = new Vector2(distance, 2f);
+        pullCollider.size = new Vector2(distance, 4f);
         pullCollider.offset = transform.InverseTransformPoint(midPoint);
     }
 

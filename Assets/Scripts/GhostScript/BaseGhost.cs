@@ -83,7 +83,7 @@ public class BaseGhost : MonoBehaviour
             struggleTimer += Time.deltaTime * StruggleSpeed;
             Vector2 perpendicular = new Vector2(-toTarget.y, toTarget.x);
             float sway = Mathf.Sin(struggleTimer) * StruggleAmplitude;
-            Vector2 struggleDir = (-toTarget + perpendicular * sway).normalized;
+            Vector2 struggleDir = (-toTarget * 5f + perpendicular * sway).normalized; 
             currentVelocity = Vector2.Lerp(currentVelocity, struggleDir * Speed, TurningSpeed * Time.deltaTime);
         }
         else
@@ -93,6 +93,7 @@ public class BaseGhost : MonoBehaviour
 
         MoveWithFloat();
     }
+
 
     protected void Wander()
     {

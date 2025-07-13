@@ -4,15 +4,15 @@ public class GlitchGhost : BaseGhost
 {
     private float maxDist = 10f;
     private float distToTarget;
-    private float tpDelay = 3f;
+    private float tpDelay = 2f;
     private float tpTimer = 0f;
 
     protected override void Start()
     {
         distToTarget = maxDist;
         base.Start();
-        Speed = 1.5f;
-        WanderSpeed = 1.5f;
+        Speed = 4f;
+        WanderSpeed = 3f;
         GhostType = "Glitch";
         isPulling = false;
         tpTimer = 0f;

@@ -8,10 +8,14 @@ public class MainMenuScript : MonoBehaviour
     public void LoadTutorial(){
         SceneManager.LoadScene("SampleScene");
     }
+    public void LoadMenu(){
+        SceneManager.LoadScene("Menu");
+    }
 
-    public void ExitAplication(){
+    public void ExitAplication()
+    {
         Application.Quit();
-        
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif

@@ -306,10 +306,11 @@ public class InventoryScroll : MonoBehaviour
         float distance = Vector2.Distance(transform.position, mouseToWorld);
 
         distance = Mathf.Clamp(0, maxRange, distance);
-        float angle = Mathf.Atan2(direction.y, direction.x) + Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        pullCollider.size = new Vector2(distance, 4f);
-        pullCollider.offset = transform.InverseTransformPoint(midPoint);
+        pullCollider.size = new Vector2(distance, 1f);
+        pullCollider.offset = new UnityEngine.Vector2(distance / 2f, 0f);
     }
 
 

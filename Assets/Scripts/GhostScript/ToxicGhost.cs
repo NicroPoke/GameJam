@@ -12,7 +12,7 @@ public class ToxicGhost : BaseGhost
     {
         base.Start();
         Speed = 2.5f;
-        MaxSpeed = 2.8f;
+        WanderSpeed = 1.5f;
         GhostType = "Toxic";
         isPulling = false;
         Gas.SetActive(false);
@@ -28,7 +28,6 @@ public class ToxicGhost : BaseGhost
         if (!gasActive && gasTimer >= gasCooldown)
         {
             Speed = 1.5f;
-            MaxSpeed = 2f;
             Gas.SetActive(true);
             gasActive = true;
             gasTimer = 0f;
@@ -36,7 +35,6 @@ public class ToxicGhost : BaseGhost
         else if (gasActive && gasTimer >= gasActiveDuration)
         {
             Speed = 2.5f;
-            MaxSpeed = 2.8f;
             Gas.SetActive(false);
             gasActive = false;
             gasTimer = 0f;

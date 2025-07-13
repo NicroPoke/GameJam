@@ -12,6 +12,7 @@ public class GlitchGhost : BaseGhost
         distToTarget = maxDist;
         base.Start();
         Speed = 1.5f;
+        WanderSpeed = 1.5f;
         GhostType = "Glitch";
         isPulling = false;
         tpTimer = 0f;

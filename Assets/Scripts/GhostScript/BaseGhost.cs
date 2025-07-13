@@ -25,6 +25,10 @@ public class BaseGhost : MonoBehaviour
     [Header("Damage Settings")]
     [HideInInspector] public float invulnerabilityDuration = 1.5f;
 
+    [Header("Struggle Settings")]
+    [HideInInspector] private float StruggleAmplitude = 90f;
+    [HideInInspector] private float StruggleSpeed = 20f;
+
     protected Vector2 velocityPosition;
     protected float floatTimer;
     protected float lastDamageTime = -Mathf.Infinity;
@@ -41,6 +45,8 @@ public class BaseGhost : MonoBehaviour
     private Vector2 wanderDirection = Vector2.zero;
     private float wanderTimer = 0f;
     private float wanderInterval = 3f;
+
+    private float struggleTimer = 0f;
 
     protected virtual void Start()
     {
@@ -79,8 +85,20 @@ public class BaseGhost : MonoBehaviour
 
     protected void MoveToTarget()
     {
-        Vector2 toTarget = ((Vector2)target.position - velocityPosition).normalized * (isPulling ? -1f : 1f);
-        currentVelocity = Vector2.Lerp(currentVelocity, toTarget * MaxSpeed, TurningSpeed * Time.deltaTime);
+        Vector2 toTarget = ((Vector2)target.position - velocityPosition).normalized;
+
+        if (isPulling)
+        {
+            struggleTimer += Time.deltaTime * StruggleSpeed;
+            float angleOffset = Mathf.Sin(struggleTimer) * StruggleAmplitude;
+            Vector2 struggleDir = Quaternion.Euler(0, 0, angleOffset) * -toTarget;
+            currentVelocity = Vector2.Lerp(currentVelocity, struggleDir * MaxSpeed, TurningSpeed * Time.deltaTime);
+        }
+        else
+        {
+            currentVelocity = Vector2.Lerp(currentVelocity, toTarget * MaxSpeed, TurningSpeed * Time.deltaTime);
+        }
+
         MoveWithFloat();
     }
 

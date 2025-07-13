@@ -12,7 +12,6 @@ public class ScreamGhost : BaseGhost
     {
         base.Start();
         Speed = 2.5f;
-        MaxSpeed = 5f;
         GhostType = "Scream";
         isPulling = false;
         Scream.SetActive(false);
@@ -28,7 +27,6 @@ public class ScreamGhost : BaseGhost
         if (!screamActive && screamTimer >= screamCooldown)
         {
             Speed = 4f;
-            MaxSpeed = 5f;
             Scream.SetActive(true);
             screamActive = true;
             screamTimer = 0f;
@@ -36,7 +34,6 @@ public class ScreamGhost : BaseGhost
         else if (screamActive && screamTimer >= screamActiveDuration)
         {
             Speed = 2.5f;
-            MaxSpeed = 5f;
             Scream.SetActive(false);
             screamActive = false;
             screamTimer = 0f;

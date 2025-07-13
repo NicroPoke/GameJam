@@ -5,38 +5,26 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseGhost : MonoBehaviour
 {
-    [Header("Target Settings")]
     public Transform target;
+    [HideInInspector] public float aggroRange = 8f;
+    [HideInInspector] public LayerMask lineOfSightMask;
+    [HideInInspector] public bool requireLineOfSight = false;
 
-    [Header("Aggression Settings")]
-    public float aggroRange = 8f;
-    public LayerMask lineOfSightMask;
-    public bool requireLineOfSight = false;
-
-    [Header("Movement Settings")]
     [HideInInspector] public float Speed = 3f;
     [HideInInspector] public float WanderSpeed = 1.5f;
     [HideInInspector] public float Amplitude = 0.1f;
     [HideInInspector] public float Frequency = 2f;
     [HideInInspector] public float Acceleration = 5f;
-    [HideInInspector] public float MaxSpeed = 3.5f;
     [HideInInspector] public float TurningSpeed = 3f;
-
-    [Header("Damage Settings")]
     [HideInInspector] public float invulnerabilityDuration = 1.5f;
 
-    [Header("Struggle Settings")]
-    [HideInInspector] private float StruggleAmplitude = 90f;
-    [HideInInspector] private float StruggleSpeed = 20f;
+    [HideInInspector] private float StruggleAmplitude = 200f;
+    [HideInInspector] private float StruggleSpeed = 15f;
 
     protected Vector2 velocityPosition;
     protected float floatTimer;
     protected float lastDamageTime = -Mathf.Infinity;
     protected bool isAggroed = false;
-
-    [HideInInspector] public bool isAttacking;
-    [HideInInspector] public bool isPulling;
-    [HideInInspector] public string GhostType = "Contact";
 
     protected Rigidbody2D rb;
     protected Vector2 externalForce = Vector2.zero;
@@ -45,8 +33,11 @@ public class BaseGhost : MonoBehaviour
     private Vector2 wanderDirection = Vector2.zero;
     private float wanderTimer = 0f;
     private float wanderInterval = 3f;
-
     private float struggleTimer = 0f;
+
+    [HideInInspector] public bool isAttacking;
+    [HideInInspector] public bool isPulling;
+    [HideInInspector] public string GhostType = "Contact";
 
     protected virtual void Start()
     {
@@ -90,13 +81,14 @@ public class BaseGhost : MonoBehaviour
         if (isPulling)
         {
             struggleTimer += Time.deltaTime * StruggleSpeed;
-            float angleOffset = Mathf.Sin(struggleTimer) * StruggleAmplitude;
-            Vector2 struggleDir = Quaternion.Euler(0, 0, angleOffset) * -toTarget;
-            currentVelocity = Vector2.Lerp(currentVelocity, struggleDir * MaxSpeed, TurningSpeed * Time.deltaTime);
+            Vector2 perpendicular = new Vector2(-toTarget.y, toTarget.x);
+            float sway = Mathf.Sin(struggleTimer) * StruggleAmplitude;
+            Vector2 struggleDir = (-toTarget + perpendicular * sway).normalized;
+            currentVelocity = Vector2.Lerp(currentVelocity, struggleDir * Speed, TurningSpeed * Time.deltaTime);
         }
         else
         {
-            currentVelocity = Vector2.Lerp(currentVelocity, toTarget * MaxSpeed, TurningSpeed * Time.deltaTime);
+            currentVelocity = Vector2.Lerp(currentVelocity, toTarget * Speed, TurningSpeed * Time.deltaTime);
         }
 
         MoveWithFloat();
@@ -125,11 +117,9 @@ public class BaseGhost : MonoBehaviour
     {
         floatTimer += Time.deltaTime;
         float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
-
         Vector2 movement = currentVelocity * Time.deltaTime + externalForce * Time.deltaTime;
         velocityPosition += movement;
         externalForce = Vector2.Lerp(externalForce, Vector2.zero, Time.deltaTime * 5f);
-
         Vector2 finalPosition = velocityPosition + new Vector2(0f, floatOffset);
         rb.MovePosition(finalPosition);
     }

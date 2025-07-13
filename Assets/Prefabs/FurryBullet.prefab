@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 9216118122879640343}
   - component: {fileID: 7496331477048508808}
   - component: {fileID: 1617499222735099003}
-  - component: {fileID: -1764891611783513018}
+  - component: {fileID: 1382742288540023886}
   m_Layer: 0
-  m_Name: GlithBullet
+  m_Name: FurryBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -163,7 +163,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-1764891611783513018
+--- !u!114 &1382742288540023886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,6 +172,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1312240691916774131}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d71976d42d6418c428fd473e1bdcdb10, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f590e171a938b5479df487ebaad0eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

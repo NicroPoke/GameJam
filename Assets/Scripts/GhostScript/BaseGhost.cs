@@ -87,6 +87,14 @@ public class BaseGhost : MonoBehaviour
         Speed += amount;
     }
 
+    public void teleport(Vector2 newPos)
+    {
+        rb.position = newPos;
+        velocityPosition = newPos;
+        externalForce = Vector2.zero;
+        floatTimer = 0f;
+    }
+
     public void GotHit(Action action)
     {
         action?.Invoke();

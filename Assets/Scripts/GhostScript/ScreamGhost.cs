@@ -3,47 +3,49 @@ using UnityEngine;
 public class ScreamGhost : BaseGhost
 {
     public GameObject Scream;
-    private float ScreamCooldown = 5f; 
-    private float ScreamActiveDuration = 1f; 
-    private float ScreamTimer = 5f;
-    private bool ScreamActive = false;
+    private float screamCooldown = 5f;
+    private float screamActiveDuration = 1f;
+    private float screamTimer = 5f;
+    private bool screamActive = false;
 
     protected override void Start()
     {
         base.Start();
         Speed = 2.5f;
+        MaxSpeed = 5f;
         GhostType = "Scream";
         isPulling = false;
         Scream.SetActive(false);
-        ScreamTimer = 2f; 
+        screamTimer = 2f;
     }
 
     protected override void Update()
     {
         base.Update();
 
-        ScreamTimer += Time.deltaTime;
+        screamTimer += Time.deltaTime;
 
-        if (!ScreamActive && ScreamTimer >= ScreamCooldown)
-        {   
-            Speed = 4f;
-            Scream.SetActive(true);
-            ScreamActive = true;
-            ScreamTimer = 0f;
-        }
-        else if (ScreamActive && ScreamTimer >= ScreamActiveDuration)
+        if (!screamActive && screamTimer >= screamCooldown)
         {
-            Speed = 5f;
+            Speed = 4f;
+            MaxSpeed = 5f;
+            Scream.SetActive(true);
+            screamActive = true;
+            screamTimer = 0f;
+        }
+        else if (screamActive && screamTimer >= screamActiveDuration)
+        {
+            Speed = 2.5f;
+            MaxSpeed = 5f;
             Scream.SetActive(false);
-            ScreamActive = false;
-            ScreamTimer = 0f;
+            screamActive = false;
+            screamTimer = 0f;
         }
     }
 
     protected override void OnCollisionStay2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
-            return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
@@ -55,7 +57,6 @@ public class ScreamGhost : BaseGhost
         {
             controller.TakeDamege(3);
             isAttacking = true;
-            Debug.Log("ScreamGhost атакует игрока (урон 3).");
             lastDamageTime = Time.time;
         }
     }

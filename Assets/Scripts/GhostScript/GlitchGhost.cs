@@ -2,25 +2,26 @@ using UnityEngine;
 
 public class GlitchGhost : BaseGhost
 {
-    private float MaxRadius = 5f;
-    private float Radius;
-    private float TeleportInterval = 3f;
-    private float TeleportTimer = 0f;
+    private float maxDist = 10f;
+    private float distToTarget;
+    private float tpDelay = 3f;
+    private float tpTimer = 0f;
 
     protected override void Start()
     {
-        Radius = MaxRadius;
+        distToTarget = maxDist;
         base.Start();
-        Speed = 2f;
+        Speed = 1.5f;
         GhostType = "Glitch";
         isPulling = false;
-        TeleportTimer = 0f;
-        Collider2D ownCollider = GetComponent<Collider2D>();
+        tpTimer = 0f;
+
+        Collider2D myCol = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())
         {
             if (col.gameObject != gameObject && col.gameObject.tag == "Untagged")
             {
-                Physics2D.IgnoreCollision(ownCollider, col);
+                Physics2D.IgnoreCollision(myCol, col);
             }
         }
     }
@@ -29,34 +30,56 @@ public class GlitchGhost : BaseGhost
     {
         if (target == null) return;
 
-        TeleportTimer += Time.deltaTime;
+        base.Update();
 
-        if (TeleportTimer >= TeleportInterval)
+        if (!isAggroed) return;
+
+        tpTimer += Time.deltaTime;
+
+        if (tpTimer >= tpDelay)
         {
-            TeleportTimer = 0f;
-            RandomTeleport();
+            tpTimer = 0f;
+            StartCoroutine(DoTpGlitch());
         }
         else
         {
-            base.Update();
-            Radius = Vector2.Distance(velocityPosition, target.position);
+            distToTarget = Vector2.Distance(velocityPosition, target.position);
         }
     }
 
-    void RandomTeleport()
+    private System.Collections.IEnumerator DoTpGlitch()
+    {
+        float glitchTime = 0.3f;
+        float t = 0f;
+        Vector3 orig = transform.position;
+
+        while (t < glitchTime)
+        {
+            transform.position = orig + (Vector3)(Random.insideUnitCircle * 0.2f);
+            t += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = orig;
+
+        DoTeleport();
+    }
+
+    void DoTeleport()
     {
         if (target == null) return;
 
-        float angle = Random.Range(0, 2 * Mathf.PI);
-        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * Radius;
+        float angle = Random.Range(0f, 2f * Mathf.PI);
+        float randDist = Random.Range(2f, maxDist);
+        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * randDist;
+
         velocityPosition = (Vector2)target.position + offset;
         rb.MovePosition(velocityPosition);
     }
 
-    protected override void OnCollisionStay2D(Collision2D collision)
+    protected override void OnCollisionStay2D(Collision2D col)
     {
-        if (!collision.gameObject.CompareTag("Player"))
-            return;
+        if (!col.gameObject.CompareTag("Player")) return;
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
@@ -64,12 +87,12 @@ public class GlitchGhost : BaseGhost
             return;
         }
 
-        if (collision.gameObject.TryGetComponent(out PlayerController controller))
+        if (col.gameObject.TryGetComponent(out PlayerController player))
         {
-            controller.TakeDamege(10);
+            player.TakeDamege(10);
             isAttacking = true;
-            Debug.Log("ScreamGhost атакует игрока (урон 10).");
-            RandomTeleport();
+            Debug.Log("GlitchGhost атакует игрока (урон 10).");
+            StartCoroutine(DoTpGlitch());
             lastDamageTime = Time.time;
         }
     }

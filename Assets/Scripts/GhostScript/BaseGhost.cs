@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -8,8 +8,14 @@ public class BaseGhost : MonoBehaviour
     [Header("Target Settings")]
     public Transform target;
 
+    [Header("Aggression Settings")]
+    public float aggroRange = 8f;
+    public LayerMask lineOfSightMask;
+    public bool requireLineOfSight = false;
+
     [Header("Movement Settings")]
     [HideInInspector] public float Speed = 3f;
+    [HideInInspector] public float WanderSpeed = 1.5f;
     [HideInInspector] public float Amplitude = 0.1f;
     [HideInInspector] public float Frequency = 2f;
     [HideInInspector] public float Acceleration = 5f;
@@ -22,6 +28,8 @@ public class BaseGhost : MonoBehaviour
     protected Vector2 velocityPosition;
     protected float floatTimer;
     protected float lastDamageTime = -Mathf.Infinity;
+    protected bool isAggroed = false;
+
     [HideInInspector] public bool isAttacking;
     [HideInInspector] public bool isPulling;
     [HideInInspector] public string GhostType = "Contact";
@@ -30,6 +38,10 @@ public class BaseGhost : MonoBehaviour
     protected Vector2 externalForce = Vector2.zero;
     protected Vector2 currentVelocity = Vector2.zero;
 
+    private Vector2 wanderDirection = Vector2.zero;
+    private float wanderTimer = 0f;
+    private float wanderInterval = 3f;
+
     protected virtual void Start()
     {
         isPulling = false;
@@ -37,29 +49,62 @@ public class BaseGhost : MonoBehaviour
         velocityPosition = rb.position;
 
         Collider2D myCollider = GetComponent<Collider2D>();
-        Collider2D[] allColliders = FindObjectsOfType<Collider2D>();
-        foreach (Collider2D col in allColliders)
+        foreach (Collider2D col in FindObjectsOfType<Collider2D>())
         {
             if (col != myCollider && col.CompareTag("Ghost"))
             {
                 Physics2D.IgnoreCollision(myCollider, col);
             }
         }
+
+        SetRandomWanderDirection();
     }
 
     protected virtual void Update()
     {
         if (target == null) return;
-        MoveGhost();
+
+        float distanceToTarget = Vector2.Distance(rb.position, target.position);
+        isAggroed = distanceToTarget <= aggroRange && (!requireLineOfSight || HasLineOfSight());
+
+        if (isAggroed)
+        {
+            MoveToTarget();
+        }
+        else
+        {
+            Wander();
+        }
     }
 
-    protected virtual void MoveGhost()
+    protected void MoveToTarget()
     {
-        Vector2 toTarget = ((Vector2)target.position - velocityPosition);
-        Vector2 desiredDirection = toTarget.normalized * (isPulling ? -1f : 1f);
+        Vector2 toTarget = ((Vector2)target.position - velocityPosition).normalized * (isPulling ? -1f : 1f);
+        currentVelocity = Vector2.Lerp(currentVelocity, toTarget * MaxSpeed, TurningSpeed * Time.deltaTime);
+        MoveWithFloat();
+    }
 
-        currentVelocity = Vector2.MoveTowards(currentVelocity, desiredDirection * MaxSpeed, Acceleration * Time.deltaTime);
+    protected void Wander()
+    {
+        wanderTimer -= Time.deltaTime;
+        if (wanderTimer <= 0f)
+        {
+            SetRandomWanderDirection();
+        }
 
+        currentVelocity = Vector2.Lerp(currentVelocity, wanderDirection * WanderSpeed, TurningSpeed * Time.deltaTime);
+        MoveWithFloat();
+    }
+
+    private void SetRandomWanderDirection()
+    {
+        float angle = UnityEngine.Random.Range(0f, 360f);
+        wanderDirection = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).normalized;
+        wanderTimer = UnityEngine.Random.Range(2f, 5f);
+    }
+
+    private void MoveWithFloat()
+    {
         floatTimer += Time.deltaTime;
         float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
 
@@ -71,6 +116,13 @@ public class BaseGhost : MonoBehaviour
         rb.MovePosition(finalPosition);
     }
 
+    protected bool HasLineOfSight()
+    {
+        Vector2 direction = target.position - transform.position;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, aggroRange, lineOfSightMask);
+        return hit.collider != null && hit.collider.transform == target;
+    }
+
     public virtual void ApplyExternalForce(Vector2 force)
     {
         externalForce += force;
@@ -78,8 +130,7 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void OnCollisionStay2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
-            return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
@@ -100,7 +151,7 @@ public class BaseGhost : MonoBehaviour
         StartCoroutine(SlowDown(amount, duration));
     }
 
-    System.Collections.IEnumerator SlowDown(float amount, float duration)
+    private IEnumerator SlowDown(float amount, float duration)
     {
         Speed -= amount;
         yield return new WaitForSeconds(duration);

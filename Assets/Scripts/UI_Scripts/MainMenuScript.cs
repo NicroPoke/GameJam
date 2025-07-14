@@ -6,7 +6,7 @@ public class MainMenuScript : MonoBehaviour
 {
 
     public void LoadTutorial(){
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Day1");
     }
     public void LoadMenu(){
         SceneManager.LoadScene("Menu");

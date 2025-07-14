@@ -82,6 +82,10 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
+<<<<<<< HEAD
+=======
+        Debug.Log(overheatValue);
+>>>>>>> 263577d1a53b4e1ab48eeff8180b339e72f634a1
         line.enabled = !isOverheat;
 
         if (isPulled)

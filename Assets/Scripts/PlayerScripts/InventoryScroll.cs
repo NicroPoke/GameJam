@@ -82,12 +82,7 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
-<<<<<<< HEAD
-        if (Time.timeScale == 0f) return;
-
-=======
         Debug.Log(overheatValue);
->>>>>>> be7a42211293ce48c6326cd9a5c561330f91e36d
         line.enabled = !isOverheat;
 
         if (isPulled)
@@ -255,7 +250,7 @@ public class InventoryScroll : MonoBehaviour
         if (other.CompareTag("Ghost"))
         {
             BaseGhost ghost = other.GetComponent<BaseGhost>();
-            if (ghost != null)
+            if (ghost != null && !ghost.HardGhost)
             {
                 float t = Time.time - timerAnalogue;
                 float force = GetExponentialForce(t, pullForceMultiplier, growthRate);

@@ -17,6 +17,7 @@ public class ToxicGhost : BaseGhost
         isPulling = false;
         Gas.SetActive(false);
         gasTimer = 2f;
+        HardGhost = true; 
     }
 
     protected override void Update()

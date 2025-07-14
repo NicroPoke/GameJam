@@ -3739,7 +3739,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1641917488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4319,6 +4319,11 @@ MonoBehaviour:
   maxRange: 5
   pullForceMultiplier: 0.04
   basicGhost: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  furryBullet: {fileID: 0}
+  toxicBullet: {fileID: 0}
+  glitchBullet: {fileID: 0}
+  bobjBullet: {fileID: 0}
+  screamBullet: {fileID: 0}
 --- !u!114 &2001305016
 MonoBehaviour:
   m_ObjectHideFlags: 0

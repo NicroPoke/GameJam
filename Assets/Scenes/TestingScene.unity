@@ -934,8 +934,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRange: 5
   pullForceMultiplier: 0.06
-  basicGhost: {fileID: 1312240691916774131, guid: 06d8abdfa0c44f94281d1e8dac453c89, type: 3}
-  furryBullet: {fileID: 1312240691916774131, guid: 48f8be74060ccb040a2cfa6b6217ea69, type: 3}
+  basicGhost: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  furryBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   toxicBullet: {fileID: 1312240691916774131, guid: ad8d7408df706cc43ac0a40a0e78b918, type: 3}
   glitchBullet: {fileID: 1312240691916774131, guid: f71828e8bae55074e84bf0d9e54da9cb, type: 3}
   bobjBullet: {fileID: 1312240691916774131, guid: 9e5af231e5783634ab139227a21ee19e, type: 3}
@@ -3810,7 +3810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 285904956}
-  Bullet: {fileID: 1312240691916774131, guid: 9b49c2c9c80a41a4390e059c5d432393, type: 3}
+  Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2

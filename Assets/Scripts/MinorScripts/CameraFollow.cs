@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
         targetZoom = cam.orthographicSize;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 posEnd = new Vector3(player.transform.position.x, player.transform.position.y, -10f); 
         Vector3 posSmooth = Vector3.Lerp(transform.position, posEnd, smoothmovement * Time.deltaTime);

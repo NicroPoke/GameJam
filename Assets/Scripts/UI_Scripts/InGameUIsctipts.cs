@@ -55,9 +55,6 @@ public class InGameUIsctipts : MonoBehaviour
 
         if (target != null)
         {
-
-            Debug.Log("Passed");
-
             var renderer = target.GetComponent<Image>();
 
             if (ColorUtility.TryParseHtmlString(basicColor, out Color col))

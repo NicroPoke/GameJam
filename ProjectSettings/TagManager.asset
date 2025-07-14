@@ -7,6 +7,8 @@ TagManager:
   - Ghost
   - UI
   - Bullet
+  - Consumable
+  - New tag
   layers:
   - Default
   - TransparentFX

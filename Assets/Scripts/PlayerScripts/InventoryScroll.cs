@@ -82,7 +82,6 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(overheatValue);
         line.enabled = !isOverheat;
 
         if (isPulled)
@@ -94,8 +93,6 @@ public class InventoryScroll : MonoBehaviour
                 overheatValue += Time.deltaTime * overheatValueChagneRate;
                 ChangeSliderHP();
             }
-
-
         }
         else
         {
@@ -134,7 +131,6 @@ public class InventoryScroll : MonoBehaviour
 
     void Scroll()
     {
-        Debug.Log("Created smthg");
         if (math.abs(scrollDirenction.y) > 0.5 && ui_controller != null)
         {
             if ((currentSlot + (int)scrollDirenction.y) > 8)
@@ -154,7 +150,6 @@ public class InventoryScroll : MonoBehaviour
                 currentSlot += (int)scrollDirenction.y;
                 ui_controller.SetSelected(currentSlot);
             }
-
         }
     }
 
@@ -209,7 +204,6 @@ public class InventoryScroll : MonoBehaviour
             Vector2 direction = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
             vectors.Add(direction);
         }
-
         return vectors;
     }
 
@@ -232,9 +226,20 @@ public class InventoryScroll : MonoBehaviour
 
     void ConsumeGhost(GameObject ghost)
     {
-        string type = ghost.GetComponent<BaseGhost>().GhostType;
+        InventorySlot slot = null;
+        if (gameObject.CompareTag("Ghost"))
+        {
+            string type = ghost.GetComponent<BaseGhost>().GhostType;
 
-        InventorySlot slot = GetGhostWithNeededType(type);
+            slot = GetGhostWithNeededType(type);
+        }
+        else
+        {
+            string type = ghost.name;
+
+            slot = GetGhostWithNeededType(type);
+        }
+
 
         slot.amount++;
 
@@ -247,13 +252,15 @@ public class InventoryScroll : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        float t = Time.time - timerAnalogue;
+        float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
+
         if (other.CompareTag("Ghost"))
         {
             BaseGhost ghost = other.GetComponent<BaseGhost>();
             if (ghost != null && !ghost.HardGhost)
             {
-                float t = Time.time - timerAnalogue;
-                float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
+
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
 
                 ghost.ApplyExternalForce(direction * force);
@@ -263,6 +270,17 @@ public class InventoryScroll : MonoBehaviour
                 {
                     ConsumeGhost(other.gameObject);
                 }
+            }
+        }
+        else if (other.CompareTag("Consumable"))
+        {
+            Vector2 direction = ((Vector2)transform.position - (Vector2)other.transform.position);
+
+            other.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
+
+            if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
+            {
+                ConsumeGhost(other.gameObject);
             }
         }
     }
@@ -282,7 +300,6 @@ public class InventoryScroll : MonoBehaviour
         Vector2 direction = CreateDirectionVector(mousePosition);
 
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
         Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
 
         GameObject ghostBullet = Instantiate(pivot, transform.position, rotation);

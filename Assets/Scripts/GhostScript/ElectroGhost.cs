@@ -29,24 +29,17 @@ public class ElectroGhost : BaseGhost
 
         if (isAggroed && lightningTimer >= lightningCooldown)
         {
-            Debug.Log("Shot");
             Speed = 0.5f;
             ShotTowardsPlayer();
             lightningTimer = 0f;
         }
 
-        if (!Alive)
-        {
-            HardGhost = false;
-            MoveWithFloat();
-        }
     }
 
     void ShotTowardsPlayer()
     {
         if (!Alive)
             return;
-
         Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
 
         Vector2 direction = (targetRb.position - (Vector2)transform.position).normalized;

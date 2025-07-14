@@ -195,9 +195,9 @@ public class BaseGhost : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
         }
-        if (other.gameObject.CompareTag("Bullet") && HardGhost)
+        if (other.gameObject.CompareTag("Bullet") && HardGhost && GhostType != "Skeleton")
         {
-            Debug.Log("Found dead");
+            Debug.Log("Triggered");
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
             Instantiate(Bullet, transform.position, transform.rotation);

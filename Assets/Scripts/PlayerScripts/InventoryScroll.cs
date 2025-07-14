@@ -38,7 +38,14 @@ public class InventoryScroll : MonoBehaviour
     private float cullDown = 0.4f;
     private float timeOfLastShot = 0;
     private float bulletSpeed = 4f;
+
     public GameObject basicGhost;
+    public GameObject furryBullet;
+    public GameObject toxicBullet;
+    public GameObject glitchBullet;
+    public GameObject bobjBullet;
+    public GameObject screamBullet;
+
     private Vector2 mousePosition;
     private int currentSlot = 1;
     private List<InventorySlot> inventory = new List<InventorySlot>();
@@ -59,10 +66,9 @@ public class InventoryScroll : MonoBehaviour
             ui_controller.SetSelected(currentSlot);
         }
 
-
+        DebugAddGhostTypes();
         for (int i = 0; i < 8; i++)
         {
-            inventory.Add(new InventorySlot(4, "Empty"));
             if (ui_controller != null)
                 ui_controller.ChangeSlotAmount(i, inventory[i].amount);
         }
@@ -76,6 +82,8 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
+
         line.enabled = !isOverheat;
 
         if (isPulled)
@@ -113,6 +121,18 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
+    void DebugAddGhostTypes()
+    {
+        inventory.Add(new InventorySlot(4, "Contact"));
+        inventory.Add(new InventorySlot(4, "Furry"));
+        inventory.Add(new InventorySlot(4, "Bobj"));
+        inventory.Add(new InventorySlot(4, "Glitch"));
+        inventory.Add(new InventorySlot(4, "Scream"));
+        inventory.Add(new InventorySlot(4, "Toxic"));
+        inventory.Add(new InventorySlot(4, "Contact"));
+        inventory.Add(new InventorySlot(4, "Contact"));
+    }
+
     void Scroll()
     {
         Debug.Log("Created smthg");
@@ -148,8 +168,23 @@ public class InventoryScroll : MonoBehaviour
                 return;
             switch (inventory[currentSlot].type)
             {
-                case "Empty":
-                    ShotBasic();
+                case "Contact":
+                    ShotBasic(basicGhost);
+                    break;
+                case "Furry":
+                    ShotBasic(furryBullet);
+                    break;
+                case "Bobj":
+                    ShotBasic(bobjBullet);
+                    break;
+                case "Toxic":
+                    ShotBasic(toxicBullet);
+                    break;
+                case "Glitch":
+                    ShotBasic(glitchBullet);
+                    break;
+                case "Scream":
+                    ShotBasic(screamBullet);
                     break;
             }
             inventory[currentSlot].amount--;
@@ -198,12 +233,17 @@ public class InventoryScroll : MonoBehaviour
 
     void ConsumeGhost(GameObject ghost)
     {
-        Destroy(ghost);
+        string type = ghost.GetComponent<BaseGhost>().GhostType;
 
-        inventory[currentSlot].amount++;
+        InventorySlot slot = GetGhostWithNeededType(type);
 
+        slot.amount++;
+
+        Debug.Log(slot.type);
         if (ui_controller != null)
-            ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
+            ui_controller.ChangeSlotAmount(inventory.IndexOf(slot), slot.amount);
+
+        Destroy(ghost);
     }
 
     void OnTriggerStay2D(Collider2D other)
@@ -238,7 +278,7 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
-    void ShotBasic()
+    void ShotBasic(GameObject pivot)
     {
         Vector2 direction = CreateDirectionVector(mousePosition);
 
@@ -246,7 +286,7 @@ public class InventoryScroll : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
 
-        GameObject ghostBullet = Instantiate(basicGhost, transform.position, rotation);
+        GameObject ghostBullet = Instantiate(pivot, transform.position, rotation);
         ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
 
         timeOfLastShot = Time.time;
@@ -293,7 +333,7 @@ public class InventoryScroll : MonoBehaviour
     {
         if (isOverheat)
             return;
-        
+
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(input);
         mouseToWorld.z = 0;
 
@@ -352,7 +392,7 @@ public class InventoryScroll : MonoBehaviour
 
         Gizmos.DrawWireCube(Vector3.zero + (Vector3)pullCollider.offset, size);
     }
-    
+
     void ChangeSliderHP()
     {
         GameObject target = GameObject.Find("SliderOverheat");
@@ -361,5 +401,17 @@ public class InventoryScroll : MonoBehaviour
         {
             target.GetComponent<SliderScript>().ChangeSliderValue((int)overheatValue);
         }
+    }
+
+    InventorySlot GetGhostWithNeededType(string type)
+    {
+        foreach (InventorySlot slot in inventory)
+        {
+            if (slot.type == type)
+            {
+                return slot;
+            }
+        }
+        return inventory[0];
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Data.Common;
 using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
@@ -7,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class FurryBullet : MonoBehaviour
 {
-
+    private float targetsList = 2;
     private float startTime;
     private float timeToLive = 5f;
     void Awake()
@@ -49,7 +50,7 @@ public class FurryBullet : MonoBehaviour
 
         Debug.Log(closest.name);
 
-        if (closest != null)
+        if (closest != null && targetsList > 0)
         {
             Vector2 direction = ((Vector2)closest.transform.position - (Vector2)transform.position).normalized;
 
@@ -58,6 +59,8 @@ public class FurryBullet : MonoBehaviour
 
             Rigidbody2D rb = GetComponent<Rigidbody2D>();
             rb.linearVelocity = direction * 3;
+
+            targetsList--;
         }
         else
         {
@@ -75,8 +78,9 @@ public class FurryBullet : MonoBehaviour
         GameObject currentObject = null;
         foreach (GameObject ghost in ghosts)
         {
+            Debug.Log("Furried");
             if (ghost == current)
-                break;
+                continue;
 
             if (currentObject == null)
                 currentObject = ghost;

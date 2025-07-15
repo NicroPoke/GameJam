@@ -9,6 +9,7 @@ TagManager:
   - Bullet
   - Consumable
   - New tag
+  - Angel
   layers:
   - Default
   - TransparentFX

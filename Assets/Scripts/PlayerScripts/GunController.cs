@@ -201,7 +201,7 @@ public class GunController : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        pullCollider.size = new Vector2(distance / body.transform.localScale.y, 1f);
+        pullCollider.size = new Vector2(distance / body.transform.localScale.y, 2.5f);
         pullCollider.offset = new UnityEngine.Vector2(distance / body.transform.localScale.y / 2f, 0f);
     }
 
@@ -255,6 +255,23 @@ public class GunController : MonoBehaviour
             if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
             {
                 body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
+            }
+        }
+        else if (other.CompareTag("Angel"))
+        {
+            BaseGhost ghost = other.GetComponent<BaseGhost>();
+            if (ghost != null)
+            {
+                Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
+
+                ghost.ApplyExternalForce(direction * force);
+                ghost.isPulling = true;
+
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
+                {
+                    body.GetComponent<PlayerController>().TakeDamege(50);
+                    body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
+                }
             }
         }
     }

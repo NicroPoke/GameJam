@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
+using System.Runtime.InteropServices;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseGhost : MonoBehaviour
@@ -44,9 +47,11 @@ public class BaseGhost : MonoBehaviour
     [HideInInspector] public bool isPulling;
     [HideInInspector] public string GhostType = "Contact";
 
+    bool factingRight = false;
+
     protected virtual void Start()
     {
-        
+
         animator = GetComponent<Animator>();
         HardGhost = true;
         Alive = true;
@@ -89,6 +94,8 @@ public class BaseGhost : MonoBehaviour
         {
             Wander();
         }
+
+        ChangeDirection();
     }
 
     protected void MoveToTarget()
@@ -196,7 +203,7 @@ public class BaseGhost : MonoBehaviour
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("PLayer")) isAttacking = false;       
+        if (collision.gameObject.CompareTag("Player")) isAttacking = false;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -250,5 +257,37 @@ public class BaseGhost : MonoBehaviour
         isDying = true;
         Destroy(gameObject, 3f);
         return;
+    }
+
+    void ChangeDirection()
+    {
+        Vector2 direction = new Vector2(0, 0);
+        // Vector2 direction = ((Vector2)transform.position - (Vector2)target.transform.position).normalized;
+        if (isPulling)
+            direction = currentVelocity;
+        else
+            direction = -currentVelocity;
+        
+        float angle = Mathf.Atan2(direction.y, direction.x);
+
+        float cos = math.cos(angle);
+
+        if (cos > 0 && factingRight)
+        {
+            FlipCharacter();
+            factingRight = false;
+        }
+        else if (cos < 0 && !factingRight)
+        {
+            FlipCharacter();
+            factingRight = true;
+        }
+    }
+    
+    void FlipCharacter()
+    {
+        Vector3 euler = transform.eulerAngles;
+        euler.y = euler.y + 180f;
+        transform.eulerAngles = euler;
     }
 }

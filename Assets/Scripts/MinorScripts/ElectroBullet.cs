@@ -24,7 +24,7 @@ public class ElectroBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ghost"))
+        if (collision.gameObject.CompareTag("Ghost") || collision.gameObject.CompareTag("Angel"))
         {
             var controller = collision.gameObject.GetComponent<BaseGhost>();
 

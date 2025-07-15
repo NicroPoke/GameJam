@@ -34,7 +34,7 @@ public class InventoryScroll : MonoBehaviour
     public float pullForceMultiplier = 0.04f;
     private Vector2 mousePos;
     private LineRenderer line;
-    private bool isPulled = false;
+    [HideInInspector] public bool isPulled = false;
     private float cullDown = 0.4f;
     private float timeOfLastShot = 0;
     private float bulletSpeed = 4f;

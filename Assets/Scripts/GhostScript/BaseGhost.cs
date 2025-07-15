@@ -6,11 +6,11 @@ using UnityEngine;
 public class BaseGhost : MonoBehaviour
 {
     private Animator animator;
-    public Transform target;
+     [HideInInspector] public Transform target;
     public GameObject Bullet;
     [HideInInspector] bool isDying;
     [HideInInspector] public bool HardGhost;
-    [HideInInspector] protected bool Alive;
+    [HideInInspector] public bool Alive;
     [HideInInspector] public float aggroRange = 8f;
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
@@ -46,7 +46,6 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Start()
     {
-        
         animator = GetComponent<Animator>();
         HardGhost = true;
         Alive = true;
@@ -54,6 +53,19 @@ public class BaseGhost : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
         HardGhost = false;
+
+        if (target == null)
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            if (player != null)
+            {
+                target = player.transform;
+            }
+            else
+            {
+                Debug.LogWarning("Соси хуй урод.");
+            }
+        }
 
         Collider2D myCollider = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())
@@ -66,9 +78,9 @@ public class BaseGhost : MonoBehaviour
 
         SetRandomWanderDirection();
     }
-
     protected virtual void Update()
     {
+
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isPulling", isPulling);
         if (!Alive)
@@ -181,7 +193,6 @@ public class BaseGhost : MonoBehaviour
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
-            isAttacking = false;
             return;
         }
 
@@ -193,6 +204,11 @@ public class BaseGhost : MonoBehaviour
         }
     }
 
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) isAttacking = false;       
+    }
+
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Bullet") && !HardGhost)
@@ -200,9 +216,8 @@ public class BaseGhost : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
         }
-        if (other.gameObject.CompareTag("Bullet") && HardGhost && GhostType != "Skeleton")
+        if (other.gameObject.CompareTag("Bullet") && HardGhost)
         {
-            Debug.Log("Triggered");
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
             Instantiate(Bullet, transform.position, transform.rotation);

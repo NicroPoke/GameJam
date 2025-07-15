@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     private InventoryScroll inventoryScroll;
     private Camera cam;
     private float zoomSpeed = 5f;
@@ -11,15 +11,25 @@ public class CameraFollow : MonoBehaviour
     private float smoothmovement = 3f;
     private float zoomLerpSpeed = 10f;
     private float targetZoom;
-    
+
     private float shakeDuration = 0.3f;
-    private float shakeMagnitude = 0.05f;
+    private float shakeMagnitude = 0.025f;
     private float shakeTimer = 0f;
     private float noiseSeed;
 
     void Start()
     {
-        inventoryScroll = player.GetComponent<InventoryScroll>();
+        player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+        {
+            inventoryScroll = player.GetComponent<InventoryScroll>();
+        }
+        else
+        {
+            Debug.LogWarning("Соси хуй лох.");
+        }
+
         cam = Camera.main;
         targetZoom = cam.orthographicSize;
         noiseSeed = Random.Range(0f, 100f);
@@ -27,10 +37,12 @@ public class CameraFollow : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (player == null) return;
+
         Vector3 posEnd = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         Vector3 posSmooth = Vector3.Lerp(transform.position, posEnd, smoothmovement * Time.deltaTime);
 
-        if (inventoryScroll != null && inventoryScroll.isPulled)
+        if (inventoryScroll != null && inventoryScroll.isPulled && !inventoryScroll.isOverheat)
         {
             shakeTimer = shakeDuration;
         }

@@ -24,7 +24,7 @@ class InventorySlot {
 }
 public class InventoryScroll : MonoBehaviour
 {
-    private bool isOverheat;
+    [HideInInspector] public bool isOverheat;
     private float overheatValueRecoveryRate = 15f;
     private float overheatValueChagneRate = 10f;
     private float overheatValue = 0;
@@ -75,9 +75,6 @@ public class InventoryScroll : MonoBehaviour
 
         line = GetComponent<LineRenderer>();
         SetupStartLine();
-
-        pullCollider = gameObject.AddComponent<BoxCollider2D>();
-        pullCollider.isTrigger = true;
     }
 
     void Update()
@@ -86,7 +83,7 @@ public class InventoryScroll : MonoBehaviour
 
         if (isPulled)
         {
-            Pull(mousePos);
+            // Pull(mousePos);
 
             if (!isOverheat)
             {
@@ -187,11 +184,6 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
-    float GetExponentialForce(float time, float initialForce, float growthRate)
-    {
-        return initialForce * Mathf.Exp(growthRate * time);
-    }
-
     List<Vector2> GenerateCircleVectors(int num)
     {
         List<Vector2> vectors = new List<Vector2>();
@@ -224,7 +216,7 @@ public class InventoryScroll : MonoBehaviour
         }
     }
 
-    void ConsumeGhost(GameObject ghost)
+    public void ConsumeGhost(GameObject ghost)
     {
         InventorySlot slot = null;
         if (gameObject.CompareTag("Ghost"))
@@ -250,50 +242,8 @@ public class InventoryScroll : MonoBehaviour
         Destroy(ghost);
     }
 
-    void OnTriggerStay2D(Collider2D other)
-    {
-        float t = Time.time - timerAnalogue;
-        float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
 
-        if (other.CompareTag("Ghost"))
-        {
-            BaseGhost ghost = other.GetComponent<BaseGhost>();
-            if (ghost != null && !ghost.HardGhost)
-            {
 
-                Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
-
-                ghost.ApplyExternalForce(direction * force);
-                ghost.isPulling = true;
-
-                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
-                {
-                    ConsumeGhost(other.gameObject);
-                }
-            }
-        }
-        else if (other.CompareTag("Consumable"))
-        {
-            Vector2 direction = ((Vector2)transform.position - (Vector2)other.transform.position);
-
-            other.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
-
-            if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
-            {
-                ConsumeGhost(other.gameObject);
-            }
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Ghost"))
-        {
-            BaseGhost ghost = collision.GetComponent<BaseGhost>();
-
-            ghost.isPulling = false;
-        }
-    }
 
     void ShotBasic(GameObject pivot)
     {
@@ -335,38 +285,15 @@ public class InventoryScroll : MonoBehaviour
         if (input.Get<Vector2>() == new Vector2(0, 0))
         {
             isPulled = false;
-            pullCollider.enabled = false;
         }
         else
         {
             mousePos = input.Get<Vector2>();
             isPulled = true;
-            pullCollider.enabled = true;
         }
     }
 
-    void Pull(Vector2 input)
-    {
-        if (isOverheat)
-            return;
 
-        Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(input);
-        mouseToWorld.z = 0;
-
-        DrawLine(mouseToWorld);
-
-        Vector2 midPoint = (mouseToWorld + transform.position) / 2f;
-
-        Vector2 direction = ((Vector2)mouseToWorld - (Vector2)transform.position).normalized;
-        float distance = Vector2.Distance(transform.position, mouseToWorld);
-
-        distance = Mathf.Clamp(0, maxRange, distance);
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-
-        pullCollider.size = new Vector2(distance, 1f);
-        pullCollider.offset = new UnityEngine.Vector2(distance / 2f, 0f);
-    }
 
 
     void DrawNothing()

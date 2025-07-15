@@ -18,9 +18,6 @@ public class SkeletonBullet : MonoBehaviour
 
     void Update()
     {
-        
-
-
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);

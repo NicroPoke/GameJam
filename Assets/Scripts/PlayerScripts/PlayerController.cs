@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     bool isPullerActive = false;
     [HideInInspector] public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
-    [SerializeField] public float speed = 4f;
+    [SerializeField] public float speed = 9f;
     private Rigidbody2D rb;
     private Vector2 inputVector;
     private BaseGhost lastGhost;

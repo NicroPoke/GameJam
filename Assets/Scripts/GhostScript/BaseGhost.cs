@@ -69,7 +69,7 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Update()
     {
-        Debug.Log(isPulling);
+
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isPulling", isPulling);
         if (!Alive)
@@ -182,7 +182,6 @@ public class BaseGhost : MonoBehaviour
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
-            isAttacking = false;
             return;
         }
 
@@ -190,8 +189,14 @@ public class BaseGhost : MonoBehaviour
         {
             controller.TakeDamege(1);
             isAttacking = true;
+            Debug.Log(isAttacking);
             lastDamageTime = Time.time;
         }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("PLayer")) isAttacking = false;       
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)

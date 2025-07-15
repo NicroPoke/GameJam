@@ -49,12 +49,12 @@ public class GunController : MonoBehaviour
 
         pullCollider = gameObject.AddComponent<BoxCollider2D>();
         pullCollider.isTrigger = true;
+        pullCollider.enabled = false;
     }
 
     void Update()
     {
         line.enabled = !isOverheat;
-
 
         if (isPulled)
         {

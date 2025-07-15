@@ -69,6 +69,7 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Update()
     {
+        Debug.Log(isPulling);
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isPulling", isPulling);
         if (!Alive)

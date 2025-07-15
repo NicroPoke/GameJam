@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1617499222735099003}
   - component: {fileID: 4117596471573801490}
   m_Layer: 0
-  m_Name: Contact
+  m_Name: Skeleton
   m_TagString: Consumable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

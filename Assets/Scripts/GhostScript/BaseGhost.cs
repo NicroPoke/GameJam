@@ -9,7 +9,7 @@ public class BaseGhost : MonoBehaviour
     public GameObject Bullet;
     [HideInInspector] bool isDying;
     [HideInInspector] public bool HardGhost;
-    [HideInInspector] protected bool Alive;
+    [HideInInspector] public bool Alive;
     [HideInInspector] public float aggroRange = 8f;
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
@@ -195,9 +195,8 @@ public class BaseGhost : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
         }
-        if (other.gameObject.CompareTag("Bullet") && HardGhost && GhostType != "Skeleton")
+        if (other.gameObject.CompareTag("Bullet") && HardGhost)
         {
-            Debug.Log("Triggered");
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
             Instantiate(Bullet, transform.position, transform.rotation);

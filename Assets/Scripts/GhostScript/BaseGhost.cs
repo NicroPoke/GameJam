@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseGhost : MonoBehaviour
 {
+    private Animator animator;
     public Transform target;
     public GameObject Bullet;
     [HideInInspector] bool isDying;
@@ -14,7 +15,7 @@ public class BaseGhost : MonoBehaviour
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
 
-    [HideInInspector] public float Speed = 3f;
+    [HideInInspector] public float Speed = 2f;
     [HideInInspector] public float WanderSpeed = 1.5f;
     [HideInInspector] public float Amplitude = 0.1f;
     [HideInInspector] public float Frequency = 2f;
@@ -45,6 +46,8 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Start()
     {
+        
+        animator = GetComponent<Animator>();
         HardGhost = true;
         Alive = true;
         isPulling = false;
@@ -65,6 +68,8 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Update()
     {
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isPulling", isPulling);
         if (!Alive)
         {
             isDying = true;

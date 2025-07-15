@@ -10,6 +10,7 @@ public class FurryGhost : BaseGhost
         TurningSpeed = 5f;
         invulnerabilityDuration = 0.5f;
         GhostType = "Furry";
+        HardGhost = false;
     }
 
     protected override void OnCollisionStay2D(Collision2D collision)

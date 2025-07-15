@@ -16,6 +16,7 @@ public class GlitchGhost : BaseGhost
         GhostType = "Glitch";
         isPulling = false;
         tpTimer = 0f;
+        HardGhost = true; 
 
         Collider2D myCol = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())

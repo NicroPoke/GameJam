@@ -9,8 +9,8 @@ public class BaseGhost : MonoBehaviour
     public Transform target;
     public GameObject Bullet;
     [HideInInspector] bool isDying;
-    [HideInInspector] bool HardGhost;
-    [HideInInspector] bool Alive;
+    [HideInInspector] public bool HardGhost;
+    [HideInInspector] protected bool Alive;
     [HideInInspector] public float aggroRange = 8f;
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
@@ -53,6 +53,7 @@ public class BaseGhost : MonoBehaviour
         isPulling = false;
         rb = GetComponent<Rigidbody2D>();
         velocityPosition = rb.position;
+        HardGhost = false;
 
         Collider2D myCollider = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())
@@ -72,9 +73,7 @@ public class BaseGhost : MonoBehaviour
         animator.SetBool("isPulling", isPulling);
         if (!Alive)
         {
-            isDying = true;
-            Destroy(gameObject, 3f);
-            return;
+            Die();
         }
         if (target == null) return;
 
@@ -136,17 +135,26 @@ public class BaseGhost : MonoBehaviour
         wanderTimer = UnityEngine.Random.Range(2f, 5f);
     }
 
-    private void MoveWithFloat()
+    protected virtual void MoveWithFloat()
     {
-        if (!Alive) return;
+        if (!Alive)
+        {
+            Vector2 movement = externalForce * Time.deltaTime;
+            velocityPosition += movement;
+            externalForce = Vector2.Lerp(externalForce, Vector2.zero, Time.deltaTime * 5f);
+            rb.MovePosition(velocityPosition);
+        }
+        else
+        {
+            floatTimer += Time.deltaTime;
+            float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
+            Vector2 movement = currentVelocity * Time.deltaTime + externalForce * Time.deltaTime;
+            velocityPosition += movement;
+            externalForce = Vector2.Lerp(externalForce, Vector2.zero, Time.deltaTime * 5f);
+            Vector2 finalPosition = velocityPosition + new Vector2(0f, floatOffset);
+            rb.MovePosition(finalPosition);
+        }
 
-        floatTimer += Time.deltaTime;
-        float floatOffset = Mathf.Cos(floatTimer * Frequency) * Amplitude;
-        Vector2 movement = currentVelocity * Time.deltaTime + externalForce * Time.deltaTime;
-        velocityPosition += movement;
-        externalForce = Vector2.Lerp(externalForce, Vector2.zero, Time.deltaTime * 5f);
-        Vector2 finalPosition = velocityPosition + new Vector2(0f, floatOffset);
-        rb.MovePosition(finalPosition);
     }
 
     protected bool HasLineOfSight()
@@ -187,13 +195,14 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Bullet")&& !HardGhost)
+        if (other.gameObject.CompareTag("Bullet") && !HardGhost)
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
         }
-        if (other.gameObject.CompareTag("Bullet") && HardGhost)
+        if (other.gameObject.CompareTag("Bullet") && HardGhost && GhostType != "Skeleton")
         {
+            Debug.Log("Triggered");
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
             Instantiate(Bullet, transform.position, transform.rotation);
@@ -229,5 +238,12 @@ public class BaseGhost : MonoBehaviour
         if (!Alive) return;
 
         action?.Invoke();
+    }
+
+    protected virtual void Die()
+    {
+        isDying = true;
+        Destroy(gameObject, 3f);
+        return;
     }
 }

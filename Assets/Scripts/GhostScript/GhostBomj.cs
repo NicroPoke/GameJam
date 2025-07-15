@@ -16,6 +16,8 @@ public class GhostBomj : BaseGhost
         GhostType = "Bobj";
         isPulling = false;
         BlueWaterTimer = 2f;
+        HardGhost = false; 
+
     }
 
     protected override void Update()

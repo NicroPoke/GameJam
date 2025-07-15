@@ -16,6 +16,7 @@ public class ScreamGhost : BaseGhost
         isPulling = false;
         Scream.SetActive(false);
         screamTimer = 2f;
+        HardGhost = true; 
     }
 
     protected override void Update()

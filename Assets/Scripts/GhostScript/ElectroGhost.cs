@@ -18,6 +18,7 @@ public class ElectroGhost : BaseGhost
         WanderSpeed = 1.5f;
         GhostType = "Electric";
         isPulling = false;
+        HardGhost = true;
     }
 
     protected override void Update()
@@ -28,15 +29,17 @@ public class ElectroGhost : BaseGhost
 
         if (isAggroed && lightningTimer >= lightningCooldown)
         {
-            Debug.Log("Shot");
             Speed = 0.5f;
             ShotTowardsPlayer();
             lightningTimer = 0f;
         }
+
     }
 
     void ShotTowardsPlayer()
     {
+        if (!Alive)
+            return;
         Rigidbody2D targetRb = target.GetComponent<Rigidbody2D>();
 
         Vector2 direction = (targetRb.position - (Vector2)transform.position).normalized;
@@ -47,4 +50,6 @@ public class ElectroGhost : BaseGhost
         GameObject lightingBall = Instantiate(ballLightning, transform.position, rotation);
         lightingBall.GetComponent<Rigidbody2D>().linearVelocity = direction * ballSpeed;
     }
+
+
 }

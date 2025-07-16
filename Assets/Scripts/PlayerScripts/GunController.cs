@@ -1,12 +1,10 @@
-using System;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.InputSystem;
 
 public class GunController : MonoBehaviour
 {
+    public bool isSlowed = false;
+
     private bool isOverheat;
     private float overheatValueRecoveryRate = 15f;
     private float overheatValueChagneRate = 10f;
@@ -23,27 +21,20 @@ public class GunController : MonoBehaviour
     public Sprite handedSprite;
     public Sprite unhandedSprite;
 
-
     private bool isPulled = false;
     private Vector2 mousePos;
 
     private BoxCollider2D pullCollider;
-    public float maxRange = 5;
-
     private LineRenderer line;
     private float timerAnalogue = 0;
 
-    private GameObject colliderHolder;
-
-    private float bodySpeed;
-
+    private PlayerController playerController;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         body = transform.parent.gameObject;
-        bodySpeed = body.GetComponent<PlayerController>().speed;
-
+        playerController = body.GetComponent<PlayerController>();
         line = GetComponent<LineRenderer>();
         SetupStartLine();
 
@@ -88,20 +79,16 @@ public class GunController : MonoBehaviour
             ChangeSliderHP();
         }
 
-
         RotationHandler();
     }
 
     void RotationHandler()
     {
         Vector2 direction = -1 * CreateDirectionVector(Input.mousePosition);
-
         float angle = Mathf.Atan2(direction.y, direction.x);
         float rotationZ = Mathf.Rad2Deg * angle;
-
         HandleSlide(angle);
         Quaternion rotation = Quaternion.Euler(180, 180, rotationZ);
-
         transform.rotation = rotation;
     }
 
@@ -120,12 +107,12 @@ public class GunController : MonoBehaviour
             facingRight = true;
         }
 
-        if (math.abs(cosin) > 0.7 && handedGun)
+        if (Mathf.Abs(cosin) > 0.7f && handedGun)
         {
             handedGun = false;
             sr.sprite = unhandedSprite;
         }
-        else if (math.abs(cosin) < 0.7 && facingRight)
+        else if (Mathf.Abs(cosin) < 0.7f && facingRight)
         {
             handedGun = true;
             sr.sprite = handedSprite;
@@ -138,7 +125,6 @@ public class GunController : MonoBehaviour
         line.startWidth = 0.1f;
         line.endWidth = 0.1f;
         line.useWorldSpace = true;
-
         line.SetPosition(0, transform.position);
         line.SetPosition(1, transform.position);
     }
@@ -146,20 +132,15 @@ public class GunController : MonoBehaviour
     void DrawLine(Vector3 drawTowards)
     {
         Vector3 start = transform.position;
-
-        line = GetComponent<LineRenderer>();
-
         line.SetPosition(0, start);
         line.SetPosition(1, drawTowards);
     }
+
     void ChangeSliderHP()
     {
         GameObject target = GameObject.Find("SliderOverheat");
-
         if (target != null)
-        {
             target.GetComponent<SliderScript>().ChangeSliderValue((int)overheatValue);
-        }
     }
 
     void DrawNothing()
@@ -171,9 +152,8 @@ public class GunController : MonoBehaviour
     void FlipCharacter()
     {
         Vector3 euler = body.transform.eulerAngles;
-        euler.y = euler.y + 180f;
+        euler.y += 180f;
         body.transform.eulerAngles = euler;
-
         sr.flipY = !sr.flipY;
     }
 
@@ -193,8 +173,6 @@ public class GunController : MonoBehaviour
 
         DrawLine(mouseToWorld);
 
-        Vector2 midPoint = (mouseToWorld + transform.position) / 2f;
-
         Vector2 direction = ((Vector2)mouseToWorld - (Vector2)transform.position).normalized;
         float distance = Vector2.Distance(mouseToWorld, transform.position);
 
@@ -202,25 +180,23 @@ public class GunController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         pullCollider.size = new Vector2(distance / body.transform.localScale.y, 2.5f);
-        pullCollider.offset = new UnityEngine.Vector2(distance / body.transform.localScale.y / 2f, 0f);
+        pullCollider.offset = new Vector2(distance / body.transform.localScale.y / 2f, 0f);
     }
 
     void OnPull(InputValue input)
     {
-        if (input.Get<Vector2>() == new Vector2(0, 0))
+        if (input.Get<Vector2>() == Vector2.zero)
         {
             isPulled = false;
             pullCollider.enabled = false;
-
-            body.GetComponent<PlayerController>().speed = bodySpeed;
+            isSlowed = false;
         }
         else if (!isOverheat)
         {
             mousePos = input.Get<Vector2>();
             isPulled = true;
             pullCollider.enabled = true;
-
-            body.GetComponent<PlayerController>().speed = bodySpeed * 0.3f;
+            isSlowed = true;
         }
     }
 
@@ -235,16 +211,12 @@ public class GunController : MonoBehaviour
             BaseGhost ghost = other.GetComponent<BaseGhost>();
             if (ghost != null && !ghost.HardGhost)
             {
-
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
-
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
                 if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
-                {
                     body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
-                }
             }
         }
         else if (other.CompareTag("Consumable"))
@@ -253,9 +225,7 @@ public class GunController : MonoBehaviour
             other.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
 
             if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
-            {
                 body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
-            }
         }
         else if (other.CompareTag("Angel"))
         {
@@ -263,7 +233,6 @@ public class GunController : MonoBehaviour
             if (ghost != null)
             {
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
-
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
@@ -285,24 +254,8 @@ public class GunController : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
-    {
-        if (pullCollider == null)
-            return;
-
-        Gizmos.color = Color.green;
-
-        Vector3 pos = pullCollider.transform.position + (Vector3)pullCollider.offset;
-        Vector3 size = pullCollider.size;
-
-        Gizmos.matrix = pullCollider.transform.localToWorldMatrix;
-
-        Gizmos.DrawWireCube(Vector3.zero + (Vector3)pullCollider.offset, size);
-    }
-
     float GetExponentialForce(float time, float initialForce, float growthRate)
     {
         return initialForce * Mathf.Exp(growthRate * time);
     }
-
 }

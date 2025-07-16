@@ -6,7 +6,6 @@ public class Sound : MonoBehaviour
     private InventoryScroll inventoryScroll;
     private PlayerController playerController;
 
-
     public AudioSource sosalka;
     public AudioSource off;
     public AudioSource switcher;
@@ -29,17 +28,7 @@ public class Sound : MonoBehaviour
         {
             inventoryScroll = player.GetComponent<InventoryScroll>();
             playerController = player.GetComponent<PlayerController>();
-
-            if (inventoryScroll == null)
-                Debug.LogWarning("InventoryScroll не найден.");
-            if (playerController == null)
-                Debug.LogWarning("PlayerController не найден.");
         }
-
-        if (sosalka == null) Debug.LogWarning("AudioSource 'sosalka' не назначен.");
-        if (overheat == null) Debug.LogWarning("AudioSource 'overheat' не назначен.");
-        if (walkSound == null) Debug.LogWarning("AudioSource 'walkSound' не назначен.");
-        if (pop == null) Debug.LogWarning("AudioSource 'pop' не назначен.");
     }
 
     void Update()
@@ -99,10 +88,8 @@ public class Sound : MonoBehaviour
             }
             else
             {
-                if (inventoryScroll.coolingTime >= 1f) 
-                {
+                if (inventoryScroll.coolingTime >= 1f)
                     wasOverheated = false;
-                }
 
                 if (wasPlaying)
                 {
@@ -124,46 +111,35 @@ public class Sound : MonoBehaviour
                 }
             }
         }
-        }
+    }
+
     void HandleWalkSound()
     {
+        float speed = playerController.speed;
 
-        float speed = playerController.inputVector.magnitude;
-    Debug.Log("Speed: " + speed);
-        if (speed > 0.05f && speed < 9f)
+        if (speed > 0f && speed < 0.9f)
         {
             if (!slowWalkSound.isPlaying)
-            {
                 slowWalkSound.Play();
-            }
 
             if (walkSound.isPlaying)
-            {
                 walkSound.Stop();
-            }
         }
-        else if (speed >= 9f)
+        else if (speed >= 0.9f)
         {
             if (!walkSound.isPlaying)
-            {
                 walkSound.Play();
-            }
 
             if (slowWalkSound.isPlaying)
-            {
                 slowWalkSound.Stop();
-            }
         }
-        else 
+        else
         {
             if (walkSound.isPlaying)
-            {
                 walkSound.Stop();
-            }
+
             if (slowWalkSound.isPlaying)
-            {
                 slowWalkSound.Stop();
-            }
         }
     }
 
@@ -172,11 +148,13 @@ public class Sound : MonoBehaviour
         sosalka?.Stop();
         overheat?.Stop();
         walkSound?.Stop();
+        slowWalkSound?.Stop();
         off?.Stop();
         switcher?.Stop();
         pop?.Stop();
 
-        if (sosalka != null) sosalka.volume = 0f;
+        if (sosalka != null)
+            sosalka.volume = 0f;
         isOverheatSoundPlaying = false;
         wasPlaying = false;
     }

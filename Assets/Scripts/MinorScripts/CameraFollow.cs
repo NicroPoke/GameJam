@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
+    private InventoryScroll inventoryScroll;
     private Camera cam;
     private float zoomSpeed = 5f;
     private float minZoom = 5f;
@@ -11,16 +12,51 @@ public class CameraFollow : MonoBehaviour
     private float zoomLerpSpeed = 10f;
     private float targetZoom;
 
+    private float shakeDuration = 0.3f;
+    private float shakeMagnitude = 0.025f;
+    private float shakeTimer = 0f;
+    private float noiseSeed;
+
     void Start()
     {
+        player = GameObject.FindWithTag("Player");
+
+        if (player != null)
+        {
+            inventoryScroll = player.GetComponent<InventoryScroll>();
+        }
+        else
+        {
+            Debug.LogWarning("Соси хуй лох.");
+        }
+
         cam = Camera.main;
         targetZoom = cam.orthographicSize;
+        noiseSeed = Random.Range(0f, 100f);
     }
 
     void FixedUpdate()
     {
-        Vector3 posEnd = new Vector3(player.transform.position.x, player.transform.position.y, -10f); 
+        if (player == null) return;
+
+        Vector3 posEnd = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
         Vector3 posSmooth = Vector3.Lerp(transform.position, posEnd, smoothmovement * Time.deltaTime);
+
+        if (inventoryScroll != null && inventoryScroll.isPulled && !inventoryScroll.isOverheat)
+        {
+            shakeTimer = shakeDuration;
+        }
+
+        if (shakeTimer > 0 && (inventoryScroll == null || !inventoryScroll.isOverheat))
+        {
+            float noiseX = Mathf.PerlinNoise(noiseSeed, Time.time * 20f) * 2f - 1f;
+            float noiseY = Mathf.PerlinNoise(noiseSeed + 1f, Time.time * 20f) * 2f - 1f;
+            Vector3 shakeOffset = new Vector3(noiseX, noiseY, 0) * shakeMagnitude;
+
+            posSmooth += shakeOffset;
+            shakeTimer -= Time.deltaTime;
+        }
+
         transform.position = posSmooth;
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");

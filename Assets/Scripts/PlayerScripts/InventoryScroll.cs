@@ -17,7 +17,8 @@ class InventorySlot {
 }
 public class InventoryScroll : MonoBehaviour
 {
-    private bool isOverheat;
+    [HideInInspector] public bool isOverheat;
+    [HideInInspector] public float coolingTime = 0f;
     private float overheatValueRecoveryRate = 15f;
     private float overheatValueChagneRate = 10f;
     private float overheatValue = 0;
@@ -27,7 +28,7 @@ public class InventoryScroll : MonoBehaviour
     public float pullForceMultiplier = 0.04f;
     private Vector2 mousePos;
     private LineRenderer line;
-    private bool isPulled = false;
+    [HideInInspector] public bool isPulled = false;
     private float cullDown = 0.4f;
     private float timeOfLastShot = 0;
     private float bulletSpeed = 4f;
@@ -55,8 +56,8 @@ public class InventoryScroll : MonoBehaviour
 
     void Awake()
     {
-        GameObject ui = GameObject.FindGameObjectWithTag("UI");
-
+        GameObject ui = GameObject.Find("Dock");
+        
         colorChange = ui.transform.parent.gameObject.GetComponent<ColorChangeHandler>();
         UnityEngine.Debug.Log(colorChange);
         if (ui != null)
@@ -64,7 +65,7 @@ public class InventoryScroll : MonoBehaviour
             ui_controller = ui.GetComponent<InGameUIsctipts>();
             ui_controller.SetSelected(currentSlot);
         }
-
+        
         DebugAddGhostTypes();
 
         UnityEngine.Debug.Log(inventory.Count);
@@ -83,7 +84,7 @@ public class InventoryScroll : MonoBehaviour
 
         if (isPulled)
         {
-            // Pull(mousePos);
+            coolingTime = 0f;
 
             if (!isOverheat)
             {
@@ -95,9 +96,8 @@ public class InventoryScroll : MonoBehaviour
         {
             DrawNothing();
             timerAnalogue = Time.time;
-
+            coolingTime += Time.deltaTime;
             overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
-
             if (overheatValue <= 0)
             {
                 isOverheat = false;
@@ -113,7 +113,6 @@ public class InventoryScroll : MonoBehaviour
             ChangeSliderHP();
         }
     }
-
     void UnselectSlot(int i)
     {
         if (inventory[i].amount > 0) ui_controller.SetSelected(i, true);
@@ -122,15 +121,15 @@ public class InventoryScroll : MonoBehaviour
 
     void DebugAddGhostTypes()
     {
-        inventory.Add(new InventorySlot(0, "Contact"));
-        inventory.Add(new InventorySlot(0, "Furry"));
-        inventory.Add(new InventorySlot(0, "Bobj"));
-        inventory.Add(new InventorySlot(0, "Glitch"));
-        inventory.Add(new InventorySlot(0, "Scream"));
-        inventory.Add(new InventorySlot(0, "Toxic"));
-        inventory.Add(new InventorySlot(0, "Electric"));
-        inventory.Add(new InventorySlot(0, "Skeleton"));
-        inventory.Add(new InventorySlot(0, "Angel"));
+        inventory.Add(new InventorySlot(3, "Contact"));
+        inventory.Add(new InventorySlot(3, "Furry"));
+        inventory.Add(new InventorySlot(3, "Bobj"));
+        inventory.Add(new InventorySlot(3, "Glitch"));
+        inventory.Add(new InventorySlot(3, "Scream"));
+        inventory.Add(new InventorySlot(3, "Toxic"));
+        inventory.Add(new InventorySlot(3, "Electric"));
+        inventory.Add(new InventorySlot(3, "Skeleton"));
+        inventory.Add(new InventorySlot(3, "Angel"));
     }
 
     bool IsNotFilled()
@@ -286,6 +285,7 @@ public class InventoryScroll : MonoBehaviour
 
     public void ConsumeGhost(GameObject ghost)
     {
+        BaseGhost bg = ghost.GetComponent<BaseGhost>();
         InventorySlot slot = null;
         if (gameObject.CompareTag("Ghost") || gameObject.CompareTag("Angel"))
         {
@@ -315,7 +315,6 @@ public class InventoryScroll : MonoBehaviour
 
         Destroy(ghost);
     }
-
 
     void ShotBasic(GameObject pivot)
     {

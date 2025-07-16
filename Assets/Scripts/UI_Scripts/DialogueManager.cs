@@ -20,6 +20,7 @@ public class DialogueManager : MonoBehaviour
 
     private bool waitingForRMB = false;
     private bool waitingForLMB = false;
+    private bool waitingForE = false;
     private bool waitingForBattleEnd = false;
     private float holdDuration = 2f;
     private float holdTimer = 0f;
@@ -74,6 +75,17 @@ public class DialogueManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 waitingForLMB = false;
+                dialoguePanel.SetActive(true);
+                Time.timeScale = 0f;
+                typingCoroutine = StartCoroutine(TypeLine());
+            }
+            return;
+        }
+        if (waitingForE)
+        {
+            if (Input.GetKeyDown(KeyCode.E)) 
+            {
+                waitingForE = false;
                 dialoguePanel.SetActive(true);
                 Time.timeScale = 0f;
                 typingCoroutine = StartCoroutine(TypeLine());
@@ -146,6 +158,13 @@ public class DialogueManager : MonoBehaviour
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
                 waitingForLMB = true;
+                return;
+            }
+            if (index == 6 && SceneManager.GetActiveScene().buildIndex == 6)
+            {
+                dialoguePanel.SetActive(false);
+                Time.timeScale = 1f;
+                waitingForE = true;
                 return;
             }
 

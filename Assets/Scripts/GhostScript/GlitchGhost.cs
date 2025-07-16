@@ -79,9 +79,9 @@ public class GlitchGhost : BaseGhost
         rb.MovePosition(velocityPosition);
     }
 
-    protected override void OnCollisionStay2D(Collision2D col)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
-        if (!col.gameObject.CompareTag("Player")) return;
+        if (!collision.gameObject.CompareTag("Player")) return;
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
@@ -89,7 +89,7 @@ public class GlitchGhost : BaseGhost
             return;
         }
 
-        if (col.gameObject.TryGetComponent(out PlayerController player))
+        if (collision.gameObject.TryGetComponent(out PlayerController player))
         {
             player.TakeDamege(10);
             isAttacking = true;

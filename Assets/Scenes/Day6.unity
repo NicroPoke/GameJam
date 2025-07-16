@@ -963,6 +963,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -1797,6 +1799,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2015,6 +2019,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: 48f8be74060ccb040a2cfa6b6217ea69, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2475,6 +2481,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2693,6 +2701,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: ad8d7408df706cc43ac0a40a0e78b918, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 6
   lineOfSightMask:
     serializedVersion: 2
@@ -3002,6 +3012,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -3427,6 +3439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: ad8d7408df706cc43ac0a40a0e78b918, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 6
   lineOfSightMask:
     serializedVersion: 2
@@ -3712,8 +3726,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70055e7ad728e42a211137e8baf07b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOverheat: 0
   maxRange: 5
   pullForceMultiplier: 0.06
+  isPulled: 0
   basicGhost: {fileID: 1312240691916774131, guid: 06d8abdfa0c44f94281d1e8dac453c89, type: 3}
   furryBullet: {fileID: 0}
   toxicBullet: {fileID: 0}
@@ -4127,6 +4143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -4507,6 +4525,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: 48f8be74060ccb040a2cfa6b6217ea69, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -4791,6 +4811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: ad8d7408df706cc43ac0a40a0e78b918, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 6
   lineOfSightMask:
     serializedVersion: 2
@@ -4938,6 +4960,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -5120,6 +5144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -5825,7 +5851,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f3eea0502fc80428b62f91288c75bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 839780276}
 --- !u!81 &1537888985
 AudioListener:
   m_ObjectHideFlags: 0
@@ -6176,6 +6201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: 48f8be74060ccb040a2cfa6b6217ea69, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -6856,6 +6883,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -7206,7 +7235,7 @@ MonoBehaviour:
   - 'Start by collecting enough ghosts. 9 to be exact. '
   - When you press this button on your gun, it will blast a powerful shot in all
     directions (E).
-  - This will help you deal with large groups of enemies faster.
+  - Good. This will help you deal with large groups of enemies faster.
   - Go ahead and try it out. But don't die, there's a lot of ghosts out there!
   - BATTLE
   - That's amazing, you're getting good with your weapon!
@@ -7263,6 +7292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 839780277}
   Bullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2

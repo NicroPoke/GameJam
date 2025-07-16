@@ -15,14 +15,17 @@ public class PlayerController : MonoBehaviour
     bool isPullerActive = false;
     [HideInInspector] public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
-    [SerializeField] public float speed = 9f;
+    public float baseSpeed = 9f;
+    public float speed;
     private Rigidbody2D rb;
-    private Vector2 inputVector;
+    [HideInInspector] public Vector2 inputVector;
+    public float currentVelocity = 0f;
     private BaseGhost lastGhost;
 
     void FixedUpdate()
     {
         rb.linearVelocity = speed * inputVector;
+        currentVelocity = rb.linearVelocity.sqrMagnitude;
     }
 
     void Update()

@@ -1314,7 +1314,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   pullForceMultiplier: 5
+  baseSpeed: 9
   speed: 4
+  inputVector: {x: 0, y: 0}
 --- !u!114 &697083379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,14 +1329,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70055e7ad728e42a211137e8baf07b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOverheat: 0
+  coolingTime: 0
   maxRange: 5
   pullForceMultiplier: 0.06
+  isPulled: 0
   basicGhost: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   furryBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   toxicBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   glitchBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   bobjBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
   screamBullet: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  elctroBullet: {fileID: 0}
+  skeletonBullet: {fileID: 0}
+  angelBullet: {fileID: 0}
 --- !u!114 &697083380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,11 +2191,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d931872bbd1013a4ebdab643e5422c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSlowed: 0
   growthRate: 1
   pullForceMultiplier: 0.04
   handedSprite: {fileID: 21300000, guid: e82c3e60b7667f74d8f3b85762f86c6d, type: 3}
   unhandedSprite: {fileID: 21300000, guid: 24602be8e0930d44892db3e94fbf5ee8, type: 3}
-  maxRange: 5
 --- !u!120 &1679731355
 LineRenderer:
   serializedVersion: 2
@@ -2694,7 +2702,7 @@ Transform:
   m_GameObject: {fileID: 1828203799}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.17, y: 0.83, z: 0}
+  m_LocalPosition: {x: 5.96, y: 0.83, z: 0}
   m_LocalScale: {x: 3.3145874, y: 3.3145874, z: 3.3145874}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2714,7 +2722,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -2726,7 +2734,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 7
 --- !u!114 &1828203804
 MonoBehaviour:
   m_ObjectHideFlags: 0

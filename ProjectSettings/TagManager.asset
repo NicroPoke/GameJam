@@ -10,6 +10,7 @@ TagManager:
   - Consumable
   - New tag
   - Angel
+  - Sound
   layers:
   - Default
   - TransparentFX

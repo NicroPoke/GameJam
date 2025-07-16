@@ -201,7 +201,7 @@ public class GunController : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
-        pullCollider.size = new Vector2(distance / body.transform.localScale.y, 2.5f);
+        pullCollider.size = new Vector2(distance / body.transform.localScale.y, 1f);
         pullCollider.offset = new UnityEngine.Vector2(distance / body.transform.localScale.y / 2f, 0f);
     }
 
@@ -278,7 +278,7 @@ public class GunController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ghost"))
+        if (collision.CompareTag("Ghost") || collision.CompareTag("Angel"))
         {
             BaseGhost ghost = collision.GetComponent<BaseGhost>();
             ghost.isPulling = false;

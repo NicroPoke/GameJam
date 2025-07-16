@@ -7,12 +7,13 @@ public class ColorChangeHandler : MonoBehaviour
     public Sprite[] sprites;
     public Sprite baseSprite;
     private GameObject indicatorBall;
-    private Image imageManager;
+    private SpriteRenderer imageManager;
 
     void Awake()
     {
-        imageManager = GetComponent<Image>();
+
         indicatorBall = GameObject.Find("Indicator ball");
+        if (indicatorBall != null) imageManager = indicatorBall.GetComponent<SpriteRenderer>();   
     }
 
     public void ChangeColor(string type)
@@ -51,6 +52,6 @@ public class ColorChangeHandler : MonoBehaviour
 
     public void ChangeColor()
     {
-        
+        imageManager.sprite = baseSprite;
     }
 }

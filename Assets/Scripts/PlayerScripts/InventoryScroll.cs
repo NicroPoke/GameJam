@@ -1,19 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using NUnit.Framework;
+using System.Data.Common;
 using Unity.Mathematics;
-using Unity.Profiling.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 class InventorySlot {
     public int amount;
@@ -48,6 +38,9 @@ public class InventoryScroll : MonoBehaviour
     public GameObject glitchBullet;
     public GameObject bobjBullet;
     public GameObject screamBullet;
+    public GameObject elctroBullet;
+    public GameObject skeletonBullet;
+    public GameObject angelBullet;
 
     private Vector2 mousePosition;
     private int currentSlot = 1;
@@ -58,11 +51,14 @@ public class InventoryScroll : MonoBehaviour
     private UnityEngine.UI.Slider overheatScroller;
 
     InGameUIsctipts ui_controller;
+    private ColorChangeHandler colorChange;
 
     void Awake()
     {
         GameObject ui = GameObject.FindGameObjectWithTag("UI");
 
+        colorChange = ui.transform.parent.gameObject.GetComponent<ColorChangeHandler>();
+        UnityEngine.Debug.Log(colorChange);
         if (ui != null)
         {
             ui_controller = ui.GetComponent<InGameUIsctipts>();
@@ -145,7 +141,7 @@ public class InventoryScroll : MonoBehaviour
             total += slot.amount;
         }
 
-        if (total > 0) return true;
+        if (total <= 0) return true;
         else return false;
     }
 
@@ -169,6 +165,7 @@ public class InventoryScroll : MonoBehaviour
             if (currentSlot != -1)
             {
                 ui_controller.SetSelected(currentSlot);
+                
             }
             else return; 
         }
@@ -193,6 +190,7 @@ public class InventoryScroll : MonoBehaviour
             {
                 UnselectSlot(startSlot);
                 ui_controller.SetSelected(currentSlot);
+                if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
                 return;
             }
 
@@ -226,13 +224,28 @@ public class InventoryScroll : MonoBehaviour
                 case "Scream":
                     ShotBasic(screamBullet);
                     break;
+                case "Electric":
+                    ShotBasic(elctroBullet);
+                    break;
+                case "Skeleton":
+                    ShotBasic(skeletonBullet);
+                    break;
+                case "Angel":
+                    ShotBasic(angelBullet);
+                    break;
             }
             inventory[currentSlot].amount--;
 
             if (inventory[currentSlot].amount <= 0)
             {
                 ui_controller.ReturnToBaseColor(currentSlot);
-                currentSlot++;
+                if (colorChange != null) colorChange.ChangeColor();
+                if (!IsNotFilled())
+                {
+                    currentSlot = GetFilledSlot();
+                    ui_controller.SetSelected(currentSlot);
+                    if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
+                }
             }
 
             // ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
@@ -287,13 +300,13 @@ public class InventoryScroll : MonoBehaviour
             slot = GetGhostWithNeededType(type);
         }
 
-        if (slot.amount == 0)
+        Debug.Log("IS NOT FILLED");
+
+        if (IsNotFilled())
         {
-            if (currentSlot == -1 && slot.amount == 1)
-            {
-                currentSlot = inventory.IndexOf(slot);
-                ui_controller.SetSelected(currentSlot);
-            }
+            currentSlot = inventory.IndexOf(slot);
+            ui_controller.SetSelected(currentSlot);
+            if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
         }
         slot.amount++;
 
@@ -302,8 +315,6 @@ public class InventoryScroll : MonoBehaviour
 
         Destroy(ghost);
     }
-
-
 
 
     void ShotBasic(GameObject pivot)
@@ -353,9 +364,6 @@ public class InventoryScroll : MonoBehaviour
             isPulled = true;
         }
     }
-
-
-
 
     void DrawNothing()
     {

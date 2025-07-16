@@ -399,11 +399,11 @@ public class InventoryScroll : MonoBehaviour
 
     void ChangeSliderHP()
     {
-        GameObject target = GameObject.Find("SliderOverheat");
+        GameObject target = GameObject.Find("Overheat");
 
         if (target != null)
         {
-            target.GetComponent<SliderScript>().ChangeSliderValue((int)overheatValue);
+            target.GetComponent<UnityEngine.UI.Image>().fillAmount = overheatValue * 0.01f;
         }
     }
 

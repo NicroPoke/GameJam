@@ -62,11 +62,11 @@ public class PlayerController : MonoBehaviour
 
     void ChangeSliderHP()
     {
-        GameObject target = GameObject.Find("SliderHP");
+        GameObject target = GameObject.Find("HP");
 
         if (target != null)
         {
-            target.GetComponent<SliderScript>().ChangeSliderValue(health);
+            target.GetComponent<UnityEngine.UI.Image>().fillAmount = health * 0.01f;
         }
     }
 }

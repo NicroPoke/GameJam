@@ -5,7 +5,7 @@ public class GhostBomj : BaseGhost
     private Animator animatoor;
     public GameObject BlueWater;
     private float BlueWaterCooldown = 3.3f;
-    private float BlueWaterActiveDuration = 2f;
+    private float BlueWaterActiveDuration = 1f;
     private float BlueWaterTimer = 5f;
     private bool BlueWaterActive = false;
 
@@ -32,7 +32,10 @@ public class GhostBomj : BaseGhost
 
         if (!BlueWaterActive && BlueWaterTimer >= BlueWaterCooldown)
         {
+            BlueWaterActive = true;
+            Speed = 2f;
             StartCoroutine(SpewBlueWater());
+            BlueWaterTimer = 0f;
         }
         else if (BlueWaterActive && BlueWaterTimer >= BlueWaterActiveDuration)
         {
@@ -52,10 +55,9 @@ public class GhostBomj : BaseGhost
     }
     IEnumerator SpewBlueWater()
     {
-        Speed = 2f;
-        BlueWaterActive = true;
-        yield return new WaitForSeconds(1f);
+
+        yield return new WaitForSeconds(0.8f);
         Instantiate(BlueWater, transform.position, transform.rotation);
-        BlueWaterTimer = 0f;
+
     }
 }

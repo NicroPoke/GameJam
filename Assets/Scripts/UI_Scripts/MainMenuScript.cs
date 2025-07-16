@@ -11,7 +11,10 @@ public class MainMenuScript : MonoBehaviour
     public void LoadMenu(){
         SceneManager.LoadScene("Menu");
     }
-
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
     public void ExitAplication()
     {
         Application.Quit();

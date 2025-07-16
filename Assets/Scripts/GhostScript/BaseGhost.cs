@@ -6,10 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseGhost : MonoBehaviour
 {
+    public LayerMask wall;
     private Animator animator;
     [HideInInspector] public Transform target;
     public GameObject Bullet;
-    [HideInInspector] bool isDying;
+    [HideInInspector] public bool isDying;
     [HideInInspector] public bool HardGhost;
     [HideInInspector] public bool Alive;
     [HideInInspector] public float aggroRange = 8f;
@@ -78,8 +79,7 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void Update()
     {
-        animator.SetBool("isAttacking", isAttacking);
-        animator.SetBool("isPulling", isPulling);
+        AnimationCorrector();
         if (!Alive)
         {
             Die();
@@ -97,7 +97,6 @@ public class BaseGhost : MonoBehaviour
         {
             Wander();
         }
-
         ChangeDirection();
     }
 
@@ -245,7 +244,12 @@ public class BaseGhost : MonoBehaviour
         externalForce = Vector2.zero;
         floatTimer = 0f;
     }
-
+    protected virtual void AnimationCorrector()
+    {
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isPulling", isPulling);
+        animator.SetBool("isDiyng", isDying);
+    }
     public void GotHit(Action action)
     {
         if (!Alive) return;
@@ -256,8 +260,8 @@ public class BaseGhost : MonoBehaviour
     protected virtual void Die()
     {
         isDying = true;
-        Invoke(nameof(PlayPopSound), 2f);
-        Destroy(gameObject, 3f);
+        Invoke(nameof(PlayPopSound), 0f);
+        Destroy(gameObject, 0.3f);
     }
 
     void PlayPopSound()

@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour
     private Camera cam;
     private float zoomSpeed = 5f;
     private float minZoom = 5f;
-    private float maxZoom = 13f;
+    private float maxZoom = 10f;
     private float smoothmovement = 3f;
     private float zoomLerpSpeed = 10f;
     private float targetZoom;
@@ -61,10 +61,10 @@ public class CameraFollow : MonoBehaviour
 
         if (Input.GetMouseButton(2))
         {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0f)
+            float mouseY = Input.GetAxis("Mouse Y");
+            if (mouseY != 0f)
             {
-                targetZoom -= scroll * zoomSpeed;
+                targetZoom -= mouseY * zoomSpeed;
                 targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
             }
         }

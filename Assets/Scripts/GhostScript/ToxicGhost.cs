@@ -22,6 +22,7 @@ public class ToxicGhost : BaseGhost
 
     protected override void Update()
     {
+        
         base.Update();
 
         gasTimer += Time.deltaTime;

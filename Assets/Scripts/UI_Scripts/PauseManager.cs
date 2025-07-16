@@ -22,6 +22,7 @@ public class PauseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Presses");
             isPaused = !isPaused;
             Canvas.SetActive(isPaused);
             Time.timeScale = isPaused ? 0f : 1f;

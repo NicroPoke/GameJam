@@ -12,7 +12,7 @@ public class ToxicWater : MonoBehaviour
 
     void Update()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, desiredSize, Time.deltaTime);
+        transform.localScale = Vector3.Lerp(transform.localScale, desiredSize, Time.deltaTime * 1.5f);
 
         if (Time.time - localTime <= halfLife) Destroy(gameObject);
     }

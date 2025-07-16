@@ -19,11 +19,13 @@ public class PlayerController : MonoBehaviour
     public float speed;
     private Rigidbody2D rb;
     [HideInInspector] public Vector2 inputVector;
+    public float currentVelocity = 0f;
     private BaseGhost lastGhost;
 
     void FixedUpdate()
     {
         rb.linearVelocity = speed * inputVector;
+        currentVelocity = rb.linearVelocity.sqrMagnitude;
     }
 
     void Update()

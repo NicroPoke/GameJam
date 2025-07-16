@@ -29,12 +29,14 @@ public class GunController : MonoBehaviour
     private float timerAnalogue = 0;
 
     private PlayerController playerController;
+    private float baseSpeed;
 
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
         body = transform.parent.gameObject;
         playerController = body.GetComponent<PlayerController>();
+        baseSpeed = playerController.speed;
         line = GetComponent<LineRenderer>();
         SetupStartLine();
 
@@ -189,14 +191,15 @@ public class GunController : MonoBehaviour
         {
             isPulled = false;
             pullCollider.enabled = false;
-            isSlowed = false;
+            playerController.speed = baseSpeed;
         }
         else if (!isOverheat)
         {
             mousePos = input.Get<Vector2>();
             isPulled = true;
             pullCollider.enabled = true;
-            isSlowed = true;
+
+            playerController.speed = baseSpeed * 0.7f;
         }
     }
 
@@ -247,7 +250,7 @@ public class GunController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Ghost"))
+        if (collision.CompareTag("Ghost") || collision.CompareTag("Angel"))
         {
             BaseGhost ghost = collision.GetComponent<BaseGhost>();
             ghost.isPulling = false;

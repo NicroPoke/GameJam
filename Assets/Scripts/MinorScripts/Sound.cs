@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Sound : MonoBehaviour
@@ -115,9 +116,9 @@ public class Sound : MonoBehaviour
 
     void HandleWalkSound()
     {
-        float speed = playerController.speed;
+        float speed = playerController.currentVelocity;
 
-        if (speed > 0f && speed < 0.9f)
+        if (speed > 0f && speed < 8f)
         {
             if (!slowWalkSound.isPlaying)
                 slowWalkSound.Play();
@@ -125,7 +126,7 @@ public class Sound : MonoBehaviour
             if (walkSound.isPlaying)
                 walkSound.Stop();
         }
-        else if (speed >= 0.9f)
+        else if (speed >= 8f)
         {
             if (!walkSound.isPlaying)
                 walkSound.Play();

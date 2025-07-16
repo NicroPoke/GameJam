@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseManager : MonoBehaviour
 {
+    public GameObject RetryCanvas;
     public GameObject Canvas;
     public MonoBehaviour[] scriptsToDisable;
     private bool isPaused = false;
@@ -20,6 +21,13 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
+        if (GameObject.FindWithTag("Player") == null && !RetryCanvas.activeSelf)
+        {
+            RetryCanvas.SetActive(true);
+            Time.timeScale = 0f;
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Presses");
@@ -37,6 +45,7 @@ public class PauseManager : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         Canvas.SetActive(false);
+        RetryCanvas.SetActive(false);
         foreach (var script in scriptsToDisable)
             script.enabled = true;
     }

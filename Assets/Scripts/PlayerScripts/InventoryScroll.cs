@@ -17,6 +17,7 @@ class InventorySlot {
 }
 public class InventoryScroll : MonoBehaviour
 {
+    private Sound sound;
     [HideInInspector] public bool isOverheat;
     [HideInInspector] public float coolingTime = 0f;
     private float overheatValueRecoveryRate = 15f;
@@ -31,7 +32,7 @@ public class InventoryScroll : MonoBehaviour
     [HideInInspector] public bool isPulled = false;
     private float cullDown = 0.4f;
     private float timeOfLastShot = 0;
-    private float bulletSpeed = 4f;
+    private float bulletSpeed = 25f;
 
     public GameObject basicGhost;
     public GameObject furryBullet;
@@ -57,7 +58,7 @@ public class InventoryScroll : MonoBehaviour
     void Awake()
     {
         GameObject ui = GameObject.Find("Dock");
-        
+
         colorChange = ui.transform.parent.gameObject.GetComponent<ColorChangeHandler>();
         UnityEngine.Debug.Log(colorChange);
         if (ui != null)
@@ -65,7 +66,7 @@ public class InventoryScroll : MonoBehaviour
             ui_controller = ui.GetComponent<InGameUIsctipts>();
             ui_controller.SetSelected(currentSlot);
         }
-        
+
         DebugAddGhostTypes();
 
         UnityEngine.Debug.Log(inventory.Count);
@@ -76,6 +77,7 @@ public class InventoryScroll : MonoBehaviour
 
         line = GetComponent<LineRenderer>();
         SetupStartLine();
+        sound = GameObject.Find("SoundManager").GetComponent<Sound>();
     }
 
     void Update()
@@ -246,8 +248,6 @@ public class InventoryScroll : MonoBehaviour
                     if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
                 }
             }
-
-            // ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
         }
     }
 
@@ -308,11 +308,8 @@ public class InventoryScroll : MonoBehaviour
             ui_controller.SetSelected(currentSlot);
             if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
         }
+        sound.pop.Play();
         slot.amount++;
-
-        // if (ui_controller != null)
-        //     ui_controller.ChangeSlotAmount(inventory.IndexOf(slot), slot.amount);
-
         Destroy(ghost);
     }
 

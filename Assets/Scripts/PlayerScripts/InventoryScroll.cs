@@ -269,7 +269,7 @@ public class InventoryScroll : MonoBehaviour
     void ShotRound()
     {
         List<Vector2> vectors = GenerateCircleVectors(10);
-
+        sound.shot.Play();
         foreach (Vector2 direction in vectors)
         {
             float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

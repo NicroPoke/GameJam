@@ -14,6 +14,7 @@ public class Sound : MonoBehaviour
     public AudioSource walkSound;
     public AudioSource slowWalkSound;
     public AudioSource pop;
+    public AudioSource shot;
 
     private bool wasOverheated = false;
     private float maxVolume = 1.0f;

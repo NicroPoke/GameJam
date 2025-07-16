@@ -27,7 +27,7 @@ public class CameraFollow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Соси хуй лох.");
+            Debug.LogWarning("Player not found. Make sure there is a GameObject with the tag 'Player'.");
         }
 
         cam = Camera.main;
@@ -59,13 +59,23 @@ public class CameraFollow : MonoBehaviour
 
         transform.position = posSmooth;
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0f)
+        if (Input.GetMouseButton(2))
         {
-            targetZoom -= scroll * zoomSpeed;
-            targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0f)
+            {
+                targetZoom -= scroll * zoomSpeed;
+                targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+            }
         }
 
-        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, zoomLerpSpeed * Time.deltaTime);
+        if (Mathf.Abs(cam.orthographicSize - targetZoom) > 0.01f)
+        {
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, zoomLerpSpeed * Time.deltaTime);
+        }
+        else
+        {
+            cam.orthographicSize = targetZoom;
+        }
     }
 }

@@ -41,7 +41,7 @@ public class ScreamGhost : BaseGhost
         }
     }
 
-    protected override void OnCollisionStay2D(Collision2D collision)
+    protected override void OnTriggerStay2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Player")) return;
 

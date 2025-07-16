@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float pullForceMultiplier = 5f;
     [SerializeField] public float speed = 9f;
     private Rigidbody2D rb;
-    private Vector2 inputVector;
+    [HideInInspector] public Vector2 inputVector;
     private BaseGhost lastGhost;
 
     void FixedUpdate()

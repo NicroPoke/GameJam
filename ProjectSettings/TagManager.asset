@@ -9,6 +9,8 @@ TagManager:
   - Bullet
   - Consumable
   - New tag
+  - Angel
+  - Sound
   layers:
   - Default
   - TransparentFX

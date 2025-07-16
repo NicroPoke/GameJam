@@ -47,7 +47,7 @@ public class CameraFollow : MonoBehaviour
             shakeTimer = shakeDuration;
         }
 
-        if (shakeTimer > 0)
+        if (shakeTimer > 0 && (inventoryScroll == null || !inventoryScroll.isOverheat))
         {
             float noiseX = Mathf.PerlinNoise(noiseSeed, Time.time * 20f) * 2f - 1f;
             float noiseY = Mathf.PerlinNoise(noiseSeed + 1f, Time.time * 20f) * 2f - 1f;

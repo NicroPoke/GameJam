@@ -1,12 +1,13 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class BaseGhost : MonoBehaviour
 {
     private Animator animator;
-     [HideInInspector] public Transform target;
+    [HideInInspector] public Transform target;
     public GameObject Bullet;
     [HideInInspector] bool isDying;
     [HideInInspector] public bool HardGhost;
@@ -14,7 +15,6 @@ public class BaseGhost : MonoBehaviour
     [HideInInspector] public float aggroRange = 8f;
     [HideInInspector] public LayerMask lineOfSightMask;
     [HideInInspector] public bool requireLineOfSight = false;
-
     [HideInInspector] public float Speed = 2f;
     [HideInInspector] public float WanderSpeed = 1.5f;
     [HideInInspector] public float Amplitude = 0.1f;
@@ -22,7 +22,6 @@ public class BaseGhost : MonoBehaviour
     [HideInInspector] public float Acceleration = 5f;
     [HideInInspector] public float TurningSpeed = 3f;
     [HideInInspector] public float invulnerabilityDuration = 1.5f;
-
     [HideInInspector] private float StruggleAmplitude = 200f;
     [HideInInspector] private float StruggleSpeed = 15f;
 
@@ -44,6 +43,8 @@ public class BaseGhost : MonoBehaviour
     [HideInInspector] public bool isPulling;
     [HideInInspector] public string GhostType = "Contact";
 
+    bool factingRight = false;
+
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -61,10 +62,6 @@ public class BaseGhost : MonoBehaviour
             {
                 target = player.transform;
             }
-            else
-            {
-                Debug.LogWarning("Соси хуй урод.");
-            }
         }
 
         Collider2D myCollider = GetComponent<Collider2D>();
@@ -78,9 +75,9 @@ public class BaseGhost : MonoBehaviour
 
         SetRandomWanderDirection();
     }
+
     protected virtual void Update()
     {
-
         animator.SetBool("isAttacking", isAttacking);
         animator.SetBool("isPulling", isPulling);
         if (!Alive)
@@ -100,6 +97,8 @@ public class BaseGhost : MonoBehaviour
         {
             Wander();
         }
+
+        ChangeDirection();
     }
 
     protected void MoveToTarget()
@@ -166,7 +165,6 @@ public class BaseGhost : MonoBehaviour
             Vector2 finalPosition = velocityPosition + new Vector2(0f, floatOffset);
             rb.MovePosition(finalPosition);
         }
-
     }
 
     protected bool HasLineOfSight()
@@ -185,7 +183,7 @@ public class BaseGhost : MonoBehaviour
         externalForce += force;
     }
 
-    protected virtual void OnCollisionStay2D(Collision2D collision)
+    protected virtual void OnTriggerStay2D(Collider2D collision)
     {
         if (!Alive) return;
 
@@ -204,9 +202,9 @@ public class BaseGhost : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) isAttacking = false;       
+        if (collision.gameObject.CompareTag("Player")) isAttacking = false;
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
@@ -258,7 +256,65 @@ public class BaseGhost : MonoBehaviour
     protected virtual void Die()
     {
         isDying = true;
+        Invoke(nameof(PlayPopSound), 2f);
         Destroy(gameObject, 3f);
-        return;
+    }
+
+    void PlayPopSound()
+    {
+        GameObject soundObject = GameObject.FindWithTag("Sound");
+        if (soundObject != null)
+        {
+            Sound sound = soundObject.GetComponent<Sound>();
+            if (sound != null && sound.pop != null)
+            {
+                sound.pop.Stop(); 
+                sound.pop.Play();
+            }
+            else
+            {
+                Debug.LogWarning("Pop sound или компонент Sound не назначены.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Не найден объект с тегом 'Sound'.");
+        }
+    }
+
+    public void PlayPopThenDestroy()
+    {
+        PlayPopSound();
+        Destroy(gameObject);
+    }
+
+    void ChangeDirection()
+    {
+        Vector2 direction = new Vector2(0, 0);
+        if (isPulling)
+            direction = currentVelocity;
+        else
+            direction = -currentVelocity;
+
+        float angle = Mathf.Atan2(direction.y, direction.x);
+        float cos = math.cos(angle);
+
+        if (cos > 0 && factingRight)
+        {
+            FlipCharacter();
+            factingRight = false;
+        }
+        else if (cos < 0 && !factingRight)
+        {
+            FlipCharacter();
+            factingRight = true;
+        }
+    }
+
+    void FlipCharacter()
+    {
+        Vector3 euler = transform.eulerAngles;
+        euler.y = euler.y + 180f;
+        transform.eulerAngles = euler;
     }
 }

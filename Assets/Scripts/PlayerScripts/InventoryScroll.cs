@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using NUnit.Framework;
 using Unity.Mathematics;
+using Unity.Profiling.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -11,6 +12,7 @@ using UnityEngine.Assertions.Comparers;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 class InventorySlot {
     public int amount;
@@ -25,6 +27,7 @@ class InventorySlot {
 public class InventoryScroll : MonoBehaviour
 {
     [HideInInspector] public bool isOverheat;
+    [HideInInspector] public float coolingTime = 0f;
     private float overheatValueRecoveryRate = 15f;
     private float overheatValueChagneRate = 10f;
     private float overheatValue = 0;
@@ -52,7 +55,7 @@ public class InventoryScroll : MonoBehaviour
     private Vector2 scrollDirenction;
 
     private BoxCollider2D pullCollider;
-    private Slider overheatScroller;
+    private UnityEngine.UI.Slider overheatScroller;
 
     InGameUIsctipts ui_controller;
 
@@ -67,10 +70,11 @@ public class InventoryScroll : MonoBehaviour
         }
 
         DebugAddGhostTypes();
+
+        UnityEngine.Debug.Log(inventory.Count);
         for (int i = 0; i < 8; i++)
         {
-            if (ui_controller != null)
-                ui_controller.ChangeSlotAmount(i, inventory[i].amount);
+            UnselectSlot(i);
         }
 
         line = GetComponent<LineRenderer>();
@@ -79,11 +83,12 @@ public class InventoryScroll : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(isOverheat);
         line.enabled = !isOverheat;
 
         if (isPulled)
         {
-            // Pull(mousePos);
+            coolingTime = 0f;
 
             if (!isOverheat)
             {
@@ -95,9 +100,8 @@ public class InventoryScroll : MonoBehaviour
         {
             DrawNothing();
             timerAnalogue = Time.time;
-
+            coolingTime += Time.deltaTime;
             overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
-
             if (overheatValue <= 0)
             {
                 isOverheat = false;
@@ -113,41 +117,85 @@ public class InventoryScroll : MonoBehaviour
             ChangeSliderHP();
         }
     }
+    void UnselectSlot(int i)
+    {
+        if (inventory[i].amount > 0) ui_controller.SetSelected(i, true);
+        else ui_controller.ReturnToBaseColor(i);
+    }
 
     void DebugAddGhostTypes()
     {
-        inventory.Add(new InventorySlot(4, "Contact"));
-        inventory.Add(new InventorySlot(4, "Furry"));
-        inventory.Add(new InventorySlot(4, "Bobj"));
-        inventory.Add(new InventorySlot(4, "Glitch"));
-        inventory.Add(new InventorySlot(4, "Scream"));
-        inventory.Add(new InventorySlot(4, "Toxic"));
-        inventory.Add(new InventorySlot(4, "Contact"));
-        inventory.Add(new InventorySlot(4, "Contact"));
+        inventory.Add(new InventorySlot(0, "Contact"));
+        inventory.Add(new InventorySlot(0, "Furry"));
+        inventory.Add(new InventorySlot(0, "Bobj"));
+        inventory.Add(new InventorySlot(0, "Glitch"));
+        inventory.Add(new InventorySlot(0, "Scream"));
+        inventory.Add(new InventorySlot(0, "Toxic"));
+        inventory.Add(new InventorySlot(0, "Electric"));
+        inventory.Add(new InventorySlot(0, "Skeleton"));
+        inventory.Add(new InventorySlot(0, "Angel"));
+    }
+
+    bool IsNotFilled()
+    {
+        int total = 0;
+        foreach (InventorySlot slot in inventory)
+        {
+            total += slot.amount;
+        }
+
+        if (total > 0) return true;
+        else return false;
+    }
+
+    int GetFilledSlot()
+    {
+        foreach (InventorySlot slot in inventory)
+        {
+            if (slot.amount > 0) return inventory.IndexOf(slot);
+        }
+        return -1;
     }
 
     void Scroll()
     {
-        if (math.abs(scrollDirenction.y) > 0.5 && ui_controller != null)
+        if (math.abs(scrollDirenction.y) <= 0.5f || ui_controller == null || inventory == null || inventory.Count == 0)
+            return;
+
+        if (currentSlot == -1)
         {
-            if ((currentSlot + (int)scrollDirenction.y) > 8)
+            currentSlot = GetFilledSlot();
+            if (currentSlot != -1)
             {
-                ui_controller.ReturnToBaseColor(currentSlot);
-                currentSlot = 0;
                 ui_controller.SetSelected(currentSlot);
             }
-            else if ((currentSlot + (int)scrollDirenction.y) < 0)
-            {
-                ui_controller.ReturnToBaseColor(currentSlot);
-                currentSlot = 8;
-                ui_controller.SetSelected(currentSlot);
-            }
-            {
-                ui_controller.ReturnToBaseColor(currentSlot);
-                currentSlot += (int)scrollDirenction.y;
-                ui_controller.SetSelected(currentSlot);
-            }
+            else return; 
         }
+
+        int direction = (int)math.sign(scrollDirenction.y); 
+        int startSlot = currentSlot;
+        int attempts = 0;
+        int maxSlots = inventory.Count; 
+
+        do
+        {
+            currentSlot += direction;
+
+            if (currentSlot >= maxSlots)
+                currentSlot = 0;
+            else if (currentSlot < 0)
+                currentSlot = maxSlots - 1;
+
+            attempts++;
+
+            if (inventory[currentSlot] != null && inventory[currentSlot].amount > 0)
+            {
+                UnselectSlot(startSlot);
+                ui_controller.SetSelected(currentSlot);
+                return;
+            }
+
+        } while (currentSlot != startSlot && attempts < maxSlots);
     }
 
 
@@ -180,7 +228,11 @@ public class InventoryScroll : MonoBehaviour
             }
             inventory[currentSlot].amount--;
 
-            ui_controller.ChangeSlotAmount(currentSlot, inventory[currentSlot].amount);
+            if (inventory[currentSlot].amount <= 0)
+            {
+                ui_controller.ReturnToBaseColor(currentSlot);
+                currentSlot++;
+            }
         }
     }
 
@@ -218,8 +270,9 @@ public class InventoryScroll : MonoBehaviour
 
     public void ConsumeGhost(GameObject ghost)
     {
+        BaseGhost bg = ghost.GetComponent<BaseGhost>();
         InventorySlot slot = null;
-        if (gameObject.CompareTag("Ghost"))
+        if (gameObject.CompareTag("Ghost") || gameObject.CompareTag("Angel"))
         {
             string type = ghost.GetComponent<BaseGhost>().GhostType;
 
@@ -232,19 +285,25 @@ public class InventoryScroll : MonoBehaviour
             slot = GetGhostWithNeededType(type);
         }
 
+        if (slot.amount == 0)
+        {
+            if (currentSlot == -1 && slot.amount == 1)
+            {
+                currentSlot = inventory.IndexOf(slot);
+                ui_controller.SetSelected(currentSlot);
+            }
+        }
+        if (bg != null)
+        {
+            bg.PlayPopThenDestroy();
+        }
+        else
+        {
+            slot.amount++;
+            Destroy(ghost);
+        }   
 
-        slot.amount++;
-
-        Debug.Log(slot.type);
-        if (ui_controller != null)
-            ui_controller.ChangeSlotAmount(inventory.IndexOf(slot), slot.amount);
-
-        Destroy(ghost);
     }
-
-
-
-
     void ShotBasic(GameObject pivot)
     {
         Vector2 direction = CreateDirectionVector(mousePosition);

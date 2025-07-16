@@ -42,7 +42,7 @@ public class ToxicGhost : BaseGhost
         }
     }
 
-    protected override void OnCollisionStay2D(Collision2D collision)
+    protected override  void OnTriggerStay2D(Collider2D collision)
     {
 
     }

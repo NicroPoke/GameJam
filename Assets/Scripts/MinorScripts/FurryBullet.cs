@@ -11,9 +11,15 @@ public class FurryBullet : MonoBehaviour
     private float targetsList = 2;
     private float startTime;
     private float timeToLive = 5f;
+    GameObject[] ghosts;
     void Awake()
     {
         startTime = Time.time;
+
+        ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+
+        targetsList = Mathf.Clamp(ghosts.Length, 0, 3);
+
     }
 
     void Update()
@@ -39,17 +45,15 @@ public class FurryBullet : MonoBehaviour
 
             controller.ApplyExternalForce(transform.right * 30);
 
+            targetsList--;
             FindNewDirection(collision.gameObject);
         }
     }
 
     void FindNewDirection(GameObject collider)
     {
-        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
         GameObject closest = FindClosest(ghosts, collider);
-
-        Debug.Log(closest.name);
-
+        Debug.Log(closest);
         if (closest != null && targetsList > 0)
         {
             Vector2 direction = ((Vector2)closest.transform.position - (Vector2)transform.position).normalized;

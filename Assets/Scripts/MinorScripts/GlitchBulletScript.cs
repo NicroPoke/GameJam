@@ -48,8 +48,6 @@ public class GlitchBullet : MonoBehaviour
             Vector2 direction = (newPos - origin).normalized;
             float dist = Vector2.Distance(origin, newPos);
 
-            SpawnDebugSphere(newPos);
-
             RaycastHit2D hit = Physics2D.Raycast(origin, direction, dist);
 
             if (hit.collider == null || hit.collider.gameObject.tag == "Ghost")

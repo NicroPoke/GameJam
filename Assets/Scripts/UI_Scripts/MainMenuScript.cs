@@ -2,13 +2,17 @@ using System;
 using UnityEngine;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 public class MainMenuScript : MonoBehaviour
 {
 
-    public void LoadTutorial(){
+    public void LoadTutorial()
+    {
         SceneManager.LoadScene("Day1");
     }
-    public void LoadMenu(){
+    public void LoadMenu()
+    {
         SceneManager.LoadScene("Menu");
     }
     public void Restart()
@@ -24,13 +28,8 @@ public class MainMenuScript : MonoBehaviour
 #endif
     }
 
-    void Start()
+    public void ChangeIcon(Sprite icon)
     {
-        
-    }
-
-    void Update()
-    {
-        
+        GetComponent<UnityEngine.UI.Image>().sprite = icon;
     }
 }

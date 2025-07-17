@@ -47,6 +47,16 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
+        if (body.GetComponent<PlayerController>().currentVelocity != 0)
+        {
+            ShuffleGun();
+        }
+        else
+        {
+            Vector3 pos = transform.localPosition;
+            pos.y = 0;
+            transform.localPosition = pos;
+        }
         line.enabled = !isOverheat;
 
         if (isPulled)
@@ -143,6 +153,13 @@ public class GunController : MonoBehaviour
         GameObject target = GameObject.Find("SliderOverheat");
         if (target != null)
             target.GetComponent<SliderScript>().ChangeSliderValue((int)overheatValue);
+    }
+
+    void ShuffleGun()
+    {
+        Vector3 pos = transform.localPosition;
+        pos.y += Mathf.Cos(Time.time * 5f) * 0.003f; 
+        transform.localPosition = pos;
     }
 
     void DrawNothing()

@@ -1,25 +1,22 @@
 using System;
-using System.Data.Common;
-using NUnit.Framework.Internal;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class FurryBullet : MonoBehaviour
 {
-    private float targetsList = 2;
+    private int targetsLeft = 3;
     private float startTime;
     private float timeToLive = 5f;
-    GameObject[] ghosts;
+    private GameObject[] ghosts;
+    private Rigidbody2D rb;
+    private float bulletSpeed = 5f;
+    private HashSet<GameObject> alreadyHit = new HashSet<GameObject>();
+
     void Awake()
     {
         startTime = Time.time;
-
+        rb = GetComponent<Rigidbody2D>();
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");
-
-        targetsList = Mathf.Clamp(ghosts.Length, 0, 3);
-
     }
 
     void Update()
@@ -32,83 +29,72 @@ public class FurryBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Ghost") || collision.gameObject.CompareTag("Angel"))
+        if (!collision.gameObject.CompareTag("Ghost") && !collision.gameObject.CompareTag("Angel"))
+            return;
+
+        if (alreadyHit.Contains(collision.gameObject))
+            return;
+
+        alreadyHit.Add(collision.gameObject);
+
+        var controller = collision.gameObject.GetComponent<BaseGhost>();
+        if (controller != null)
         {
-            var controller = collision.gameObject.GetComponent<BaseGhost>();
-
-            Rigidbody2D _rb = GetComponent<Rigidbody2D>();
-
-            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
-            rb.gravityScale = 10;
-
-            Debug.Log(_rb.linearVelocity.normalized);
-
             controller.ApplyExternalForce(transform.right * 30);
-
-            targetsList--;
-            FindNewDirection(collision.gameObject);
         }
+
+        Rigidbody2D hitRb = collision.gameObject.GetComponent<Rigidbody2D>();
+        if (hitRb != null)
+        {
+            hitRb.gravityScale = 10;
+        }
+
+        targetsLeft--;
+        FindNewDirection(collision.gameObject);
     }
 
-    void FindNewDirection(GameObject collider)
+    void FindNewDirection(GameObject hit)
     {
-        GameObject closest = FindClosest(ghosts, collider);
-        Debug.Log(closest);
-        if (closest != null && targetsList > 0)
+        if (targetsLeft <= 0)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        GameObject closest = FindClosest(ghosts, hit);
+
+        if (closest != null)
         {
             Vector2 direction = ((Vector2)closest.transform.position - (Vector2)transform.position).normalized;
-
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-            Rigidbody2D rb = GetComponent<Rigidbody2D>();
-            rb.linearVelocity = direction * 3;
-
-            targetsList--;
+            rb.linearVelocity = direction * bulletSpeed * 3f;
         }
         else
         {
             Destroy(gameObject);
         }
-
     }
 
-    GameObject FindClosest(GameObject[] ghosts, GameObject current)
+    GameObject FindClosest(GameObject[] objects, GameObject ignore)
     {
-        if (ghosts.Length <= 1)
-        {
-            return null;
-        }
-        GameObject currentObject = null;
-        foreach (GameObject ghost in ghosts)
-        {
-            Debug.Log("Furried");
-            if (ghost == current)
-                continue;
+        GameObject closest = null;
+        float minDistance = Mathf.Infinity;
+        Vector2 currentPosition = transform.position;
 
-            if (currentObject == null)
-                currentObject = ghost;
+        foreach (GameObject obj in objects)
+        {
+            if (obj == ignore) continue;
 
-            if (isCloser(currentObject, ghost))
-                currentObject = ghost;
+            float dist = Vector2.Distance(currentPosition, obj.transform.position);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                closest = obj;
+            }
         }
 
-        return currentObject;
+        return closest;
     }
-
-    bool isCloser(GameObject current, GameObject contestor)
-    {
-        float currentDistance = Vector2.Distance((Vector2)transform.position, (Vector2)current.gameObject.transform.position);
-        float contestedDistane = Vector2.Distance((Vector2)transform.position, (Vector2)contestor.gameObject.transform.position);
-
-        if (contestedDistane < currentDistance)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
 }

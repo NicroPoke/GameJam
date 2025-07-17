@@ -1577,6 +1577,18 @@ MonoBehaviour:
   - {fileID: -3538764548082302735, guid: aa242bd048adde4459c9fb36478b469c, type: 3}
   - {fileID: -8234593756188668594, guid: 941c12ac37c4de942a41c5053d8ed87e, type: 3}
   - {fileID: 7538110569335667376, guid: c90ece43b92ebab40b8fe94506fb311e, type: 3}
+  bottles: []
+  colors:
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
+  - '#FFFFFF'
   baseSprite: {fileID: 2063826154672905881, guid: 00ed42d05fc3bc942b185ce0827d49d6, type: 3}
 --- !u!114 &464907563
 MonoBehaviour:
@@ -3238,7 +3250,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 63f9331b4409f154082ac4780455ae44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

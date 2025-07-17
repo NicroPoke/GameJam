@@ -301,8 +301,6 @@ public class InventoryScroll : MonoBehaviour
             slot = GetGhostWithNeededType(type);
         }
 
-        Debug.Log("IS NOT FILLED");
-
         if (IsNotFilled())
         {
             currentSlot = inventory.IndexOf(slot);

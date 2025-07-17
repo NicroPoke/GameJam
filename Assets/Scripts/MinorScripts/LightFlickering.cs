@@ -33,7 +33,6 @@ public class LampSwinging2D : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(lampLag);
         float t = (Mathf.Sin(Time.time * speed + phaseOffset) + 1) * 0.5f;
         float mainSwing = Mathf.Lerp(-angle, angle, t) + lampOffset;
 

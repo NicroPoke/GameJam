@@ -201,6 +201,7 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotGhost()
     {
+        
         if (!(inventory[currentSlot].amount <= 0) && ui_controller != null)
         {
             if (Time.time - timeOfLastShot <= cullDown)

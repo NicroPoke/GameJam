@@ -211,7 +211,7 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotGhost()
     {
-        
+        if(Time.deltaTime == 0f) return;
         if (!(inventory[currentSlot].amount <= 0) && ui_controller != null)
         {
             if (Time.time - timeOfLastShot <= cullDown)
@@ -279,6 +279,7 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotRound()
     {
+        if(Time.deltaTime == 0f) return;
         List<Vector2> vectors = GenerateCircleVectors(10);
         sound.shot.Play();
         foreach (Vector2 direction in vectors)
@@ -296,6 +297,7 @@ public class InventoryScroll : MonoBehaviour
 
     public void ConsumeGhost(GameObject ghost)
     {
+        if(Time.deltaTime == 0f) return;
         BaseGhost bg = ghost.GetComponent<BaseGhost>();
         InventorySlot slot = null;
         if (gameObject.CompareTag("Ghost") || gameObject.CompareTag("Angel"))
@@ -324,6 +326,7 @@ public class InventoryScroll : MonoBehaviour
 
     void ShotBasic(GameObject pivot)
     {
+        if(Time.deltaTime == 0f) return;
         Vector2 direction = CreateDirectionVector(mousePosition);
 
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -344,6 +347,7 @@ public class InventoryScroll : MonoBehaviour
 
     void OnShot(InputValue input)
     {
+        if(Time.deltaTime == 0f) return;
         mousePosition = input.Get<Vector2>();
 
         if (mousePosition != new Vector2(0, 0))

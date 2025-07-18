@@ -134,6 +134,7 @@ public class GunController : MonoBehaviour
 
     void RotationHandler()
     {
+        if(Time.deltaTime == 0f) return;
         Vector2 direction = -1 * CreateDirectionVector(Input.mousePosition);
         float angle = Mathf.Atan2(direction.y, direction.x);
         float rotationZ = Mathf.Rad2Deg * angle;
@@ -144,6 +145,7 @@ public class GunController : MonoBehaviour
 
     void HandleSlide(float degrees)
     {
+        if(Time.deltaTime == 0f) return;
         float cosin = Mathf.Cos(degrees);
 
         if (cosin > 0 && facingRight)
@@ -195,8 +197,10 @@ public class GunController : MonoBehaviour
 
     void ShuffleGun()
     {
+        if(Time.deltaTime == 0f) return;
         Vector3 pos = transform.localPosition;
-        pos.y += Mathf.Cos(Time.time * 5f) * 0.003f; 
+        pos.y += Mathf.Cos(Time.time * 12f) * 0.001f; 
+        pos.x += Mathf.Cos(Time.time * 12f) * 0.001f; 
         transform.localPosition = pos;
     }
 
@@ -208,6 +212,7 @@ public class GunController : MonoBehaviour
 
     void FlipCharacter()
     {
+        if(Time.deltaTime == 0f) return;
         Vector3 euler = body.transform.eulerAngles;
         euler.y += 180f;
         body.transform.eulerAngles = euler;

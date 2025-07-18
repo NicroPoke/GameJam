@@ -25,10 +25,6 @@ public class CameraFollow : MonoBehaviour
         {
             inventoryScroll = player.GetComponent<InventoryScroll>();
         }
-        else
-        {
-            Debug.LogWarning("Player not found. Make sure there is a GameObject with the tag 'Player'.");
-        }
 
         cam = Camera.main;
         targetZoom = cam.orthographicSize;
@@ -77,5 +73,12 @@ public class CameraFollow : MonoBehaviour
         {
             cam.orthographicSize = targetZoom;
         }
+    }
+
+    public void ShakeExternal(float duration = 0.15f, float magnitude = 0.1f)
+    {
+        shakeDuration = duration;
+        shakeMagnitude = magnitude;
+        shakeTimer = duration;
     }
 }

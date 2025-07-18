@@ -32,6 +32,10 @@ public class GunController : MonoBehaviour
     private PlayerController playerController;
     private float baseSpeed;
 
+    public GameObject pullTriangle;
+    private Vector3 pullTriangleDefaultScale;
+    private float originalTriangleLength = 1f;
+
     void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -44,6 +48,10 @@ public class GunController : MonoBehaviour
         pullCollider = gameObject.AddComponent<BoxCollider2D>();
         pullCollider.isTrigger = true;
         pullCollider.enabled = false;
+
+        pullTriangle.SetActive(false);
+        pullTriangleDefaultScale = pullTriangle.transform.localScale;
+        originalTriangleLength = pullTriangle.GetComponent<Renderer>().bounds.size.x;
     }
 
     void Update()
@@ -63,6 +71,7 @@ public class GunController : MonoBehaviour
         if (isPulled)
         {
             Pull(mousePos);
+            DrawAirPull();
 
             if (!isOverheat)
             {
@@ -83,6 +92,7 @@ public class GunController : MonoBehaviour
                 overheatValue = 0;
             }
             ChangeSliderHP();
+            StopDrawingAirPull();
         }
 
         if (overheatValue >= 100)
@@ -93,6 +103,33 @@ public class GunController : MonoBehaviour
         }
 
         RotationHandler();
+    }
+
+    void DrawAirPull()
+    {
+        if (!pullTriangle.activeSelf) pullTriangle.SetActive(true);
+        Vector2 startPosition = (Vector2)transform.position;
+
+        Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseToWorld.z = 0;
+
+        Vector2 direction = (startPosition - (Vector2)mouseToWorld).normalized * -1;
+
+        float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0f, 0f, rotationZ);
+        pullTriangle.transform.rotation = rotation;
+
+        Vector2 middlePoint = startPosition + direction / 2;
+        pullTriangle.transform.position = middlePoint;
+
+        float length = Vector2.Distance(transform.position, mouseToWorld);
+        Vector3 currrentScale = pullCollider.transform.localScale;
+        pullTriangle.transform.localScale = new Vector3(length * 10.6f, currrentScale.y * 10f, currrentScale.z);
+    }
+
+    void StopDrawingAirPull()
+    {
+        pullTriangle.SetActive(false);
     }
 
     void RotationHandler()
@@ -184,8 +221,11 @@ public class GunController : MonoBehaviour
         return ((Vector2)mouseToWorld - (Vector2)transform.position).normalized;
     }
 
+
     void Pull(Vector2 input)
     {
+        // if (body.GetComponent<InventoryScroll>().IsFull()) return;
+
         if (isOverheat) return;
 
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);

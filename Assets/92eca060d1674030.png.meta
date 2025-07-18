@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: f2e2370b1eaf5a84a93db281bddfe760
+guid: 048c81389a962464fbc31a03512d5404
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3113841234540775196
-    second: scream_0
+      213: 1677683654423558374
+    second: 92eca060d1674030_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,11 +46,11 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
-  alignment: 9
-  spritePivot: {x: 0.5872056, y: 0.4959654}
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -96,40 +96,27 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: scream_0
+      name: 92eca060d1674030_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 31
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+        width: 1497
+        height: 1285
+      alignment: 9
+      pivot: {x: 0.005861753, y: 0.49682528}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1744cfda16963b20800000000000000
-      internalID: 3113841234540775196
+      spriteID: 6e8356b1564584710800000000000000
+      internalID: 1677683654423558374
       vertices: []
       indices: 
       edges: []
@@ -138,8 +125,8 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 18a94f098cfece34f88930fc006a2f60
+    internalID: 0
     vertices: []
     indices: 
     edges: []
@@ -148,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      scream_0: 3113841234540775196
+      92eca060d1674030_0: 1677683654423558374
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38c1a91a302d5fe448846b8af5ce4b20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  electricField: {fileID: 3559155685330890492, guid: f7037a9759d5e2a45b2379d5372e45e1, type: 3}
+  electricField: {fileID: 3559155685330890492, guid: 286b834ca084b2b4e8d38cb68211b684, type: 3}
   targetSize: {x: 4, y: 4, z: 4}
 --- !u!58 &-7205698993825873459
 CircleCollider2D:

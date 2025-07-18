@@ -115,6 +115,16 @@ public class InventoryScroll : MonoBehaviour
             ChangeSliderHP();
         }
     }
+    public bool IsFull()
+    {
+        int totalAmount = 0;
+        foreach (InventorySlot slot in inventory)
+        {
+            totalAmount += slot.amount;
+        }
+
+        return totalAmount >= 9;
+    }
     void UnselectSlot(int i)
     {
         if (inventory[i].amount > 0) ui_controller.SetSelected(i, true);
@@ -123,15 +133,15 @@ public class InventoryScroll : MonoBehaviour
 
     void DebugAddGhostTypes()
     {
-        inventory.Add(new InventorySlot(3, "Contact"));
-        inventory.Add(new InventorySlot(3, "Furry"));
-        inventory.Add(new InventorySlot(3, "Bobj"));
-        inventory.Add(new InventorySlot(3, "Glitch"));
-        inventory.Add(new InventorySlot(3, "Scream"));
-        inventory.Add(new InventorySlot(3, "Toxic"));
-        inventory.Add(new InventorySlot(3, "Electric"));
-        inventory.Add(new InventorySlot(3, "Skeleton"));
-        inventory.Add(new InventorySlot(3, "Angel"));
+        inventory.Add(new InventorySlot(1, "Contact"));
+        inventory.Add(new InventorySlot(1, "Furry"));
+        inventory.Add(new InventorySlot(1, "Bobj"));
+        inventory.Add(new InventorySlot(1, "Glitch"));
+        inventory.Add(new InventorySlot(1, "Scream"));
+        inventory.Add(new InventorySlot(1, "Toxic"));
+        inventory.Add(new InventorySlot(1, "Electric"));
+        inventory.Add(new InventorySlot(1, "Skeleton"));
+        inventory.Add(new InventorySlot(1, "Angel"));
     }
 
     bool IsNotFilled()

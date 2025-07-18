@@ -297,6 +297,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &18133026 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8472226785129423982, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
+  m_PrefabInstance: {fileID: 552252414}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &18133027 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1450088507231454168, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
+  m_PrefabInstance: {fileID: 552252414}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &50541257
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +457,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1361372125580786181, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1312240691916774131, guid: 6ccc98a12886e4b4ebfdd29ca39f549b, type: 3}
     - target: {fileID: 1573893577671540906, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
       propertyPath: m_Name
       value: TezzuBomj (1)
@@ -1551,7 +1565,16 @@ MonoBehaviour:
   - {fileID: -3538764548082302735, guid: aa242bd048adde4459c9fb36478b469c, type: 3}
   - {fileID: -8234593756188668594, guid: 941c12ac37c4de942a41c5053d8ed87e, type: 3}
   - {fileID: 7538110569335667376, guid: c90ece43b92ebab40b8fe94506fb311e, type: 3}
-  bottles: []
+  bottles:
+  - {fileID: 6950932762523884316, guid: defacccfa180c844c8e3055b415c6201, type: 3}
+  - {fileID: 5271104433582011317, guid: 5d1d4787e896fd6439c6b1b5699129d7, type: 3}
+  - {fileID: -5451496553283309079, guid: 1d278b8083ed0b244a760d27cf4b68a7, type: 3}
+  - {fileID: 8985550438768846349, guid: 6f4bab41da5d70a4fbfb46ca707af8a1, type: 3}
+  - {fileID: 5030897771373032086, guid: c4256e2f5fd770344af8377376dd9bb3, type: 3}
+  - {fileID: 2624493889850763139, guid: c53431f742141c2459f53cca32e90515, type: 3}
+  - {fileID: 2281411341221564641, guid: e1fe64b22389e0849bddd29786d3c4d5, type: 3}
+  - {fileID: 5962671617807883661, guid: 8bf129c124f5e9943bb4bc0809f43552, type: 3}
+  - {fileID: -8231466733199432400, guid: 1c07e81661e703449be0d1fca08c165e, type: 3}
   colors: []
   baseSprite: {fileID: 2063826154672905881, guid: 00ed42d05fc3bc942b185ce0827d49d6, type: 3}
 --- !u!114 &464907563
@@ -2169,7 +2192,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1170769702968851882, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_FlipX
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1170769702968851882, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_FlipY
@@ -2178,7 +2201,7 @@ PrefabInstance:
     - target: {fileID: 1170769702968851882, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1677683654423558374, guid: 048c81389a962464fbc31a03512d5404, type: 3}
+      objectReference: {fileID: 21300000, guid: f2e2370b1eaf5a84a93db281bddfe760, type: 3}
     - target: {fileID: 1170769702968851882, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_SortingOrder
       value: 29
@@ -2242,6 +2265,10 @@ PrefabInstance:
     - target: {fileID: 8472226785129423982, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_Name
       value: Triangle
+      objectReference: {fileID: 0}
+    - target: {fileID: 8472226785129423982, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8472226785129423982, guid: 33d0c3cfcecc1994186a4b1f056f0673, type: 3}
       propertyPath: m_IsActive
@@ -4879,6 +4906,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1361372125580786181, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1312240691916774131, guid: 6ccc98a12886e4b4ebfdd29ca39f549b, type: 3}
     - target: {fileID: 1573893577671540906, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
       propertyPath: m_Name
       value: TezzuBomj (2)
@@ -6335,7 +6366,7 @@ GameObject:
   - component: {fileID: 1826750712}
   - component: {fileID: 1826750711}
   - component: {fileID: 1826750710}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6355,7 +6386,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 804928484}
+  - {fileID: 18133027}
   m_Father: {fileID: 1924652508}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1826750710
@@ -6512,7 +6543,7 @@ MonoBehaviour:
   pullForceMultiplier: 0.04
   handedSprite: {fileID: 21300000, guid: e82c3e60b7667f74d8f3b85762f86c6d, type: 3}
   unhandedSprite: {fileID: 21300000, guid: 24602be8e0930d44892db3e94fbf5ee8, type: 3}
-  pullTriangle: {fileID: 804928483}
+  pullTriangle: {fileID: 18133026}
 --- !u!212 &1826750713
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7416,7 +7447,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -56.46, y: 0.49, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1227915419}
   - {fileID: 1826750709}
@@ -8621,6 +8652,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1361372125580786181, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
+      propertyPath: Bullet
+      value: 
+      objectReference: {fileID: 1312240691916774131, guid: 6ccc98a12886e4b4ebfdd29ca39f549b, type: 3}
     - target: {fileID: 1573893577671540906, guid: eee913d5f3bc37e429eab64a00fb8493, type: 3}
       propertyPath: m_Name
       value: TezzuBomj
@@ -8680,11 +8715,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6430247122860407200, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -52.23
+      value: -43.35
       objectReference: {fileID: 0}
     - target: {fileID: 6430247122860407200, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.22000003
+      value: 6.41
       objectReference: {fileID: 0}
     - target: {fileID: 6430247122860407200, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
       propertyPath: m_LocalPosition.z

@@ -8,7 +8,7 @@ public class SkeletonBullet : MonoBehaviour
 {
     [SerializeField] private GameObject basicBullet;
     private float startTime;
-    private float timeToLive = 5f;
+    private float timeToLive = 3f;
     private float timeToBeTriggered = 3f;
     void Awake()
     {
@@ -33,23 +33,21 @@ public class SkeletonBullet : MonoBehaviour
 
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             
-            SpawnAditionaBullets();
+            SpawnAditionaBullets(collision.gameObject);
 
             Destroy(gameObject);
         }
     }
 
-    void SpawnAditionaBullets()
+    void SpawnAditionaBullets(GameObject corpse)
     {
-        int bulletNumber = (int)Random.Range(3, 6);
+        int bulletNumber = (int)Random.Range(2, 4);
 
         for (int i = 0; i <= bulletNumber; i++)
         {
+            Debug.Log("Spawned");
             float direction_y = Random.Range(-1f, 1f);
             float direction_x = Random.Range(-1f, 1f);
-
-            Debug.Log(direction_y);
-            Debug.Log(direction_x);
 
             Vector2 direction = new Vector2(direction_x, direction_y).normalized;
 
@@ -60,8 +58,8 @@ public class SkeletonBullet : MonoBehaviour
 
             GameObject ghostBullet = Instantiate(basicBullet, transform.position, rotation);
 
+            ghostBullet.GetComponent<ChildBullet>().corpse = corpse;
             float baseScale = Random.Range(0.4f, 0.8f);
-            ghostBullet.transform.localScale = new Vector3(baseScale * 0.5f, baseScale, 1f);
             ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * Random.Range(1.5f, 4f);
         }
     }

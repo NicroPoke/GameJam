@@ -9,6 +9,7 @@ public class ChildBullet : MonoBehaviour
     private float startTime;
     private float timeToLive = 5f;
     private float timeToBeTriggered = 3f;
+    public GameObject corpse;
 
 
     void Awake()
@@ -34,7 +35,8 @@ public class ChildBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        
+
+        if (collision.gameObject == corpse) return;
         if (collision.gameObject.CompareTag("Ghost") || collision.gameObject.CompareTag("Angel"))
         {
             var controller = collision.gameObject.GetComponent<BaseGhost>();
@@ -44,10 +46,7 @@ public class ChildBullet : MonoBehaviour
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
             rb.gravityScale = 10;
 
-            Debug.Log(_rb.linearVelocity.normalized);
-
             controller.ApplyExternalForce(transform.right * 30);
-
             Destroy(gameObject);
         }
     }

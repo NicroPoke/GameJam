@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Runtime.ExceptionServices;
+using NUnit.Framework.Constraints;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 class InventorySlot {
     public int amount;
@@ -216,36 +219,9 @@ public class InventoryScroll : MonoBehaviour
         {
             if (Time.time - timeOfLastShot <= cullDown)
                 return;
-            switch (inventory[currentSlot].type)
-            {
-                case "Contact":
-                    ShotBasic(basicGhost);
-                    break;
-                case "Furry":
-                    ShotBasic(furryBullet);
-                    break;
-                case "Bobj":
-                    ShotBasic(bobjBullet);
-                    break;
-                case "Toxic":
-                    ShotBasic(toxicBullet);
-                    break;
-                case "Glitch":
-                    ShotBasic(glitchBullet);
-                    break;
-                case "Scream":
-                    ShotBasic(screamBullet);
-                    break;
-                case "Electric":
-                    ShotBasic(elctroBullet);
-                    break;
-                case "Skeleton":
-                    ShotBasic(skeletonBullet);
-                    break;
-                case "Angel":
-                    ShotBasic(angelBullet);
-                    break;
-            }
+
+            ShotBasic(GetBullet(inventory[currentSlot].type));
+
             inventory[currentSlot].amount--;
 
             if (inventory[currentSlot].amount <= 0)
@@ -260,6 +236,33 @@ public class InventoryScroll : MonoBehaviour
                 }
             }
         }
+    }
+
+    GameObject GetBullet(string type)
+    {
+        switch (type)
+        {
+            case "Contact":
+                return basicGhost;
+            case "Furry":
+                return furryBullet;
+            case "Bobj":
+                return bobjBullet;
+            case "Toxic":
+                return toxicBullet;
+            case "Glitch":
+                return glitchBullet;
+            case "Scream":
+                return screamBullet;
+            case "Electric":
+                return elctroBullet;
+            case "Skeleton":
+                return skeletonBullet;
+            case "Angel":
+                return angelBullet;
+            default:
+                return null;
+            }
     }
 
     List<Vector2> GenerateCircleVectors(int num)
@@ -277,34 +280,58 @@ public class InventoryScroll : MonoBehaviour
         return vectors;
     }
 
-    void ShotRound()
+    void ShotRound(int numShots)
     {
-        if(Time.deltaTime == 0f) return;
-        List<Vector2> vectors = GenerateCircleVectors(10);
+        if (Time.deltaTime == 0f) return;
+        List<Vector2> vectors = GenerateCircleVectors(numShots);
+
+        if (vectors.Count <= 0) return;
+
+        List<string> types = GenerateBulletTypes();
         sound.shot.Play();
-        foreach (Vector2 direction in vectors)
+        for (int i = 0; i < vectors.Count; i++)
         {
-            float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            float rotationZ = Mathf.Atan2(vectors[i].y, vectors[i].x) * Mathf.Rad2Deg;
 
             Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
 
-            GameObject ghostBullet = Instantiate(basicGhost, transform.position, rotation);
-            ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
+            GameObject ghostBullet = Instantiate(GetBullet(types[i]), transform.position, rotation);
+
+            ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = vectors[i] * bulletSpeed;
 
             timeOfLastShot = Time.time;
         }
+
+        ClearInventory();
+    }
+
+    List<string> GenerateBulletTypes()
+    {
+        List<string> list = new List<string>();
+        foreach (InventorySlot slot in inventory)
+        {
+            int amount = slot.amount;
+            for (int i = 0; i < amount; i++)
+            {
+                list.Add(slot.type);   
+            }
+        }
+
+        return list;
     }
 
     public void ConsumeGhost(GameObject ghost)
     {
-        if(Time.deltaTime == 0f) return;
+        if (Time.deltaTime == 0f) return;
         BaseGhost bg = ghost.GetComponent<BaseGhost>();
         InventorySlot slot = null;
-        if (gameObject.CompareTag("Ghost") || gameObject.CompareTag("Angel"))
+        if (ghost.gameObject.CompareTag("Ghost") || ghost.gameObject.CompareTag("Angel"))
         {
             string type = ghost.GetComponent<BaseGhost>().GhostType;
 
             slot = GetGhostWithNeededType(type);
+
+            Debug.Log(slot.type);
         }
         else
         {
@@ -318,9 +345,14 @@ public class InventoryScroll : MonoBehaviour
             currentSlot = inventory.IndexOf(slot);
             ui_controller.SetSelected(currentSlot);
             if (colorChange != null) colorChange.ChangeColor(inventory[currentSlot].type);
+            slot.amount++;
+        }
+        else
+        {
+            slot.amount++;
+            UnselectSlot(inventory.IndexOf(slot));
         }
         sound.pop.Play();
-        slot.amount++;
         Destroy(ghost);
     }
 
@@ -359,6 +391,31 @@ public class InventoryScroll : MonoBehaviour
         scrollDirenction = input.Get<Vector2>();
 
         Scroll();
+    }
+
+    int GetTotalAmount()
+    {
+        int totalAmount = 0;
+        foreach (InventorySlot slot in inventory)
+        {
+            totalAmount += slot.amount;
+        }
+
+        return totalAmount;
+    }
+
+    void ClearInventory()
+    {
+        foreach (InventorySlot slot in inventory)
+        {
+            slot.amount = 0;
+            UnselectSlot(inventory.IndexOf(slot));
+        }
+    }
+
+    void OnCircle()
+    {
+        ShotRound(GetTotalAmount());
     }
 
     void OnPull(InputValue input)

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 764791784158903152}
   - component: {fileID: 9216118122879640343}
   - component: {fileID: 7496331477048508808}
-  - component: {fileID: 601719928385226635}
   - component: {fileID: -4840151676387316378}
+  - component: {fileID: 887809489519193537}
   m_Layer: 0
   m_Name: ChildBullet
   m_TagString: Bullet
@@ -117,8 +117,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &601719928385226635
-CircleCollider2D:
+--- !u!114 &-4840151676387316378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312240691916774131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf4d8cad68ad164284ef19717bc7ebf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &887809489519193537
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -152,16 +164,14 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.74
---- !u!114 &-4840151676387316378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312240691916774131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddf4d8cad68ad164284ef19717bc7ebf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.48, y: 1.46}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.48, y: 1.46}
+  m_EdgeRadius: 0

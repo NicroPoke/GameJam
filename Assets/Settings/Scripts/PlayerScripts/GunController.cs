@@ -6,6 +6,8 @@ public class GunController : MonoBehaviour
 {
     public bool isSlowed = false;
 
+    private float lastConsumeTime = -1f;
+    private float consumeCooldown = 0.5f;
     private bool isOverheat;
     private float overheatValueRecoveryRate = 15f;
     private float overheatValueChagneRate = 10f;
@@ -33,8 +35,7 @@ public class GunController : MonoBehaviour
     private float baseSpeed;
 
     public GameObject pullTriangle;
-    private Vector3 pullTriangleDefaultScale;
-    private float originalTriangleLength = 1f;
+ 
 
     void Awake()
     {
@@ -50,8 +51,6 @@ public class GunController : MonoBehaviour
         pullCollider.enabled = false;
 
         pullTriangle.SetActive(false);
-        pullTriangleDefaultScale = pullTriangle.transform.localScale;
-        originalTriangleLength = pullTriangle.GetComponent<Renderer>().bounds.size.x;
     }
 
     void Update()
@@ -199,7 +198,7 @@ public class GunController : MonoBehaviour
     {
         if(Time.deltaTime == 0f) return;
         Vector3 pos = transform.localPosition;
-        pos.y += Mathf.Cos(Time.time * 12f) * 0.001f; 
+        pos.y += Mathf.Cos(Time.time * 12f) * 0.003f; 
         pos.x += Mathf.Cos(Time.time * 12f) * 0.001f; 
         transform.localPosition = pos;
     }
@@ -233,6 +232,7 @@ public class GunController : MonoBehaviour
 
         if (isOverheat) return;
 
+
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseToWorld.z = 0;
 
@@ -261,7 +261,6 @@ public class GunController : MonoBehaviour
             mousePos = input.Get<Vector2>();
             isPulled = true;
             pullCollider.enabled = true;
-
             playerController.speed = baseSpeed * 0.7f;
         }
     }
@@ -280,18 +279,22 @@ public class GunController : MonoBehaviour
                 Vector2 direction = ((Vector2)transform.position - (Vector2)ghost.transform.position).normalized;
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
-
-                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled && Time.time - lastConsumeTime > consumeCooldown)
+                {
                     body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
+                    lastConsumeTime = Time.time;
+                }
             }
         }
         else if (other.CompareTag("Consumable"))
         {
             Vector2 direction = ((Vector2)transform.position - (Vector2)other.transform.position);
             other.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
-
-            if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
+            if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled && Time.time - lastConsumeTime > consumeCooldown)
+            {
                 body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
+                lastConsumeTime = Time.time;
+            }
         }
         else if (other.CompareTag("Angel"))
         {
@@ -302,10 +305,11 @@ public class GunController : MonoBehaviour
                 ghost.ApplyExternalForce(direction * force);
                 ghost.isPulling = true;
 
-                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled)
+                if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled && Time.time - lastConsumeTime > consumeCooldown)
                 {
                     body.GetComponent<PlayerController>().TakeDamege(50);
                     body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);
+                    lastConsumeTime = Time.time;
                 }
             }
         }

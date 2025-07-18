@@ -17,6 +17,12 @@ public class CameraFollow : MonoBehaviour
     private float shakeTimer = 0f;
     private float noiseSeed;
 
+    private bool isLockedToPoint = false;
+    private Transform lockTarget;
+    private float lockTransitionSpeed = 2f;
+
+    private float lockedZoom = 12f;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player");
@@ -33,10 +39,25 @@ public class CameraFollow : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (isLockedToPoint && lockTarget != null)
+        {
+            Vector3 targetPos = new Vector3(lockTarget.position.x, lockTarget.position.y, transform.position.z);
+            Vector3 posSmooth = Vector3.Lerp(transform.position, targetPos, lockTransitionSpeed * Time.deltaTime);
+            transform.position = posSmooth;
+
+            if (Mathf.Abs(targetZoom - lockedZoom) > 0.01f)
+            {
+                targetZoom = Mathf.Lerp(targetZoom, lockedZoom, zoomLerpSpeed * Time.deltaTime);
+            }
+
+            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, zoomLerpSpeed * Time.deltaTime);
+            return;
+        }
+
         if (player == null) return;
 
         Vector3 posEnd = new Vector3(player.transform.position.x, player.transform.position.y, -10f);
-        Vector3 posSmooth = Vector3.Lerp(transform.position, posEnd, smoothmovement * Time.deltaTime);
+        Vector3 posSmoothFollow = Vector3.Lerp(transform.position, posEnd, smoothmovement * Time.deltaTime);
 
         if (inventoryScroll != null && inventoryScroll.isPulled && !inventoryScroll.isOverheat)
         {
@@ -49,11 +70,11 @@ public class CameraFollow : MonoBehaviour
             float noiseY = Mathf.PerlinNoise(noiseSeed + 1f, Time.time * 20f) * 2f - 1f;
             Vector3 shakeOffset = new Vector3(noiseX, noiseY, 0) * shakeMagnitude;
 
-            posSmooth += shakeOffset;
+            posSmoothFollow += shakeOffset;
             shakeTimer -= Time.deltaTime;
         }
 
-        transform.position = posSmooth;
+        transform.position = posSmoothFollow;
 
         if (Input.GetMouseButton(2))
         {
@@ -81,4 +102,10 @@ public class CameraFollow : MonoBehaviour
         shakeMagnitude = magnitude;
         shakeTimer = duration;
     }
-}
+
+    public void LockToTransform(Transform target)
+    {
+        lockTarget = target;
+        isLockedToPoint = true;
+    }
+} 

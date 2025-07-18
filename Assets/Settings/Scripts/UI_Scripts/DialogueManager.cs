@@ -11,6 +11,8 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
 
+    public GameObject blackoutObject;
+
     [TextArea(5, 10)]
     public string rawText;
     public string triggerBattleAfterLine;
@@ -29,12 +31,30 @@ public class DialogueManager : MonoBehaviour
     private bool waitingForBattleEnd = false;
     private float holdDuration = 2f;
     private float holdTimer = 0f;
+    public float fadeDuration = 1f;
+
+    private SpriteRenderer blackoutRenderer;
+    private SpriteRenderer blackoutRenderer2;
+    private bool playerInsideBlackout2 = false;
 
     void Start()
     {
         sceneFader = FindObjectOfType<SceneFader>();
         dialoguePanel.SetActive(false);
         ParseRawText();
+
+        if (blackoutObject != null)
+        {
+            blackoutRenderer = blackoutObject.GetComponent<SpriteRenderer>();
+            if (blackoutRenderer != null)
+            {
+                Color c = blackoutRenderer.color;
+                c.a = 1f;
+                blackoutRenderer.color = c;
+                blackoutObject.SetActive(true);
+            }
+        }
+
         StartCoroutine(BeginDialogueWithDelay());
     }
 
@@ -175,10 +195,12 @@ public class DialogueManager : MonoBehaviour
         {
             string currentRawLine = rawLines[index].Trim();
 
-            if (!string.IsNullOrEmpty(triggerBattleAfterLine) && currentRawLine.Equals(triggerBattleAfterLine.Trim(), System.StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(triggerBattleAfterLine) &&
+                currentRawLine.Equals(triggerBattleAfterLine.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
+                StartCoroutine(FadeOutBlackout());
                 waitingForBattleEnd = true;
                 return;
             }
@@ -242,4 +264,25 @@ public class DialogueManager : MonoBehaviour
         }
         isTyping = false;
     }
+
+    IEnumerator FadeOutBlackout()
+    {
+        if (blackoutRenderer == null) yield break;
+
+        float elapsed = 0f;
+        Color startColor = blackoutRenderer.color;
+        Color endColor = startColor;
+        endColor.a = 0f;
+
+        while (elapsed < fadeDuration)
+        {
+            blackoutRenderer.color = Color.Lerp(startColor, endColor, elapsed / fadeDuration);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        blackoutRenderer.color = endColor;
+        blackoutObject.SetActive(false);
+    }
+
 }

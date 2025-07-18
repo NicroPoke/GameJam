@@ -43,19 +43,6 @@ public class ScreamGhost : BaseGhost
 
     protected override void OnTriggerStay2D(Collider2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player")) return;
 
-        if (Time.time - lastDamageTime < invulnerabilityDuration)
-        {
-            isAttacking = false;
-            return;
-        }
-
-        if (collision.gameObject.TryGetComponent(out PlayerController controller))
-        {
-            controller.TakeDamege(3);
-            isAttacking = true;
-            lastDamageTime = Time.time;
-        }
     }
 }

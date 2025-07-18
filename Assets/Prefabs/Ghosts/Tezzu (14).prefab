@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4145035152623769868}
   - component: {fileID: 5816741247876461973}
   - component: {fileID: 4574134230815479235}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tezzu (14)
   m_TagString: Ghost
   m_Icon: {fileID: 0}
@@ -184,7 +184,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

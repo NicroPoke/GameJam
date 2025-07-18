@@ -13,19 +13,30 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     bool isPullerActive = false;
+    public Animator animator;
     [HideInInspector] public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
     public float baseSpeed = 9f;
     public float speed;
     private Rigidbody2D rb;
+    [HideInInspector] public bool IsWalking = false;
     [HideInInspector] public Vector2 inputVector;
     public float currentVelocity = 0f;
     private BaseGhost lastGhost;
 
     void FixedUpdate()
     {
+        animator.SetBool("IsWalking", IsWalking);
         rb.linearVelocity = speed * inputVector;
         currentVelocity = rb.linearVelocity.sqrMagnitude;
+        if (currentVelocity > 0)
+        {
+            IsWalking = true;
+        }
+        else
+        {
+            IsWalking = false;
+        }
     }
 
     void Update()

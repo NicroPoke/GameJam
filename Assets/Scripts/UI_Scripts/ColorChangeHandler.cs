@@ -9,8 +9,6 @@ public class ColorChangeHandler : MonoBehaviour
     public Sprite[] bottles;
 
     public string[] colors = new string[]{
-<<<<<<< HEAD
-=======
         "#FFFFFF",
         "#FFFFFF",
         "#FFFFFF",
@@ -21,7 +19,6 @@ public class ColorChangeHandler : MonoBehaviour
         "#FFFFFF",
         "#FFFFFF",
         "#FFFFFF"
->>>>>>> 003112825dda6d6ebdfe3762e86a331ea8b92ae3
     };
 
     public Sprite baseSprite;
@@ -33,11 +30,7 @@ public class ColorChangeHandler : MonoBehaviour
 
     void Awake()
     {
-<<<<<<< HEAD
-        bottle = GameObject.Find("bottle2");
-=======
         bottle = GameObject.Find("bollte2");
->>>>>>> 003112825dda6d6ebdfe3762e86a331ea8b92ae3
         if (bottle != null) indicatorBottle = bottle.GetComponent<SpriteRenderer>();
         indicatorBall = GameObject.Find("Indicator ball");
         if (indicatorBall != null) imageManager = indicatorBall.GetComponent<SpriteRenderer>();   

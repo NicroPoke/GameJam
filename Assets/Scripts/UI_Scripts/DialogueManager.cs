@@ -6,6 +6,7 @@ using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
+    public GameObject door;
     private SceneFader sceneFader;
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
@@ -95,6 +96,7 @@ public class DialogueManager : MonoBehaviour
 
         if (waitingForBattleEnd)
         {
+            door.SetActive(false);
             if (GhostManager.Instance != null && GhostManager.Instance.battleEnded)
             {
                 waitingForBattleEnd = false;

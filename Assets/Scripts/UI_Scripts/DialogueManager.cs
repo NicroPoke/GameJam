@@ -10,9 +10,13 @@ public class DialogueManager : MonoBehaviour
     private SceneFader sceneFader;
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
-    public string[] lines;
+
+    [TextArea(5, 10)]
+    public string rawText;
     public string triggerBattleAfterLine;
 
+    private string[] lines;
+    private string[] rawLines;
     private int index;
     private bool isDialogueActive = false;
     private bool isTyping = false;
@@ -30,7 +34,32 @@ public class DialogueManager : MonoBehaviour
     {
         sceneFader = FindObjectOfType<SceneFader>();
         dialoguePanel.SetActive(false);
+        ParseRawText();
         StartCoroutine(BeginDialogueWithDelay());
+    }
+
+    void ParseRawText()
+    {
+        rawLines = rawText.Split('/');
+        lines = new string[rawLines.Length];
+        for (int i = 0; i < rawLines.Length; i++)
+        {
+            string clean = rawLines[i].Trim();
+            rawLines[i] = clean;
+
+            string formatted = ReplaceFirst(clean, "**", "<b>");
+            formatted = ReplaceFirst(formatted, "**", "</b>");
+            formatted = ReplaceFirst(formatted, "*", "<i>");
+            formatted = ReplaceFirst(formatted, "*", "</i>");
+            lines[i] = formatted;
+        }
+    }
+
+    string ReplaceFirst(string text, string search, string replace)
+    {
+        int pos = text.IndexOf(search);
+        if (pos < 0) return text;
+        return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
     }
 
     IEnumerator BeginDialogueWithDelay()
@@ -48,7 +77,7 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
-        if (!isDialogueActive && !waitingForRMB && !waitingForLMB && !waitingForBattleEnd) return;
+        if (!isDialogueActive && !waitingForRMB && !waitingForLMB && !waitingForBattleEnd && !waitingForE) return;
 
         if (waitingForRMB)
         {
@@ -76,15 +105,14 @@ public class DialogueManager : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 waitingForLMB = false;
-                dialoguePanel.SetActive(true);
-                Time.timeScale = 0f;
-                typingCoroutine = StartCoroutine(TypeLine());
+                StartCoroutine(WaitAndStartDialogueAfterLMB());
             }
             return;
         }
+
         if (waitingForE)
         {
-            if (Input.GetKeyDown(KeyCode.E)) 
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 waitingForE = false;
                 dialoguePanel.SetActive(true);
@@ -122,6 +150,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    IEnumerator WaitAndStartDialogueAfterLMB()
+    {
+        yield return new WaitForSecondsRealtime(2f);
+        dialoguePanel.SetActive(true);
+        Time.timeScale = 0f;
+        typingCoroutine = StartCoroutine(TypeLine());
+    }
+
     void StartDialogue()
     {
         index = 0;
@@ -137,9 +173,9 @@ public class DialogueManager : MonoBehaviour
 
         if (index < lines.Length)
         {
-            string currentLine = lines[index];
+            string currentRawLine = rawLines[index].Trim();
 
-            if (!string.IsNullOrEmpty(triggerBattleAfterLine) && currentLine == triggerBattleAfterLine)
+            if (!string.IsNullOrEmpty(triggerBattleAfterLine) && currentRawLine.Equals(triggerBattleAfterLine.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
@@ -147,7 +183,7 @@ public class DialogueManager : MonoBehaviour
                 return;
             }
 
-            if (index == 6 && SceneManager.GetActiveScene().buildIndex == 1)
+            if (index == 7 && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
@@ -155,13 +191,14 @@ public class DialogueManager : MonoBehaviour
                 return;
             }
 
-            if (index == 7 && SceneManager.GetActiveScene().buildIndex == 1)
+            if (index == 10 && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
                 waitingForLMB = true;
                 return;
             }
+
             if (index == 6 && SceneManager.GetActiveScene().buildIndex == 6)
             {
                 dialoguePanel.SetActive(false);
@@ -190,7 +227,7 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Последняя сцена достигнута.");
+            Debug.Log("Last scene.");
         }
     }
 

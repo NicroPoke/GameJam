@@ -1583,12 +1583,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2010,10 +2010,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1297430914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -822, y: 145}
-  m_SizeDelta: {x: 217.6165, y: 80.8287}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 127, y: 337}
+  m_SizeDelta: {x: 217.61652, y: 80.8287}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &510919253
 MonoBehaviour:
@@ -2336,7 +2336,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000022888, y: -12}
+  m_AnchoredPosition: {x: 0.000022888, y: -35.65625}
   m_SizeDelta: {x: 196.0093, y: 55.4184}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &554698944
@@ -3047,10 +3047,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1545743418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 811.64, y: 23.599}
-  m_SizeDelta: {x: 279.27, y: 336.83}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -148.35999, y: 23.599}
+  m_SizeDelta: {x: 279.27002, y: 336.83}
   m_Pivot: {x: 0.49999994, y: 0.49999982}
 --- !u!114 &938396580
 MonoBehaviour:
@@ -4171,22 +4171,19 @@ MonoBehaviour:
   door: {fileID: 1935157651}
   dialoguePanel: {fileID: 1545743414}
   dialogueText: {fileID: 2025521192}
-  lines:
-  - Welcome to your new workplace! Since it's your first day on the job, I'll quickly
-    tell you what's what.
-  - 'Don''t worry, it won''t take long. '
-  - Maybe a couple hours...
-  - 'What you''re holding in your hands is called Gost-Sucker3000. '
-  - It's a technology for storing and capturing ghosts!
-  - Press this switch here to catch a ghost (RMB).
-  - Great! Now pull the trigger on your gun to quickly release the ghost (LMB).
-  - Well done! And now for the real test. Go to the next room and defeat all the
-    ghosts.
-  - Just get started, you'll figure it out in the process.
-  - BATTLE
-  - Ooh, that took a lot longer than I expected. Well, I guess I'll have to continue
-    your training tomorrow.
-  - I'll text you the address of the new place tomorrow. Come and don't be late!
+  rawText: "Welcome to your new workplace at **GhostedAway\u2122**!/\r\nSince it\u2019s
+    your first day on the job, I\u2019ll quickly tell you what\u2019s what./\r\nDon\u2019t
+    worry, it won\u2019t take long./\r\nMaybe a couple of hours\u2026/\r\nWhat you\u2019re
+    holding in your hands is called **GhostVac 9000\u2122*./\r\nIt\u2019s a device
+    for storing and capturing ghosts!/\r\nPress this switch here to catch a ghost
+    (**RMB**)./\r\nYou can store up to 9 ghosts at once \u2014 yeah, nine./\r\nNot
+    ten. Don\u2019t get greedy. The vacuum will explode. Probably./\r\nGreat! Now
+    pull the trigger on your gun to quickly release the ghost (**LMB**)./\r\nNice!
+    You\u2019re getting the hang of it./\r\nWell done! And now, for the real test
+    \u2014 go to the next room and defeat all the ghosts./\r\nNah, screaming won\u2019t
+    help you. *I\u2019ve tested*./\n\rBATTLE/\nThat took longer than I expected./\r\nGuess
+    I\u2019ll have to continue your training later./\r\nI\u2019ll text you when you're
+    supposed to be here tomorrow. Don\u2019t be late!\r\n"
   triggerBattleAfterLine: BATTLE
   typingSpeed: 0.05
 --- !u!4 &1217153567
@@ -4562,9 +4559,9 @@ RectTransform:
   - {fileID: 510919252}
   m_Father: {fileID: 1545743418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 2.6849976, y: -877.303}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 2.6808472, y: 198.60522}
   m_SizeDelta: {x: 1897.1884, y: 384.9744}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1297430915
@@ -5186,10 +5183,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1865538162}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 77}
-  m_SizeDelta: {x: 509.9344, y: 76.6644}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -463}
+  m_SizeDelta: {x: 509.9344, y: 76.66443}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1517908398
 MonoBehaviour:
@@ -7125,8 +7122,10 @@ MonoBehaviour:
   baseSpeed: 9
   speed: 4
   IsWalking: 0
+  IsHurting: 0
   inputVector: {x: 0, y: 0}
   currentVelocity: 0
+  knockbackForce: 5
 --- !u!114 &1924652503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7879,9 +7878,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1297430914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -25, y: -7.0758}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -25, y: 185.41139}
   m_SizeDelta: {x: 1897.2, y: 384.98}
   m_Pivot: {x: 0.49999985, y: 0.49999955}
 --- !u!1 &2037630857

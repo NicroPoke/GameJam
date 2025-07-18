@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator DamageAnimation()
     {
         IsHurting = true;
-        yield return new WaitForSecondsRealtime(0.05f);
+        yield return new WaitForSecondsRealtime(0.25f);
         IsHurting = false;
     }
 

@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -7,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     bool isPullerActive = false;
     public Animator animator;
-    [HideInInspector] public int health = 100;
+    public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
     public float baseSpeed = 9f;
     public float speed;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        isDead = false;
         rb = GetComponent<Rigidbody2D>();
         lastGhost = null;
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
@@ -35,20 +37,26 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartCoroutine(Die());
+            health = 0;
         }
         if (health <= 0)
         {
             StartCoroutine(Die());
         }
 
+        if (isDead)
+        {
+            Debug.Log("DEAAAAAAAAAAAD");
+        }
+    
+        animator.SetBool("IsDead", isDead);
         animator.SetBool("IsWalking", IsWalking);
         animator.SetBool("IsHurting", IsHurting);
-        animator.SetBool("IsDead", isDead);
     }
 
     void FixedUpdate()
     {
+        if (isDead) return;
         if (!isKnockbacked)
         {
             Vector2 movement = speed * inputVector;
@@ -71,7 +79,8 @@ public class PlayerController : MonoBehaviour
         GameObject.Find("Gun").SetActive(false);
         GameObject.Find("Sholder").SetActive(false);
         GameObject.Find("bollte1").SetActive(false);
-        yield return new WaitForSeconds(1.5f);
+
+        yield return new WaitForSeconds(1.4f);
         Time.timeScale = 0f;
     }
 

@@ -328,7 +328,7 @@ public class InventoryScroll : MonoBehaviour
         if (ghost.gameObject.CompareTag("Ghost") || ghost.gameObject.CompareTag("Angel"))
         {
             string type = ghost.GetComponent<BaseGhost>().GhostType;
-
+            Debug.Log(type);
             slot = GetGhostWithNeededType(type);
 
             Debug.Log(slot.type);

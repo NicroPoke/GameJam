@@ -353,7 +353,7 @@ public class InventoryScroll : MonoBehaviour
             slot.amount++;
             UnselectSlot(inventory.IndexOf(slot));
         }
-        
+
         sound.pop.Play();
         Destroy(ghost);
     }
@@ -364,7 +364,7 @@ public class InventoryScroll : MonoBehaviour
         Vector2 direction = CreateDirectionVector(mousePosition);
 
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
+        Quaternion rotation = Quaternion.Euler(0, 0, rotationZ - 90f);
 
         GameObject ghostBullet = Instantiate(pivot, transform.position, rotation);
         ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;

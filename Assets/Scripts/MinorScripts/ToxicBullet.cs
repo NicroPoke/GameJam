@@ -10,13 +10,16 @@ public class ToxicBattle : MonoBehaviour
     public Vector3 targetSize = new Vector3(4f, 4f, 4f);
     private float startTime;
     private float timeToLive = 5f;
+    [HideInInspector] public Animator animator;
     void Awake()
     {
+        animator = GetComponent<Animator>();
         startTime = Time.time;
     }
 
     void Update()
     {
+        animator.SetBool("True", true);
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);

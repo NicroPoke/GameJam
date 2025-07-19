@@ -11,9 +11,11 @@ public class FurryBullet : MonoBehaviour
     private Rigidbody2D rb;
     private float bulletSpeed = 5f;
     private HashSet<GameObject> alreadyHit = new HashSet<GameObject>();
+    [HideInInspector] public Animator animator;
 
     void Awake()
     {
+        animator = GetComponent<Animator>();
         startTime = Time.time;
         rb = GetComponent<Rigidbody2D>();
         ghosts = GameObject.FindGameObjectsWithTag("Ghost");

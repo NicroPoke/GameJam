@@ -8013,6 +8013,7 @@ MonoBehaviour:
   inputVector: {x: 0, y: 0}
   currentVelocity: 0
   knockbackForce: 5
+  isDead: 0
 --- !u!114 &1924652503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9761,11 +9762,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4394920408344588070, guid: bfdade40dff40bb4ea63838a161d6a8e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -43.742638
+      value: -55.26821
       objectReference: {fileID: 0}
     - target: {fileID: 4394920408344588070, guid: bfdade40dff40bb4ea63838a161d6a8e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3396804
+      value: -2.0718672
       objectReference: {fileID: 0}
     - target: {fileID: 4394920408344588070, guid: bfdade40dff40bb4ea63838a161d6a8e, type: 3}
       propertyPath: m_LocalPosition.z

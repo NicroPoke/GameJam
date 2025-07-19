@@ -122,7 +122,7 @@ public class GunController : MonoBehaviour
 
         float length = Vector2.Distance(transform.position, mouseToWorld);
         Vector3 currrentScale = pullCollider.transform.localScale;
-        pullTriangle.transform.localScale = new Vector3(length * 10.6f, currrentScale.y * 10f, currrentScale.z);
+        pullTriangle.transform.localScale = new Vector3(length * 10.6f, currrentScale.y * 15f, currrentScale.z);
     }
 
     void StopDrawingAirPull()

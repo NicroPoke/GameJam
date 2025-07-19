@@ -49,7 +49,7 @@ Shader "Custom/SpriteLitUnlit" {
         fixed4 finalColor = texColor * gradientColor * _Color * i.color;
 
         float2 spiralUV = i.uv * 3;
-        spiralUV.x = frac(spiralUV.x - _Time.y * 0.7); 
+        spiralUV.x = frac(spiralUV.x - _Time.y * 0.9); 
         spiralUV.y = frac(spiralUV.y);
         fixed4 spiralColor = tex2D(_SpiiralTex, spiralUV);
         bool hasBase = texColor.a > 0.01 && dot(texColor.rgb, texColor.rgb) > 0.001;

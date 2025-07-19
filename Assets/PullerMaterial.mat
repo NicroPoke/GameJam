@@ -52,7 +52,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ColorStart: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0}
+    - _ColorStart: {r: 0.45911938, g: 0.45911938, b: 0.45911938, a: 0}
     - _EndColor: {r: 1, g: 1, b: 1, a: 0.627451}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

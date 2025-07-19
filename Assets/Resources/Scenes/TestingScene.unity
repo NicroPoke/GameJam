@@ -2874,7 +2874,7 @@ GameObject:
   - component: {fileID: 1828203805}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Ghost
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2991,11 +2991,7 @@ MonoBehaviour:
   ghosts:
   - {fileID: 0}
   bullets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1312240691916774131, guid: 6ca965ce399359747b90ff784ba2ee8a, type: 3}
   target: {fileID: 0}
   bulletSpeed: 20
   healthPoints: 100

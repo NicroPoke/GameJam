@@ -12,6 +12,7 @@ TagManager:
   - Angel
   - Sound
   - Wall
+  - Boss
   layers:
   - Default
   - TransparentFX

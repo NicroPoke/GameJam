@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4572481818721278418}
   - component: {fileID: 1361372125580786181}
   - component: {fileID: 6489105033406391039}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TezzuBomj
   m_TagString: Ghost
   m_Icon: {fileID: 0}

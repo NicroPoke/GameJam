@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
 
+    public GameObject UI;
     public GameObject blackoutObject;
 
     [TextArea(5, 10)]
@@ -32,6 +33,15 @@ public class DialogueManager : MonoBehaviour
     private float holdDuration = 2f;
     private float holdTimer = 0f;
     public float fadeDuration = 1f;
+
+    public GameObject ALLO;
+    public GameObject ALLOTWO;
+    public GameObject Phone;
+    public GameObject LMB;
+    public GameObject RMB;
+    public GameObject E;
+    private bool isChangingStance;
+    private bool isRotating;
 
     private SpriteRenderer blackoutRenderer;
     private SpriteRenderer blackoutRenderer2;
@@ -97,6 +107,12 @@ public class DialogueManager : MonoBehaviour
 
     void Update()
     {
+        if (!isChangingStance)
+            StartCoroutine(ChangeStance());
+
+        if (!isRotating)
+            StartCoroutine(RotatePhoneRoutine());
+
         if (!isDialogueActive && !waitingForRMB && !waitingForLMB && !waitingForBattleEnd && !waitingForE) return;
 
         if (waitingForRMB)
@@ -106,6 +122,7 @@ public class DialogueManager : MonoBehaviour
                 holdTimer += Time.unscaledDeltaTime;
                 if (holdTimer >= holdDuration)
                 {
+                    HideAllInputHints();
                     waitingForRMB = false;
                     holdTimer = 0f;
                     dialoguePanel.SetActive(true);
@@ -124,6 +141,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
+                HideAllInputHints();
                 waitingForLMB = false;
                 StartCoroutine(WaitAndStartDialogueAfterLMB());
             }
@@ -134,6 +152,7 @@ public class DialogueManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                HideAllInputHints();
                 waitingForE = false;
                 dialoguePanel.SetActive(true);
                 Time.timeScale = 0f;
@@ -168,10 +187,43 @@ public class DialogueManager : MonoBehaviour
                 NextLine();
             }
         }
+
+        UI.SetActive(waitingForRMB || waitingForLMB || waitingForE || waitingForBattleEnd);
+    }
+
+    void HideAllInputHints()
+    {
+        if (RMB != null) RMB.SetActive(false);
+        if (LMB != null) LMB.SetActive(false);
+        if (E != null) E.SetActive(false);
+    }
+
+    IEnumerator ChangeStance()
+    {
+        isChangingStance = true;
+        ALLO.SetActive(true);
+        ALLOTWO.SetActive(false);
+        yield return new WaitForSecondsRealtime(0.2f);
+        ALLO.SetActive(false);
+        ALLOTWO.SetActive(true);
+        yield return new WaitForSecondsRealtime(0.2f);
+        isChangingStance = false;
+    }
+
+    IEnumerator RotatePhoneRoutine()
+    {
+        if (Phone == null) yield break;
+        isRotating = true;
+        Phone.transform.rotation = Quaternion.Euler(0, 0, -2f);
+        yield return new WaitForSecondsRealtime(0.4f);
+        Phone.transform.rotation = Quaternion.Euler(0, 0, 0f);
+        yield return new WaitForSecondsRealtime(0.4f);
+        isRotating = false;
     }
 
     IEnumerator WaitAndStartDialogueAfterLMB()
     {
+        LMB.SetActive(false);
         yield return new WaitForSecondsRealtime(2f);
         dialoguePanel.SetActive(true);
         Time.timeScale = 0f;
@@ -190,13 +242,11 @@ public class DialogueManager : MonoBehaviour
     void NextLine()
     {
         index++;
-
         if (index < lines.Length)
         {
             string currentRawLine = rawLines[index].Trim();
 
-            if (!string.IsNullOrEmpty(triggerBattleAfterLine) &&
-                currentRawLine.Equals(triggerBattleAfterLine.Trim(), System.StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(triggerBattleAfterLine) && currentRawLine.Equals(triggerBattleAfterLine.Trim(), System.StringComparison.OrdinalIgnoreCase))
             {
                 dialoguePanel.SetActive(false);
                 Time.timeScale = 1f;
@@ -208,6 +258,7 @@ public class DialogueManager : MonoBehaviour
             if (index == 7 && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 dialoguePanel.SetActive(false);
+                RMB.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForRMB = true;
                 return;
@@ -216,6 +267,7 @@ public class DialogueManager : MonoBehaviour
             if (index == 10 && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 dialoguePanel.SetActive(false);
+                LMB.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForLMB = true;
                 return;
@@ -224,6 +276,7 @@ public class DialogueManager : MonoBehaviour
             if (index == 6 && SceneManager.GetActiveScene().buildIndex == 6)
             {
                 dialoguePanel.SetActive(false);
+                E.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForE = true;
                 return;
@@ -284,5 +337,4 @@ public class DialogueManager : MonoBehaviour
         blackoutRenderer.color = endColor;
         blackoutObject.SetActive(false);
     }
-
 }

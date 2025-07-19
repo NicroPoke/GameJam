@@ -136,15 +136,15 @@ public class InventoryScroll : MonoBehaviour
 
     void DebugAddGhostTypes()
     {
-        inventory.Add(new InventorySlot(1, "Contact"));
-        inventory.Add(new InventorySlot(1, "Furry"));
-        inventory.Add(new InventorySlot(1, "Bobj"));
-        inventory.Add(new InventorySlot(1, "Glitch"));
-        inventory.Add(new InventorySlot(1, "Scream"));
-        inventory.Add(new InventorySlot(1, "Toxic"));
-        inventory.Add(new InventorySlot(1, "Electric"));
-        inventory.Add(new InventorySlot(1, "Skeleton"));
-        inventory.Add(new InventorySlot(1, "Angel"));
+        inventory.Add(new InventorySlot(0, "Contact"));
+        inventory.Add(new InventorySlot(0, "Furry"));
+        inventory.Add(new InventorySlot(0, "Bobj"));
+        inventory.Add(new InventorySlot(0, "Glitch"));
+        inventory.Add(new InventorySlot(0, "Scream"));
+        inventory.Add(new InventorySlot(0, "Toxic"));
+        inventory.Add(new InventorySlot(0, "Electric"));
+        inventory.Add(new InventorySlot(0, "Skeleton"));
+        inventory.Add(new InventorySlot(0, "Angel"));
     }
 
     bool IsNotFilled()

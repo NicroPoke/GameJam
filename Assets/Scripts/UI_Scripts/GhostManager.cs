@@ -10,6 +10,7 @@ public class GhostManager : MonoBehaviour
     public int Waves = 3;
     public int GhostsPerWave = 5;
     public float spawnRadius = 5f;
+    public LayerMask groundLayer;
 
     private int currentWave = 0;
     private bool coroutineRunning = false;
@@ -68,10 +69,21 @@ public class GhostManager : MonoBehaviour
 
         yield return new WaitForSeconds(15f);
 
-        Vector2 randomOffset = Random.insideUnitCircle * spawnRadius;
-        Vector3 spawnPos = playerTransform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+        Vector3 spawnPos;
 
-        Instantiate(BaseGhost, spawnPos, Quaternion.identity);
+        for (int attempts = 0; attempts < 10; attempts++)
+        {
+            Vector2 randomOffset = Random.insideUnitCircle * spawnRadius;
+            spawnPos = playerTransform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+            Collider2D groundCheck = Physics2D.OverlapCircle(spawnPos, 0.1f, groundLayer);
+            if (groundCheck != null)
+            {
+                Instantiate(BaseGhost, spawnPos, Quaternion.identity);
+                break;
+            }
+        }
+
         coroutineRunning = false;
     }
 
@@ -85,10 +97,21 @@ public class GhostManager : MonoBehaviour
             int randomIndex = Random.Range(0, Ghosts.Count);
             GameObject selectedGhost = Ghosts[randomIndex];
 
-            Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(5f, spawnRadius);
-            Vector3 spawnPos = playerTransform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+            Vector3 spawnPos;
 
-            Instantiate(selectedGhost, spawnPos, Quaternion.identity);
+            for (int attempts = 0; attempts < 10; attempts++)
+            {
+                Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(5f, spawnRadius);
+                spawnPos = playerTransform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+                Collider2D groundCheck = Physics2D.OverlapCircle(spawnPos, 0.1f, groundLayer);
+                if (groundCheck != null)
+                {
+                    Instantiate(selectedGhost, spawnPos, Quaternion.identity);
+                    break;
+                }
+            }
+
             yield return new WaitForSeconds(0.5f);
         }
 

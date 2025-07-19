@@ -47,6 +47,11 @@ public class DialogueManager : MonoBehaviour
     private SpriteRenderer blackoutRenderer2;
     private bool playerInsideBlackout2 = false;
 
+    public AudioSource audioSource;
+    public AudioClip blipClip;
+
+    private float[] pitchVariants = new float[] { 1.1f, 1.2f, 1.3f, 1.4f};
+
     void Start()
     {
         sceneFader = FindObjectOfType<SceneFader>();
@@ -313,6 +318,14 @@ public class DialogueManager : MonoBehaviour
         foreach (char c in lines[index])
         {
             dialogueText.text += c;
+            if (char.IsLetterOrDigit(c))
+            {
+                if (audioSource != null && blipClip != null)
+                {
+                    audioSource.pitch = pitchVariants[Random.Range(0, pitchVariants.Length)];
+                    audioSource.PlayOneShot(blipClip);
+                }
+            }
             yield return new WaitForSecondsRealtime(typingSpeed);
         }
         isTyping = false;

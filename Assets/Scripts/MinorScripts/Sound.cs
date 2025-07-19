@@ -15,12 +15,16 @@ public class Sound : MonoBehaviour
     public AudioSource slowWalkSound;
     public AudioSource pop;
     public AudioSource shot;
+    public AudioSource creak; 
 
     private bool wasOverheated = false;
     private float maxVolume = 1.0f;
     private float volumeSpeed = 0.75f;
     private bool wasPlaying = false;
     private bool isOverheatSoundPlaying = false;
+
+    private float creakTimer = 0f;
+    private float creakInterval = 2f;
 
     void Start()
     {
@@ -118,6 +122,7 @@ public class Sound : MonoBehaviour
     void HandleWalkSound()
     {
         float speed = playerController.currentVelocity;
+        creakTimer += Time.deltaTime;
 
         if (speed > 0f && speed < 8f)
         {
@@ -126,6 +131,8 @@ public class Sound : MonoBehaviour
 
             if (walkSound.isPlaying)
                 walkSound.Stop();
+
+            TryPlayCreak();
         }
         else if (speed >= 8f)
         {
@@ -134,6 +141,8 @@ public class Sound : MonoBehaviour
 
             if (slowWalkSound.isPlaying)
                 slowWalkSound.Stop();
+
+            TryPlayCreak();
         }
         else
         {
@@ -142,6 +151,18 @@ public class Sound : MonoBehaviour
 
             if (slowWalkSound.isPlaying)
                 slowWalkSound.Stop();
+        }
+    }
+
+    void TryPlayCreak()
+    {
+        if (creak == null || creak.isPlaying || creakTimer < creakInterval)
+            return;
+
+        if (Random.value < 0.0001f)
+        {
+            creak.Play();
+            creakTimer = 0f;
         }
     }
 
@@ -154,6 +175,7 @@ public class Sound : MonoBehaviour
         off?.Stop();
         switcher?.Stop();
         pop?.Stop();
+        creak?.Stop();
 
         if (sosalka != null)
             sosalka.volume = 0f;

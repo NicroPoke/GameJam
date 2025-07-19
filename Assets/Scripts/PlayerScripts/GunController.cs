@@ -10,7 +10,7 @@ public class GunController : MonoBehaviour
     private float consumeCooldown = 0.5f;
     private bool isOverheat;
     private float overheatValueRecoveryRate = 15f;
-    private float overheatValueChagneRate = 10f;
+    private float overheatValueChagneRate = 10000000000000000000f;
     private float overheatValue = 0;
 
     public float growthRate = 1f;

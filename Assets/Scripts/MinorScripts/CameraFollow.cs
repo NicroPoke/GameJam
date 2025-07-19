@@ -43,7 +43,15 @@ public class CameraFollow : MonoBehaviour
 
         if (isLockedToPoint && lockTarget != null)
         {
-            Vector3 targetPos = new Vector3(lockTarget.position.x, lockTarget.position.y, transform.position.z);
+            Vector3 midPoint = lockTarget.position;
+
+            if (player != null)
+            {
+                Vector3 toPlayer = player.transform.position - lockTarget.position;
+                midPoint += toPlayer * 0.2f;
+            }
+
+            Vector3 targetPos = new Vector3(midPoint.x, midPoint.y, transform.position.z);
             targetPosition = Vector3.Lerp(transform.position, targetPos, lockTransitionSpeed * Time.deltaTime);
 
             if (Mathf.Abs(targetZoom - lockedZoom) > 0.01f)
@@ -95,6 +103,7 @@ public class CameraFollow : MonoBehaviour
             cam.orthographicSize = targetZoom;
         }
     }
+
     public void ShakeExternal(float duration = 0.15f, float magnitude = 0.1f)
     {
         shakeDuration = duration;

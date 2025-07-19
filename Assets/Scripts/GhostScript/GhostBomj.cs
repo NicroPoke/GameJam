@@ -4,6 +4,7 @@ public class GhostBomj : BaseGhost
 {
     private Animator animatoor;
     public GameObject BlueWater;
+    public AudioSource BlueWaterSound;
     private float BlueWaterCooldown = 3.3f;
     private float BlueWaterActiveDuration = 1f;
     private float BlueWaterTimer = 5f;
@@ -32,6 +33,7 @@ public class GhostBomj : BaseGhost
 
         if (!BlueWaterActive && BlueWaterTimer >= BlueWaterCooldown)
         {
+            BlueWaterSound.Play();
             BlueWaterActive = true;
             Speed = 2f;
             StartCoroutine(SpewBlueWater());

@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isKnockbacked = false;
     private float knockbackDuration = 0.25f;
     private CameraFollow cameraFollow;
+    [HideInInspector]public bool isDead = false;
 
     void Awake()
     {
@@ -32,10 +33,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(Die());
+        }
         if (health <= 0)
         {
-            Die();
+            StartCoroutine(Die());
         }
+
+        animator.SetBool("IsWalking", IsWalking);
+        animator.SetBool("IsHurting", IsHurting);
+        animator.SetBool("IsDead", isDead);
     }
 
     void FixedUpdate()
@@ -48,8 +57,7 @@ public class PlayerController : MonoBehaviour
             IsWalking = currentVelocity > 0;
         }
 
-        animator.SetBool("IsWalking", IsWalking);
-        animator.SetBool("IsHurting", IsHurting);
+
     }
 
     void OnMove(InputValue value)
@@ -57,11 +65,17 @@ public class PlayerController : MonoBehaviour
         inputVector = value.Get<Vector2>();
     }
 
-    void Die()
+    IEnumerator Die()
     {
-        Destroy(gameObject);
-        Debug.Log("Game Over");
+        isDead = true;
+        GameObject.Find("Gun").SetActive(false);
+        GameObject.Find("Sholder").SetActive(false);
+        GameObject.Find("bollte1").SetActive(false);
+        yield return new WaitForSeconds(1.5f);
+        Time.timeScale = 0f;
     }
+
+
 
     public void TakeDamege(int damage)
     {

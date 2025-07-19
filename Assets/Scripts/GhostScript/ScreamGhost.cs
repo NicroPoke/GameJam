@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class ScreamGhost : BaseGhost
 {
+    private Animator animatoooor;
     public GameObject Scream;
     private float screamCooldown = 5f;
     private float screamActiveDuration = 1f;
@@ -12,17 +13,20 @@ public class ScreamGhost : BaseGhost
     {
         base.Start();
         Speed = 2.5f;
+        animatoooor = GetComponent<Animator>();
         GhostType = "Scream";
         isPulling = false;
         Scream.SetActive(false);
         screamTimer = 2f;
-        HardGhost = true; 
+        HardGhost = true;
     }
 
     protected override void Update()
     {
         base.Update();
-
+        animatoooor.SetBool("isPulling", isPulling);
+        animatoooor.SetBool("isDead", isDying);
+        animatoooor.SetBool("isScreaming", screamActive);
         screamTimer += Time.deltaTime;
 
         if (!screamActive && screamTimer >= screamCooldown)
@@ -45,4 +49,9 @@ public class ScreamGhost : BaseGhost
     {
 
     }
+    protected override void AnimationCorrector()
+    {
+
+    }
+
 }

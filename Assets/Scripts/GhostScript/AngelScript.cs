@@ -4,6 +4,13 @@ public class AngelScript : BaseGhost
 {
     private Animator animatooor;
 
+    protected override void Start()
+    {
+        base.Start();
+        GhostType = "Angel";
+        HardGhost = false;        
+    }
+
     protected override void Update()
     {
         animatooor = GetComponent<Animator>();
@@ -15,7 +22,15 @@ public class AngelScript : BaseGhost
         }
         if (target == null) return;
 
-        Wander();
+        if (isPulling)
+        {
+            Debug.Log("Moving away");
+            MoveToTarget();
+        }
+        else
+        {
+            Wander();   
+        }
     }
     protected override void AnimationCorrector()
     {

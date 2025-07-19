@@ -75,6 +75,8 @@ public class BaseGhost : MonoBehaviour
         }
 
         SetRandomWanderDirection();
+
+        GetComponent<BoxCollider2D>().includeLayers = LayerMask.GetMask("Default");
     }
 
     protected virtual void Update()

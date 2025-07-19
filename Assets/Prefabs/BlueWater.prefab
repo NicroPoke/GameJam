@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -7805932514043666972}
   - component: {fileID: -5821523798091753248}
   - component: {fileID: 4746996225033944862}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BlueWater
   m_TagString: Untagged
   m_Icon: {fileID: 0}

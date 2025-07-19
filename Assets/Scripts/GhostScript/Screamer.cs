@@ -41,12 +41,14 @@ public class Screamer : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out PlayerController controller))
         {
+            controller.TakeDamege(5); 
             controller.speed = 2f;
             isAttacking = true;
-            Debug.Log("Contact with player.");
+            Debug.Log("Screamer: contact with player and damage dealt.");
             lastDamageTime = Time.time;
         }
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
@@ -56,6 +58,4 @@ public class Screamer : MonoBehaviour
             controller.speed = 6f;
         }
     }
-    
 }
-

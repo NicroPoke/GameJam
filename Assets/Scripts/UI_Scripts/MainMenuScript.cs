@@ -30,6 +30,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ChangeIcon(Sprite icon)
     {
+        Debug.Log("Triggered");
         GetComponent<UnityEngine.UI.Image>().sprite = icon;
     }
 }

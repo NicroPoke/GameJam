@@ -76,9 +76,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator Die()
     {
         isDead = true;
-        GameObject.Find("Gun").SetActive(false);
-        GameObject.Find("Sholder").SetActive(false);
-        GameObject.Find("bollte1").SetActive(false);
+        // GameObject.Find("Gun").SetActive(false);
+        // GameObject.Find("Sholder").SetActive(false);
+        // GameObject.Find("bollte1").SetActive(false);
 
         yield return new WaitForSeconds(1.4f);
         Time.timeScale = 0f;

@@ -289,7 +289,7 @@ public class GunController : MonoBehaviour
         else if (other.CompareTag("Consumable"))
         {
             Vector2 direction = ((Vector2)transform.position - (Vector2)other.transform.position);
-            other.GetComponent<Rigidbody2D>().linearVelocity = direction * force;
+            other.GetComponent<Rigidbody2D>().linearVelocity = direction * force * 25;
             if (Vector2.Distance((Vector2)other.transform.position, (Vector2)transform.position) < 1.7f && isPulled && Time.time - lastConsumeTime > consumeCooldown)
             {
                 body.GetComponent<InventoryScroll>().ConsumeGhost(other.gameObject);

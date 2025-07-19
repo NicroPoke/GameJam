@@ -8,9 +8,14 @@ public class ConsumableScript : MonoBehaviour
     private float respawnCooldown = 5f;
     private bool isRespawning = false;
     public GameObject respawnable;
+    public string consumableName;
 
     void Awake()
     {
+        if (name == "") return;
+
+        gameObject.name = consumableName;
+
         if (respawnable != null)
         {
             isRespawning = true;
@@ -21,7 +26,6 @@ public class ConsumableScript : MonoBehaviour
     {
         if (isRespawning)
         {
-            Debug.Log("Respawning");
             respawnTimer += Time.deltaTime;
 
             if (respawnTimer >= respawnCooldown)

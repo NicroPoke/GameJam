@@ -5,6 +5,7 @@ using System.Collections;
 public class SceneFader : MonoBehaviour
 {
     public Image fadeImage;
+    private GameObject fader;
     private float fadeDuration = 1f;
 
     void Start()
@@ -14,6 +15,8 @@ public class SceneFader : MonoBehaviour
             fadeImage.color = new Color(0f, 0f, 0f, 1f);
             StartCoroutine(FadeIn());
         }
+
+        fader = fadeImage.gameObject.transform.parent.gameObject;
     }
 
     public IEnumerator FadeIn()
@@ -27,10 +30,13 @@ public class SceneFader : MonoBehaviour
             yield return null;
         }
         SetAlpha(0f);
+
+        fader.SetActive(false);
     }
 
     public IEnumerator FadeOut()
     {
+        fader.SetActive(true);
         float t = 0f;
         while (t < fadeDuration)
         {

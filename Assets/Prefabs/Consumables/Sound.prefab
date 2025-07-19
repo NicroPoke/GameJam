@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9216118122879640343}
   - component: {fileID: 7496331477048508808}
   - component: {fileID: 1617499222735099003}
-  - component: {fileID: 4117596471573801490}
+  - component: {fileID: 5115483287068922394}
   m_Layer: 0
   m_Name: Sound
   m_TagString: Consumable
@@ -30,8 +30,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.13, y: -1.72, z: 0}
-  m_LocalScale: {x: 1.0248802, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.4878619, z: 0.4878619}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,9 +102,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -163,7 +163,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4117596471573801490
+--- !u!114 &5115483287068922394
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,4 +175,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb60ec4137de49147b5f049e739b0e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnable: {fileID: 7436750385681841921, guid: ad40888dc27ca5f4d87da1ad438b36b5, type: 3}
+  respawnable: {fileID: 0}
+  consumableName: Scream

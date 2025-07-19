@@ -210,12 +210,14 @@ public class BaseGhost : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        if (!Alive) return;
+        
         if (other.gameObject.CompareTag("Bullet") && !HardGhost)
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;
         }
-        if (other.gameObject.CompareTag("Bullet") && HardGhost)
+        else if (other.gameObject.CompareTag("Bullet") && HardGhost)
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             Alive = false;

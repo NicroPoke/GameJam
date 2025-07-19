@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
+using System.Data.Common;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -247,6 +248,7 @@ public class DialogueManager : MonoBehaviour
     void NextLine()
     {
         index++;
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
         if (index < lines.Length)
         {
             string currentRawLine = rawLines[index].Trim();
@@ -259,9 +261,11 @@ public class DialogueManager : MonoBehaviour
                 waitingForBattleEnd = true;
                 return;
             }
-
-            if (index == 7 && SceneManager.GetActiveScene().buildIndex == 1)
+            
+            Debug.Log("PreRMB");
+            if (index == 6 && SceneManager.GetActiveScene().buildIndex == 1)
             {
+                Debug.Log("RMBBB");
                 dialoguePanel.SetActive(false);
                 RMB.SetActive(true);
                 Time.timeScale = 1f;

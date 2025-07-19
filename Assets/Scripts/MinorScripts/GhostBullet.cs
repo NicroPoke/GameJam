@@ -8,13 +8,18 @@ public class GhostBullet : MonoBehaviour
 {
     private float startTime;
     private float timeToLive = 5f;
+    [HideInInspector] public Animator animator;
+    bool isTrue;
     void Awake()
     {
+        isTrue = true;
+        animator = GetComponent<Animator>();
         startTime = Time.time;
     }
 
     void Update()
     {
+        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("IdleNormalBullet"));
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);

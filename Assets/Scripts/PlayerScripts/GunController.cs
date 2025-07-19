@@ -80,7 +80,6 @@ public class GunController : MonoBehaviour
         }
         else
         {
-            DrawNothing();
             timerAnalogue = Time.time;
 
             overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
@@ -235,8 +234,6 @@ public class GunController : MonoBehaviour
 
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseToWorld.z = 0;
-
-        DrawLine(mouseToWorld);
 
         Vector2 direction = ((Vector2)mouseToWorld - (Vector2)transform.position).normalized;
         float distance = Vector2.Distance(mouseToWorld, transform.position);

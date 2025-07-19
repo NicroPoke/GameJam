@@ -90,29 +90,45 @@ public class GhostManager : MonoBehaviour
     IEnumerator SpawnWave()
     {
         waveSpawning = true;
-        yield return new WaitForSeconds(3f);
 
-        for (int i = 0; i < GhostsPerWave; i++)
+        float safeTime = 20f;
+        float waveDelay = Time.timeSinceLevelLoad >= safeTime ? 0f : 2f;
+        yield return new WaitForSeconds(waveDelay);
+
+        int ghostsToSpawn = GhostsPerWave;
+        float dynamicRadius = Mathf.Lerp(spawnRadius, 2f, (float)currentWave / Waves);
+
+        for (int i = 0; i < ghostsToSpawn; i++)
         {
             int randomIndex = Random.Range(0, Ghosts.Count);
             GameObject selectedGhost = Ghosts[randomIndex];
 
-            Vector3 spawnPos;
+            float angle = i * (360f / ghostsToSpawn);
+            Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
 
-            for (int attempts = 0; attempts < 10; attempts++)
+            Vector3 spawnPos = playerTransform.position + (Vector3)(direction * dynamicRadius);
+
+            Vector2 toSpawnDir = (spawnPos - playerTransform.position).normalized;
+            float angleToPlayerForward = Vector2.Angle(playerTransform.right, toSpawnDir);
+
+            if (angleToPlayerForward < 60f)
             {
-                Vector2 randomOffset = Random.insideUnitCircle.normalized * Random.Range(5f, spawnRadius);
-                spawnPos = playerTransform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+                direction = Quaternion.Euler(0, 0, 90f) * direction;
+                spawnPos = playerTransform.position + (Vector3)(direction * dynamicRadius);
+            }
 
+            for (int attempts = 0; attempts < 5; attempts++)
+            {
                 Collider2D groundCheck = Physics2D.OverlapCircle(spawnPos, 0.1f, groundLayer);
                 if (groundCheck != null)
                 {
                     Instantiate(selectedGhost, spawnPos, Quaternion.identity);
                     break;
                 }
+                spawnPos += (Vector3)(Random.insideUnitCircle * 1f);
             }
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
         }
 
         currentWave++;

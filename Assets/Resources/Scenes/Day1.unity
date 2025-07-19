@@ -267,7 +267,7 @@ MonoBehaviour:
   BaseGhost: {fileID: 7546792536543466878, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
   Ghosts:
   - {fileID: 7546792536543466878, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
-  Waves: 3
+  Waves: 5
   GhostsPerWave: 5
   spawnRadius: 5
   groundLayer:

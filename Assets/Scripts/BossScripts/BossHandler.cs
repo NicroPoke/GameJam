@@ -11,6 +11,8 @@ public class BossHandler : MonoBehaviour
     public GameObject[] bullets;
     public Transform target;
 
+    private int health = 100;
+
     private float coolDown = 0.7f;
     private float timer = 0f;
 
@@ -45,10 +47,9 @@ public class BossHandler : MonoBehaviour
         switch (state)
         {
             case 1:
-                ShotRound();
+                BulletBarrage();
                 break;
             case 2:
-                BulletBarrage();
                 break;
             case 3:
                 GiantExplosion();
@@ -140,9 +141,7 @@ public class BossHandler : MonoBehaviour
             for (int i = 0; i < 10; i++)
             {
                 offset = new Vector2(Random.Range(-10f, 10f), Random.Range(-5f, 5f));
-
                 Vector2 position = (Vector2)transform.position + offset;
-
                 Instantiate(bullets[3], position, transform.rotation);
             }
 
@@ -212,8 +211,6 @@ public class BossHandler : MonoBehaviour
         }
     }
 
-
-
     void SkeletonSpew()
     {
         if (!hasAtacked)
@@ -248,6 +245,11 @@ public class BossHandler : MonoBehaviour
             }
         }
 
+    }
+
+    public void TakeDamege(int damage)
+    {
+        health -= damage;
     }
 
     // void ShotLightningSpark()
@@ -291,7 +293,7 @@ public class BossHandler : MonoBehaviour
         Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
 
         GameObject projectile = Instantiate(bullet, transform.position, rotation);
         projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed * 7f;

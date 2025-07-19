@@ -7,7 +7,7 @@ public class ChildBullet : MonoBehaviour
     private float timeToBeTriggered = 3f;
     public GameObject corpse;
 
-    public float rotationSpeed = 1000f; 
+    public float rotationSpeed = 1000f;
 
     void Awake()
     {
@@ -46,5 +46,15 @@ public class ChildBullet : MonoBehaviour
             controller.ApplyExternalForce(transform.right * 30);
             Destroy(gameObject);
         }
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+        }
+        Destroy(gameObject);
     }
 }

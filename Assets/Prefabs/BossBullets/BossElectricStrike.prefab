@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3811139775257118856, guid: bd6d6ba0eaa5b80429b3e27c8b7d252e, type: 3}
   m_Color: {r: 0.2985047, g: 0.4547767, b: 0.735849, a: 1}
   m_FlipX: 0
@@ -179,3 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7122004a5925af34c924147fd2f3a1d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightningStrike: {fileID: 0}

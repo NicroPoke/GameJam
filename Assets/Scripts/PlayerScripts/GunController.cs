@@ -74,7 +74,8 @@ public class GunController : MonoBehaviour
 
             if (!isOverheat)
             {
-                overheatValue += Time.deltaTime * overheatValueChagneRate;
+                // float changeRate = overheatValueRecoveryRate * Time.deltaTime * 100f;
+                // overheatValue += changeRate;
                 ChangeSliderHP();
             }
         }
@@ -86,7 +87,7 @@ public class GunController : MonoBehaviour
 
             if (overheatValue <= 0)
             {
-                isOverheat = false;
+                // isOverheat = false;
                 overheatValue = 0;
             }
             ChangeSliderHP();

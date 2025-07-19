@@ -12,7 +12,7 @@ public class SkeletonBullet : MonoBehaviour
     private float timeToBeTriggered = 3f;
     void Awake()
     {
-        
+
         startTime = Time.time;
     }
 
@@ -32,7 +32,7 @@ public class SkeletonBullet : MonoBehaviour
             controller.ApplyExternalForce(transform.right * 30);
 
             Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
-            
+
             SpawnAditionaBullets(collision.gameObject);
 
             Destroy(gameObject);
@@ -62,6 +62,16 @@ public class SkeletonBullet : MonoBehaviour
             float baseScale = Random.Range(0.4f, 0.8f);
             ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * Random.Range(1.5f, 4f);
         }
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+        }
+                    Destroy(gameObject);
     }
 
 }

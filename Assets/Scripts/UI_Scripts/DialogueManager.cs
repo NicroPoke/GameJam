@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     private SceneFader sceneFader;
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
+    public GameObject Press;
 
     public GameObject UI;
     public GameObject blackoutObject;
@@ -202,6 +203,7 @@ public class DialogueManager : MonoBehaviour
         if (RMB != null) RMB.SetActive(false);
         if (LMB != null) LMB.SetActive(false);
         if (E != null) E.SetActive(false);
+        if (Press != null) Press.SetActive(false);
     }
 
     IEnumerator ChangeStance()
@@ -263,11 +265,12 @@ public class DialogueManager : MonoBehaviour
             }
             
             Debug.Log("PreRMB");
-            if (index == 6 && SceneManager.GetActiveScene().buildIndex == 1)
+            if (index == 7 && SceneManager.GetActiveScene().buildIndex == 1)
             {
                 Debug.Log("RMBBB");
                 dialoguePanel.SetActive(false);
                 RMB.SetActive(true);
+                Press.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForRMB = true;
                 return;
@@ -277,6 +280,7 @@ public class DialogueManager : MonoBehaviour
             {
                 dialoguePanel.SetActive(false);
                 LMB.SetActive(true);
+                Press.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForLMB = true;
                 return;
@@ -286,6 +290,7 @@ public class DialogueManager : MonoBehaviour
             {
                 dialoguePanel.SetActive(false);
                 E.SetActive(true);
+                Press.SetActive(true);
                 Time.timeScale = 1f;
                 waitingForE = true;
                 return;

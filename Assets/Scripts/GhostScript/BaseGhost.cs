@@ -226,6 +226,7 @@ public class BaseGhost : MonoBehaviour
         }
     }
 
+
     public void ApplySlow(float amount, float duration)
     {
         if (!Alive) return;

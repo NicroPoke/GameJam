@@ -14,6 +14,17 @@ public class HealingBullet : MonoBehaviour
         Destroy(gameObject);
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent <PlayerController>().health += healByAmmout;
+        player.GetComponent<PlayerController>().health += healByAmmout;
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+        }
+        Destroy(gameObject);
+
     }
 }

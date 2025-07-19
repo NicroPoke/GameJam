@@ -20,4 +20,14 @@ public class ElectricField : MonoBehaviour
 
         transform.localScale = Vector3.Lerp(transform.localScale, desiredSize, Time.deltaTime);
     }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+        }
+        Destroy(gameObject);
+    }
 }

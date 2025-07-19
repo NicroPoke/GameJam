@@ -24,7 +24,7 @@ public class InventoryScroll : MonoBehaviour
     [HideInInspector] public bool isOverheat;
     [HideInInspector] public float coolingTime = 0f;
     private float overheatValueRecoveryRate = 15f;
-    private float overheatValueChagneRate = 10f;
+    private float overheatValueChagneRate = 30f;
     private float overheatValue = 0;
     private float timerAnalogue = 0;
     public float maxRange = 5;

@@ -2993,7 +2993,7 @@ MonoBehaviour:
   bullets:
   - {fileID: 1312240691916774131, guid: 6ca965ce399359747b90ff784ba2ee8a, type: 3}
   target: {fileID: 0}
-  bulletSpeed: 20
+  bulletSpeed: 3.23
   healthPoints: 100
   bulletsLeft: 9
 --- !u!58 &1828203805

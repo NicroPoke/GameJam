@@ -42,6 +42,11 @@ public class GhostBullet : MonoBehaviour
 
             Destroy(gameObject);
         }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+        }
+        Destroy(gameObject);
     }
 
 

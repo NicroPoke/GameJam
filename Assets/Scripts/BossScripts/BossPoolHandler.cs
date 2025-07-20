@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BossPoolHandler : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float halfLife = 6f;
     private float localTime;
     private Vector3 desiredSize = new Vector3(2.5f, 2.5f, 2.5f);

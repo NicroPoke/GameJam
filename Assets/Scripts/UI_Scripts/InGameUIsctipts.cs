@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
-using UnityEditor;
 
 public class InGameUIsctipts : MonoBehaviour
 {

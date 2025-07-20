@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -23,9 +22,6 @@ public class MainMenuScript : MonoBehaviour
     {
         Application.Quit();
 
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
     }
 
     public void ChangeIcon(Sprite icon)

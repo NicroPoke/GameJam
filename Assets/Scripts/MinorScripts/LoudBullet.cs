@@ -3,7 +3,6 @@ using System.Collections;
 using JetBrains.Annotations;
 using NUnit.Framework.Internal;
 using Unity.VisualScripting;
-using UnityEditor.Callbacks;
 using UnityEngine;
 
 public class LoudBullet : MonoBehaviour

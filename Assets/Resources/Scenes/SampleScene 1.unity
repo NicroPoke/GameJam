@@ -400,7 +400,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -411,7 +418,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -668,7 +674,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8fa7eec213759c478fdf155a60a797a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -679,13 +692,13 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
   isPulling: 0
   GhostType: Contact
   BlueWater: {fileID: 3559155685330890492, guid: f7037a9759d5e2a45b2379d5372e45e1, type: 3}
+  BlueWaterSound: {fileID: 0}
 --- !u!50 &280398045
 Rigidbody2D:
   serializedVersion: 5
@@ -815,7 +828,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5246e07be4774fb41830350115cbb93c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -826,13 +846,13 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
   isPulling: 0
   GhostType: Toxic
   Gas: {fileID: 2038036347}
+  toxAnimator: {fileID: 0}
 --- !u!212 &348948527
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1692,7 +1712,7 @@ PolygonCollider2D:
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.68, y: 0.5}
+    pivot: {x: 0.5872056, y: 0.4959654}
     oldSize: {x: 0.5, y: 0.3}
     newSize: {x: 0.3, y: 0.3}
     adaptiveTilingThreshold: 0.5
@@ -1740,7 +1760,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 408a4205c903e174fad47fa1e5df3bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -1751,12 +1778,14 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
   isPulling: 0
   GhostType: Contact
+  ambientSource: {fileID: 0}
+  laughSource: {fileID: 0}
+  teleportSource: {fileID: 0}
 --- !u!50 &699251297
 Rigidbody2D:
   serializedVersion: 5
@@ -2005,7 +2034,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2016,7 +2052,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -2054,7 +2089,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2065,7 +2107,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -2398,7 +2439,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2409,7 +2457,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -2714,7 +2761,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9058c4bb32390b4aaf2bc690f6d08c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -2725,13 +2779,14 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
   isPulling: 0
   GhostType: Contact
   Scream: {fileID: 624225660}
+  windUpSource: {fileID: 0}
+  screamSource: {fileID: 0}
 --- !u!1 &1509297831
 GameObject:
   m_ObjectHideFlags: 0
@@ -2863,9 +2918,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f1cc01d3da17ee4cbd579b910324db9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   health: 100
   pullForceMultiplier: 0.5
+  baseSpeed: 9
   speed: 6
+  IsWalking: 0
+  IsHurting: 0
+  inputVector: {x: 0, y: 0}
+  currentVelocity: 0
+  knockbackForce: 7
+  isDead: 0
 --- !u!114 &1509297837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2954,7 +3017,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d70055e7ad728e42a211137e8baf07b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOverheat: 0
+  coolingTime: 0
+  maxRange: 5
+  pullForceMultiplier: 0.04
+  isPulled: 0
   basicGhost: {fileID: 1312240691916774131, guid: a2e5953dbfd51af469d329e83811bb6b, type: 3}
+  furryBullet: {fileID: 0}
+  toxicBullet: {fileID: 0}
+  glitchBullet: {fileID: 0}
+  bobjBullet: {fileID: 0}
+  screamBullet: {fileID: 0}
+  elctroBullet: {fileID: 0}
+  skeletonBullet: {fileID: 0}
+  angelBullet: {fileID: 0}
 --- !u!1 &1539182668
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,7 +3312,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -3247,7 +3330,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -3505,7 +3587,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318691b11f6b73f4883462d4b5ab4555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wall:
+    serializedVersion: 2
+    m_Bits: 0
   target: {fileID: 1509297833}
+  Bullet: {fileID: 0}
+  isDying: 0
+  HardGhost: 0
+  Alive: 0
   aggroRange: 8
   lineOfSightMask:
     serializedVersion: 2
@@ -3516,7 +3605,6 @@ MonoBehaviour:
   Amplitude: 0.1
   Frequency: 2
   Acceleration: 10
-  MaxSpeed: 7
   TurningSpeed: 5
   invulnerabilityDuration: 1.5
   isAttacking: 0
@@ -3771,7 +3859,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.95061916, g: 0.8160377, b: 1, a: 1}
+  m_Color: {r: 0.14056005, g: 0.4339623, b: 0.42514881, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

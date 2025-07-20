@@ -7,19 +7,28 @@ public class BossLightningStrike : MonoBehaviour
     private float timeToLive = 5f;
     private float strikeCooldown = 0.6f;
     private float strikeTimer = 0f;
-    private Vector3 desiredSize = new Vector3(5f, 5f, 5f);
+    private Vector3 desiredSize = new Vector3(20f, 20f, 20f);
+
+    public float desiredColSize = 13f;
+    public float initialRadius = 0.3f;
+    private CircleCollider2D cirCollider;
 
     private bool canStrike = true;
     void Awake()
     {
         startTime = Time.time;
+
+        cirCollider = GetComponent<CircleCollider2D>();
+        cirCollider.radius = initialRadius;
     }
 
     void Update()
     {
-        transform.localScale = Vector3.Lerp(transform.localScale, desiredSize, Time.deltaTime * 0.1f);
-        strikeTimer += Time.deltaTime;
-
+        float growthDuration = 6f;
+        float t = 0;
+        t = Mathf.Clamp01((Time.time - startTime) / growthDuration);
+        t = Mathf.SmoothStep(0f, 1f, t);
+        transform.localScale = Vector3.Lerp(new Vector3(0.0001f, 0.0001f, 0.0001f), desiredSize, t);
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);
@@ -29,6 +38,8 @@ public class BossLightningStrike : MonoBehaviour
         {
             canStrike = true;
         }
+
+        cirCollider.radius = Mathf.Lerp(initialRadius, desiredColSize, Time.deltaTime * 0.6f);
     }
 
     void OnTriggerStay2D(Collider2D collision)

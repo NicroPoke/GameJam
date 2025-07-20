@@ -14,6 +14,8 @@ public class ElectricBall : MonoBehaviour
     void Awake()
     {
         startTime = Time.time;
+
+
     }
 
     void Update()
@@ -42,6 +44,8 @@ public class ElectricBall : MonoBehaviour
                 ShotLightningSpark(playerPos);
                 canStrike = false;
                 strikeTimer = 0f;
+
+                collision.gameObject.GetComponent<PlayerController>().TakeDamege(5);
             }
         }
     }
@@ -55,8 +59,10 @@ public class ElectricBall : MonoBehaviour
                 Vector2 playerPos = (Vector2)collision.transform.position;
 
                 ShotLightningSpark(playerPos);
-                canStrike = false;  
+                canStrike = false;
                 strikeTimer = 0f;
+                
+                collision.gameObject.GetComponent<PlayerController>().TakeDamege(5);
             }
 
         }

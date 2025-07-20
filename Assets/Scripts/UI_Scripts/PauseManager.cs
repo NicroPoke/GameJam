@@ -21,8 +21,9 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (GameObject.FindWithTag("Player") == null && !RetryCanvas.activeSelf)
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().isDead && !RetryCanvas.activeSelf)
         {
+            Debug.Log("Retried");
             RetryCanvas.SetActive(true);
             Time.timeScale = 0f;
             return;

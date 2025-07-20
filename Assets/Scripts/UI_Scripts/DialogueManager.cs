@@ -297,7 +297,7 @@ public class DialogueManager : MonoBehaviour
                 waitingForE = true;
                 return;
             }
-            if (index == 15 && SceneManager.GetActiveScene().buildIndex == 7)
+            if (index == 16 && SceneManager.GetActiveScene().buildIndex == 7)
             {
                 StartCoroutine(BossTimer());
                 return;

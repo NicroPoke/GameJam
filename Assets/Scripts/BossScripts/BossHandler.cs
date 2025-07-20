@@ -83,7 +83,7 @@ public class BossHandler : MonoBehaviour
 
         isDead = true;
         bossAnimator.SetBool("isDead", true);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         Destroy(gameObject);
     }
 

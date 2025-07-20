@@ -31,8 +31,6 @@ public class SkeletonGhost : BaseGhost
             isRespawning = false;
         }
 
-        Debug.Log(isRespawning);
-
         base.Update();
 
         skeletonAnimator.SetBool("SkelenotRunning", isPulling);

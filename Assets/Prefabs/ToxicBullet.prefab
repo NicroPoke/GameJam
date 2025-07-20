@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 9216118122879640343}
   - component: {fileID: 7496331477048508808}
   - component: {fileID: 1617499222735099003}
-  - component: {fileID: 2231772633606516414}
   - component: {fileID: -8844678573203119932}
   - component: {fileID: -6448298217531070151}
+  - component: {fileID: 1562900861479779372}
+  - component: {fileID: -8090181437738810657}
   m_Layer: 0
   m_Name: ToxicBullet
   m_TagString: Bullet
@@ -165,21 +166,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2231772633606516414
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1312240691916774131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 327733215bc64f94490e1570e909d00e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  electricField: {fileID: 8887886477987648544, guid: db0e87fe5e12bf442a339b916cdf6e0b, type: 3}
-  targetSize: {x: 3, y: 3, z: 3}
-  animator: {fileID: 0}
 --- !u!58 &-8844678573203119932
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -238,3 +224,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1562900861479779372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312240691916774131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4875baee39063f340a81550c3dec4710, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfLife: 4
+--- !u!114 &-8090181437738810657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1312240691916774131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327733215bc64f94490e1570e909d00e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  electricField: {fileID: 8887886477987648544, guid: db0e87fe5e12bf442a339b916cdf6e0b, type: 3}
+  animator: {fileID: 0}

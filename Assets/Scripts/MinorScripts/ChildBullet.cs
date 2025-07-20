@@ -17,7 +17,6 @@ public class ChildBullet : MonoBehaviour
 
     void Update()
     {
-        // вращение по оси Z
         transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime);
 
         if (Time.time - startTime >= timeToBeTriggered)

@@ -3,6 +3,7 @@ using UnityEngine;
 public class ToxicGhost : BaseGhost
 {
     public GameObject Gas;
+    public AudioSource gasSound;
 
     private float gasCooldownBase = 5f;
     private float gasCooldownRange = 0.75f;
@@ -40,6 +41,11 @@ public class ToxicGhost : BaseGhost
             Gas.SetActive(true);
             gasActive = true;
             gasTimer = 0f;
+
+            if (gasSound != null && !gasSound.isPlaying)
+            {
+                gasSound.Play();
+            }
         }
         else if (gasActive && gasTimer >= gasActiveDuration)
         {
@@ -48,12 +54,16 @@ public class ToxicGhost : BaseGhost
             gasActive = false;
             ResetGasCooldown();
             gasTimer = 0f;
+
+            if (gasSound != null && gasSound.isPlaying)
+            {
+                gasSound.Stop();
+            }
         }
 
         toxAnimator.SetBool("ToxicAttack", gasActive);
         toxAnimator.SetBool("ToxicRun", isPulling);
         toxAnimator.SetBool("ToxicDeath", isDying);
-
     }
 
     private void ResetGasCooldown()

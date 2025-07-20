@@ -12,9 +12,12 @@ public class ToxicGhost : BaseGhost
     private float gasTimer = 0f;
     private bool gasActive = false;
 
+    [HideInInspector] public Animator toxAnimator;
+
     protected override void Start()
     {
         base.Start();
+        toxAnimator = GetComponent<Animator>();
         Speed = 2.5f;
         WanderSpeed = 1.5f;
         GhostType = "Toxic";
@@ -46,6 +49,11 @@ public class ToxicGhost : BaseGhost
             ResetGasCooldown();
             gasTimer = 0f;
         }
+
+        toxAnimator.SetBool("ToxicAttack", gasActive);
+        toxAnimator.SetBool("ToxicRun", isPulling);
+        toxAnimator.SetBool("ToxicDeath", isDying);
+
     }
 
     private void ResetGasCooldown()

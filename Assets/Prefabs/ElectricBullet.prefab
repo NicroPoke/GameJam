@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc911dcbb2cb9ab4b9d6d93c11f703ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  electricField: {fileID: 3559155685330890492, guid: b1993931420e01441b72e8312c4caf0f, type: 3}
+  electricField: {fileID: 6390713053841970129, guid: 3afd4eac069b8c0418d9d050796befc9, type: 3}
 --- !u!58 &5271975672183280259
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ public class ElectricField : MonoBehaviour
 {
     private float startTime;
     private float timeToLive = 5f;
-    private Vector3 desiredSize = new Vector3(3f, 3f, 3f);
+    private Vector3 desiredSize = new Vector3(1.4f, 1.4f, 1.4f);
 
     void Awake()
     {

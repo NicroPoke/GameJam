@@ -177,8 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 327733215bc64f94490e1570e909d00e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  electricField: {fileID: 3559155685330890492, guid: ce9ac31a83b80c4408de1badb060c2b2, type: 3}
+  electricField: {fileID: 8887886477987648544, guid: db0e87fe5e12bf442a339b916cdf6e0b, type: 3}
   targetSize: {x: 3, y: 3, z: 3}
+  animator: {fileID: 0}
 --- !u!58 &-8844678573203119932
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -72,7 +72,7 @@ public class GunController : MonoBehaviour
             Pull(mousePos);
             DrawAirPull();
 
-            if (!isOverheat)
+            if (!body.GetComponent<InventoryScroll>().isOverheat)
             {
                 // float changeRate = overheatValueRecoveryRate * Time.deltaTime * 100f;
                 // overheatValue += changeRate;
@@ -85,7 +85,7 @@ public class GunController : MonoBehaviour
 
             overheatValue -= Time.deltaTime * overheatValueRecoveryRate;
 
-            if (overheatValue <= 0)
+            if (body.gameObject.GetComponent<InventoryScroll>().overheatValue <= 0)
             {
                 // isOverheat = false;
                 overheatValue = 0;
@@ -94,7 +94,7 @@ public class GunController : MonoBehaviour
             StopDrawingAirPull();
         }
 
-        if (overheatValue >= 100)
+        if (body.gameObject.GetComponent<InventoryScroll>().overheatValue >= 100)
         {
             isOverheat = true;
             overheatValue = 100;
@@ -106,6 +106,8 @@ public class GunController : MonoBehaviour
 
     void DrawAirPull()
     {
+        if (body.GetComponent<InventoryScroll>().isOverheat) return;
+
         if (!pullTriangle.activeSelf) pullTriangle.SetActive(true);
         Vector2 startPosition = (Vector2)transform.position;
 
@@ -228,7 +230,7 @@ public class GunController : MonoBehaviour
 
     void Pull(Vector2 input)
     {
-        // if (body.GetComponent<InventoryScroll>().IsFull()) return;
+        if (body.GetComponent<InventoryScroll>().IsFull()) return;
 
         if (isOverheat) return;
 

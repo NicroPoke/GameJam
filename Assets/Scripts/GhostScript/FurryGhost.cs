@@ -20,7 +20,6 @@ public class FurryGhost : BaseGhost
     protected override void Update()
     {
         base.Update();
-        Debug.Log(isAttacking);
 
         furryAnimatoor.SetBool("FurryRunning", isPulling);
         furryAnimatoor.SetBool("FurryAttacking", isAttacking);

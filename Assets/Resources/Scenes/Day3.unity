@@ -8275,7 +8275,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1797874882}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1865538158}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
+        m_MethodName: Restart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1797874882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9229,6 +9241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOverheat: 0
   coolingTime: 0
+  overheatValue: 0
   maxRange: 5
   pullForceMultiplier: 0.06
   isPulled: 0

@@ -44,10 +44,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            health = 0;
-        }
         if (health <= 0 && !isDead)
         {
             StartCoroutine(Die());

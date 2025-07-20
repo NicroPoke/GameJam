@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PauseManager : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class PauseManager : MonoBehaviour
     public GameObject Canvas;
     public MonoBehaviour[] scriptsToDisable;
     private bool isPaused = false;
+    private bool retryTriggered = false;
+    public float retryDelay = 2f; 
 
     void Start()
     {
@@ -21,11 +24,11 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().isDead && !RetryCanvas.activeSelf)
+        var player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+        if (player != null && player.isDead && !RetryCanvas.activeSelf && !retryTriggered)
         {
-            Debug.Log("Retried");
-            RetryCanvas.SetActive(true);
-            Time.timeScale = 0f;
+            retryTriggered = true;
+            StartCoroutine(ShowRetryCanvasAfterDelay());
             return;
         }
 
@@ -41,10 +44,20 @@ public class PauseManager : MonoBehaviour
         }
     }
 
+    IEnumerator ShowRetryCanvasAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(retryDelay); 
+        Debug.Log("Retried");
+
+        RetryCanvas.SetActive(true);
+        Time.timeScale = 0f;
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Time.timeScale = 1f;
         isPaused = false;
+        retryTriggered = false;
         Canvas.SetActive(false);
         RetryCanvas.SetActive(false);
         foreach (var script in scriptsToDisable)

@@ -21,7 +21,6 @@ public class BossHandler : MonoBehaviour
     private int numStates = 6;
 
     public float healthPoints = 175;
-
     public float bulletsLeft = 5;
 
     bool doesExplosionExists;
@@ -64,45 +63,26 @@ public class BossHandler : MonoBehaviour
             }
         }
 
-        if (!isLightningInstantiated) return;
-
-        if (isDead) return;
+        if (!isLightningInstantiated || isDead) return;
 
         switch (state)
         {
-            case 1:
-                SpawnGhosts();
-                break;
-            case 2:
-                BulletBarrage();
-                break;
-            case 3:
-                GiantExplosion();
-                break;
-            case 4:
-                Spew();
-                break;
-            case 5:
-                BulletBarrage();
-                break;
-            case 6:
-                SkeletonSpew();
-                break;
-            case 7:
-                SpawnGhosts();
-                break;
-        }
-
-        if (health <= 0)
-        {
-            StartCoroutine(Die());
+            case 1: SpawnGhosts(); break;
+            case 2: BulletBarrage(); break;
+            case 3: GiantExplosion(); break;
+            case 4: Spew(); break;
+            case 5: BulletBarrage(); break;
+            case 6: SkeletonSpew(); break;
+            case 7: SpawnGhosts(); break;
         }
     }
 
     IEnumerator Die()
     {
+        if (isDead) yield break;
+
         isDead = true;
-        bossAnimator.SetBool("isDead", isDead);
+        bossAnimator.SetBool("isDead", true);
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
@@ -185,15 +165,12 @@ public class BossHandler : MonoBehaviour
     {
         if (!hasAtacked)
         {
-            Vector2 offset = Vector2.zero;
-
             for (int i = 0; i < 10; i++)
             {
-                offset = new Vector2(Random.Range(-10f, 10f), Random.Range(-5f, 5f));
+                Vector2 offset = new Vector2(Random.Range(-10f, 10f), Random.Range(-5f, 5f));
                 Vector2 position = (Vector2)transform.position + offset;
                 Instantiate(bullets[3], position, transform.rotation);
             }
-
             hasAtacked = true;
         }
         else
@@ -237,7 +214,6 @@ public class BossHandler : MonoBehaviour
             {
                 float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
-
                 GameObject ghostBullet = Instantiate(bullets[4], transform.position + (Vector3)direction * 0.5f, rotation);
                 ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
             }
@@ -268,13 +244,10 @@ public class BossHandler : MonoBehaviour
                 Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
                 float angleOffset = Random.Range(-30f, 30f);
                 Vector2 newDir = Quaternion.Euler(0, 0, angleOffset) * direction;
-
                 float angle = Mathf.Atan2(newDir.y, newDir.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
-
                 GameObject projectile = Instantiate(bullets[0], transform.position, rotation);
                 projectile.GetComponent<Rigidbody2D>().linearVelocity = newDir * bulletSpeed * 4f;
-
                 hasAtacked = true;
             }
         }
@@ -295,9 +268,18 @@ public class BossHandler : MonoBehaviour
 
     public void TakeDamege(int damage)
     {
+        if (isDead) return;
+
         health -= damage;
-        Debug.Log(health);
-        healthBar.GetComponent<Image>().fillAmount = health / 100f; 
+        if (health < 0) health = 0;
+
+        Debug.Log($"Health: {health}");
+        healthBar.GetComponent<Image>().fillAmount = health / 100f;
+
+        if (health <= 0 && !isDead)
+        {
+            StartCoroutine(Die());
+        }
     }
 
     void Shot(GameObject bullet)
@@ -306,7 +288,6 @@ public class BossHandler : MonoBehaviour
         Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
-
         GameObject projectile = Instantiate(bullet, transform.position, rotation);
         projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed * 5.7f;
     }
@@ -317,19 +298,18 @@ public class BossHandler : MonoBehaviour
 
         if (moveCount % 3 == 0 && !hasSpawnedGhosts)
         {
-            state = 7; 
+            state = 7;
         }
         else
         {
             state = Random.Range(1, numStates + 1);
             if (hasSpawnedGhosts && state == 7)
             {
-                state = Random.Range(1, 7); 
+                state = Random.Range(1, 7);
             }
         }
 
         StartAttack();
-
         Debug.Log($"State selected: {state}");
     }
 }

@@ -329,6 +329,7 @@ MonoBehaviour:
   - {fileID: 1573893577671540906, guid: d3cdb29133801624ab8ab8d564b8be4c, type: 3}
   - {fileID: 8605804642214075953, guid: ca033f8d5e69f3640a1c902f3231a7d8, type: 3}
   - {fileID: 7189199752003070066, guid: 8b559c8f14f23984b89dd8db650fc386, type: 3}
+  - {fileID: 6998118747052686773, guid: 1c0b7cdbfc0b7374b836ccdf8d2852f7, type: 3}
   Waves: 5
   GhostsPerWave: 5
   spawnRadius: 5

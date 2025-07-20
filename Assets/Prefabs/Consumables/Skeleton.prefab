@@ -175,5 +175,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb60ec4137de49147b5f049e739b0e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnable: {fileID: 5698167774636188204, guid: 978728a7ad5070549be3e3e98173bb16, type: 3}
+  respawnable: {fileID: 5698167774636188204, guid: 306dc2f2ef6114d4e900c813f6e14746, type: 3}
   consumableName: Skeleton

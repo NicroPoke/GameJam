@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -37,7 +38,8 @@ public class GhostManager : MonoBehaviour
             }
         }
 
-        GameObject[] ghosts = GameObject.FindGameObjectsWithTag("Ghost");
+        string targetTag = SceneManager.GetActiveScene().buildIndex == 7 ? "Boss" : "Ghost";
+        GameObject[] ghosts = GameObject.FindGameObjectsWithTag(targetTag);
 
         if (!initialGhostsCleared)
         {

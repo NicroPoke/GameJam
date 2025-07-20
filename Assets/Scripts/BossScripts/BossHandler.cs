@@ -33,14 +33,33 @@ public class BossHandler : MonoBehaviour
     private int moveCount = 0;
     private bool hasSpawnedGhosts = false;
 
+    [HideInInspector] public bool isDead;
+
+    private Animator animator;
+    private bool isAttacking = false;
+    private float attackTimer = 0f;
+
     void Awake()
     {
         target = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
         GetRandomState();
     }
 
     void Update()
     {
+        animator.SetBool("isDead", isDead);
+        if (isAttacking)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= 1.4f)
+            {
+                isAttacking = false;
+                animator.SetBool("isAtak", false);
+                attackTimer = 0f;
+            }
+        }
+
         switch (state)
         {
             case 1:
@@ -67,6 +86,15 @@ public class BossHandler : MonoBehaviour
         }
     }
 
+    void StartAttack()
+    {
+        if (!isAttacking)
+        {
+            isAttacking = true;
+            animator.SetBool("isAtak", true);
+        }
+    }
+
     void BulletBarrage()
     {
         if (bulletsLeft > 0)
@@ -90,7 +118,7 @@ public class BossHandler : MonoBehaviour
     {
         if (!hasAtacked)
         {
-            int numGhosts = Random.Range(1, 4);
+            int numGhosts = Random.Range(1, 3);
             for (int i = 0; i < numGhosts; i++)
             {
                 Instantiate(ghosts[Random.Range(0, 8)], transform.position + 2 * transform.forward, transform.rotation);
@@ -100,7 +128,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 10f)
+            if (timer > 15f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -148,7 +176,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 6f)
+            if (timer > 9f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -179,6 +207,8 @@ public class BossHandler : MonoBehaviour
     {
         if (!hasAtacked)
         {
+            isAttacking = true;
+            attackTimer = 0f;
             List<Vector2> vectors = GenerateCircleVectors(6);
 
             foreach (Vector2 direction in vectors)
@@ -228,7 +258,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 5f)
+            if (timer > 7.5f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -248,6 +278,7 @@ public class BossHandler : MonoBehaviour
 
     void Shot(GameObject bullet)
     {
+        animator.SetBool("isAtak", true);
         Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
@@ -272,5 +303,7 @@ public class BossHandler : MonoBehaviour
                 state = Random.Range(1, 7);
             }
         }
+
+        StartAttack();
     }
 }

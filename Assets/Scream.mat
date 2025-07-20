@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpiiralTex:
-        m_Texture: {fileID: 2800000, guid: 2fa57e99c1e3900488848f5a528f8bdb, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0d9884360f8c42a4f8b871bfcdf9b6e5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -52,6 +52,6 @@ Material:
     - _ColorStart: {r: 0.9622642, g: 0.62940544, b: 0.1301173, a: 0}
     - _EndColor: {r: 0.9633322, g: 1, b: 0.028301716, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpiralCol: {r: 0, g: 0, b: 0, a: 0}
+    - _SpiralCol: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

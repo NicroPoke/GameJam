@@ -18,7 +18,7 @@ public class ToxicGas : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(1);
+            controller.TakeDamege(2);
             isAttacking = true;
             lastDamageTime = Time.time;
         }

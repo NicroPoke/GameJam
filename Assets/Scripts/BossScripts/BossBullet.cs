@@ -30,7 +30,7 @@ public class BossBullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             var controller = collision.gameObject.GetComponent<PlayerController>();
-            controller.TakeDamege(15);
+            controller.TakeDamege(5);
             
             Destroy(gameObject);
         }

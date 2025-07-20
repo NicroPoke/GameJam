@@ -3,9 +3,13 @@ using UnityEngine;
 public class ToxicGhost : BaseGhost
 {
     public GameObject Gas;
-    private float gasCooldown = 5f;
+
+    private float gasCooldownBase = 5f;
+    private float gasCooldownRange = 0.75f;
+    private float currentGasCooldown;
+
     private float gasActiveDuration = 2f;
-    private float gasTimer = 5f;
+    private float gasTimer = 0f;
     private bool gasActive = false;
 
     protected override void Start()
@@ -16,18 +20,18 @@ public class ToxicGhost : BaseGhost
         GhostType = "Toxic";
         isPulling = false;
         Gas.SetActive(false);
-        gasTimer = 2f;
-        HardGhost = true; 
+        ResetGasCooldown();
+        gasTimer = currentGasCooldown;
+        HardGhost = true;
     }
 
     protected override void Update()
     {
-        
         base.Update();
 
         gasTimer += Time.deltaTime;
 
-        if (!gasActive && gasTimer >= gasCooldown)
+        if (!gasActive && gasTimer >= currentGasCooldown)
         {
             Speed = 1.5f;
             Gas.SetActive(true);
@@ -39,12 +43,15 @@ public class ToxicGhost : BaseGhost
             Speed = 2.5f;
             Gas.SetActive(false);
             gasActive = false;
+            ResetGasCooldown();
             gasTimer = 0f;
         }
     }
 
-    protected override  void OnTriggerStay2D(Collider2D collision)
+    private void ResetGasCooldown()
     {
-
+        currentGasCooldown = gasCooldownBase + Random.Range(-gasCooldownRange, gasCooldownRange);
     }
+
+    protected override void OnTriggerStay2D(Collider2D collision) { }
 }

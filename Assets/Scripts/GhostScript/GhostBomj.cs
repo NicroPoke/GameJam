@@ -1,14 +1,19 @@
 using UnityEngine;
 using System.Collections;
+
 public class GhostBomj : BaseGhost
 {
     private Animator animatoor;
     public GameObject BlueWater;
     public AudioSource BlueWaterSound;
-    private float BlueWaterCooldown = 3.3f;
-    private float BlueWaterActiveDuration = 1f;
-    private float BlueWaterTimer = 5f;
-    private bool BlueWaterActive = false;
+
+    private float blueWaterCooldownBase = 3.3f;
+    private float blueWaterCooldownRange = 0.75f;
+    private float currentBlueWaterCooldown;
+
+    private float blueWaterActiveDuration = 1f;
+    private float blueWaterTimer = 0f;
+    private bool blueWaterActive = false;
 
     protected override void Start()
     {
@@ -18,48 +23,48 @@ public class GhostBomj : BaseGhost
         WanderSpeed = 1.5f;
         GhostType = "Bobj";
         isPulling = false;
-        BlueWaterTimer = 2f;
+        ResetBlueWaterCooldown();
+        blueWaterTimer = currentBlueWaterCooldown;
         HardGhost = false;
-
     }
 
     protected override void Update()
     {
         base.Update();
-        animatoor.SetBool("SpewerSpew", BlueWaterActive);
+        animatoor.SetBool("SpewerSpew", blueWaterActive);
         animatoor.SetBool("SpewerPanic", isPulling);
         animatoor.SetBool("SpewerDying", isDying);
-        BlueWaterTimer += Time.deltaTime;
+        blueWaterTimer += Time.deltaTime;
 
-        if (!BlueWaterActive && BlueWaterTimer >= BlueWaterCooldown)
+        if (!blueWaterActive && blueWaterTimer >= currentBlueWaterCooldown)
         {
             BlueWaterSound.Play();
-            BlueWaterActive = true;
+            blueWaterActive = true;
             Speed = 2f;
             StartCoroutine(SpewBlueWater());
-            BlueWaterTimer = 0f;
+            blueWaterTimer = 0f;
         }
-        else if (BlueWaterActive && BlueWaterTimer >= BlueWaterActiveDuration)
+        else if (blueWaterActive && blueWaterTimer >= blueWaterActiveDuration)
         {
             Speed = 3f;
-            BlueWaterActive = false;
-            BlueWaterTimer = 0f;
+            blueWaterActive = false;
+            ResetBlueWaterCooldown();
+            blueWaterTimer = 0f;
         }
     }
-    protected override void AnimationCorrector()
-    {
 
+    private void ResetBlueWaterCooldown()
+    {
+        currentBlueWaterCooldown = blueWaterCooldownBase + Random.Range(-blueWaterCooldownRange, blueWaterCooldownRange);
     }
 
-    protected override void OnTriggerStay2D(Collider2D collision)
-    {
-
-    }
     IEnumerator SpewBlueWater()
     {
-
         yield return new WaitForSeconds(0.8f);
         Instantiate(BlueWater, transform.position, transform.rotation);
-
     }
+
+    protected override void AnimationCorrector() { }
+
+    protected override void OnTriggerStay2D(Collider2D collision) { }
 }

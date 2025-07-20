@@ -43,5 +43,7 @@ public class ConsumableScript : MonoBehaviour
         ghost.GetComponent<BaseGhost>().Alive = true;
         ghost.GetComponent<BaseGhost>().target = GameObject.FindGameObjectWithTag("Player").transform;
         ghost.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
+        ghost.GetComponent<SpriteRenderer>().flipX = true;
+        ghost.GetComponent<SkeletonGhost>().isRespawning = true;
     }
 }

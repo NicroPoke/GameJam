@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class FurryGhost : BaseGhost
 {
+    private Animator furryAnimatoor;
     protected override void Start()
     {
         base.Start();
+        furryAnimatoor = GetComponent<Animator>();
         Speed = 8f;
         WanderSpeed = 2.5f;
         TurningSpeed = 5f;
@@ -13,21 +15,39 @@ public class FurryGhost : BaseGhost
         HardGhost = false;
     }
 
+    protected override void Update()
+    {
+        base.Update();
+        Debug.Log(isAttacking);
+
+        furryAnimatoor.SetBool("FurryRunning", isPulling);
+        furryAnimatoor.SetBool("FurryAttacking", isAttacking);
+        furryAnimatoor.SetBool("FurryDeath", isDying);
+    }
+
     protected override void OnTriggerStay2D(Collider2D collision)
     {
         if (!collision.gameObject.CompareTag("Player")) return;
 
-        if (Time.time - lastDamageTime < invulnerabilityDuration)
-        {
-            isAttacking = false;
-            return;
-        }
-
         if (collision.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(1);
-            isAttacking = true;
-            lastDamageTime = Time.time;
+            if (Time.time - lastDamageTime > invulnerabilityDuration)
+            {
+                controller.TakeDamege(1);
+                isAttacking = true;
+                lastDamageTime = Time.time;
+            }
+            else return;
         }
+        else
+        {
+            isAttacking = false;
+        }
+    }
+
+
+    protected override void AnimationCorrector()
+    {
+        
     }
 }

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FurryGhost : BaseGhost
 {
+    public AudioSource roarSource;
+
     protected override void Start()
     {
         base.Start();
@@ -25,9 +27,14 @@ public class FurryGhost : BaseGhost
 
         if (collision.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(1);
+            controller.TakeDamege(3);
             isAttacking = true;
             lastDamageTime = Time.time;
+
+            if (roarSource != null)
+            {
+                roarSource.Play();
+            }
         }
     }
 }

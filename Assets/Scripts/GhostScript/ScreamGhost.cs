@@ -5,6 +5,9 @@ public class ScreamGhost : BaseGhost
     private Animator animatoooor;
     public GameObject Scream;
 
+    public AudioSource windUpSource;
+    public AudioSource screamSource;
+
     private float screamCooldownBase = 5f;
     private float screamCooldownRange = 0.75f;
     private float currentScreamCooldown;
@@ -32,6 +35,7 @@ public class ScreamGhost : BaseGhost
         animatoooor.SetBool("isPulling", isPulling);
         animatoooor.SetBool("isDead", isDying);
         animatoooor.SetBool("isScreaming", screamActive);
+
         screamTimer += Time.deltaTime;
 
         if (!screamActive && screamTimer >= currentScreamCooldown)
@@ -40,6 +44,16 @@ public class ScreamGhost : BaseGhost
             Scream.SetActive(true);
             screamActive = true;
             screamTimer = 0f;
+
+            if (windUpSource != null && windUpSource.isPlaying)
+            {
+                windUpSource.Stop();
+            }
+
+            if (screamSource != null)
+            {
+                screamSource.Play();
+            }
         }
         else if (screamActive && screamTimer >= screamActiveDuration)
         {
@@ -48,6 +62,11 @@ public class ScreamGhost : BaseGhost
             screamActive = false;
             ResetScreamCooldown();
             screamTimer = 0f;
+
+            if (windUpSource != null && !windUpSource.isPlaying)
+            {
+                windUpSource.Play();
+            }
         }
     }
 

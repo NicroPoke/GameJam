@@ -6,6 +6,10 @@ public class GlitchGhost : BaseGhost
     private float distToTarget;
     private float tpDelay = 2f;
     private float tpTimer = 0f;
+    private Animator glitchAnimator;
+    private bool isDead = false;
+    private bool isTP = false;
+    private bool isAttak = false;
 
     protected override void Start()
     {
@@ -16,7 +20,9 @@ public class GlitchGhost : BaseGhost
         GhostType = "Glitch";
         isPulling = false;
         tpTimer = 0f;
-        HardGhost = true; 
+        HardGhost = true;
+
+        glitchAnimator = GetComponent<Animator>();
 
         Collider2D myCol = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())
@@ -34,16 +40,19 @@ public class GlitchGhost : BaseGhost
 
         base.Update();
 
+        glitchAnimator.SetBool("IsTP", isTP);
+        glitchAnimator.SetBool("IsDead", isDead);
+        glitchAnimator.SetBool("IsAttak", isAttak);
+        glitchAnimator.SetBool("IsPulling", isPulling);
+
         if (!isAggroed) return;
 
         tpTimer += Time.deltaTime;
-
         if (tpTimer >= tpDelay)
         {
             tpTimer = 0f;
             StartCoroutine(DoTpGlitch());
         }
-        else
         {
             distToTarget = Vector2.Distance(velocityPosition, target.position);
         }
@@ -51,6 +60,8 @@ public class GlitchGhost : BaseGhost
 
     private System.Collections.IEnumerator DoTpGlitch()
     {
+        isTP = true;
+
         float glitchTime = 0.3f;
         float t = 0f;
         Vector3 orig = transform.position;
@@ -63,6 +74,7 @@ public class GlitchGhost : BaseGhost
         }
 
         transform.position = orig;
+        isTP = false;
 
         DoTeleport();
     }
@@ -85,17 +97,37 @@ public class GlitchGhost : BaseGhost
 
         if (Time.time - lastDamageTime < invulnerabilityDuration)
         {
-            isAttacking = false;
+            isAttak = false;
             return;
         }
 
         if (collision.gameObject.TryGetComponent(out PlayerController player))
         {
             player.TakeDamege(10);
-            isAttacking = true;
-            Debug.Log("GlitchGhost атакует игрока (урон 10).");
-            StartCoroutine(DoTpGlitch());
+            isAttak = true;
+            StartCoroutine(ResetAttackAnimation());
+            StartCoroutine(DelayedTeleportAfterAttack(0.35f));
             lastDamageTime = Time.time;
         }
+    }
+
+    private System.Collections.IEnumerator ResetAttackAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isAttak = false;
+    }
+
+    protected override void AnimationCorrector() {}
+
+    protected override void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        base.Die();
+    }
+    private System.Collections.IEnumerator DelayedTeleportAfterAttack(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartCoroutine(DoTpGlitch());
     }
 }

@@ -7,7 +7,6 @@ using UnityEngine;
 public class ToxicBattle : MonoBehaviour
 {
     public GameObject electricField;
-    public Vector3 targetSize = new Vector3(4f, 4f, 4f);
     private float startTime;
     private float timeToLive = 5f;
     [HideInInspector] public Animator animator;

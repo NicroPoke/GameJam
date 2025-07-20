@@ -76,11 +76,11 @@ public class ElectricBall : MonoBehaviour
         Vector2 middlePoint = startPosition + direction / 2;
 
         float rotationZz = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, rotationZz);
+        Quaternion rotation = Quaternion.Euler(0, 0, rotationZz + 90f);
 
         GameObject lightning = Instantiate(lightningStrike, middlePoint, rotation);
 
         float length = direction.magnitude;
-        lightning.transform.localScale = new Vector3(length, lightning.transform.localScale.y, 1);
+        lightning.transform.localScale = new Vector3(lightning.transform.localScale.y, length * 0.311066f, 1);
     }
 }

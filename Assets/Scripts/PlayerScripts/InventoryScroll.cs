@@ -48,7 +48,7 @@ public class InventoryScroll : MonoBehaviour
     public GameObject angelBullet;
 
     private Vector2 mousePosition;
-    private int currentSlot = 1;
+    private int currentSlot = 0;
     public List<InventorySlot> inventory = new List<InventorySlot>();
     public int[] ammounts;
     private Vector2 scrollDirenction;

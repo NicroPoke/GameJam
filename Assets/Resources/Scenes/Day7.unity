@@ -1781,63 +1781,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443585502}
   m_CullTransparentMesh: 1
---- !u!1001 &445881761
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -45.11946
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -21.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7189199752003070066, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_Name
-      value: TezzuElectric  (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
 --- !u!1 &451837643
 GameObject:
   m_ObjectHideFlags: 0
@@ -3602,63 +3545,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 712234834}
   m_CullTransparentMesh: 1
---- !u!1001 &735805320
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -45.11946
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -16.492596
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7189199752003070066, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_Name
-      value: 'TezzuElectric '
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
 --- !u!1 &822345587
 GameObject:
   m_ObjectHideFlags: 0
@@ -3966,63 +3852,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 938396578}
   m_CullTransparentMesh: 1
---- !u!1001 &980233647
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -40.39
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -18.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2078788834524787858, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7189199752003070066, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
-      propertyPath: m_Name
-      value: TezzuElectric  (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b3269e9a32e407040bbdb8b093527871, type: 3}
 --- !u!1 &988854330
 GameObject:
   m_ObjectHideFlags: 0
@@ -9142,7 +8971,7 @@ Transform:
   m_GameObject: {fileID: 1924652500}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -54.28, y: -18.71, z: 0}
+  m_LocalPosition: {x: -54.28, y: 0.25, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -10200,6 +10029,7 @@ MonoBehaviour:
   isLightningInstantiated: 0
   isDead: 0
   healthBar: {fileID: 988854330}
+  player: {fileID: 0}
 --- !u!50 &2068920896
 Rigidbody2D:
   serializedVersion: 5
@@ -10768,6 +10598,3 @@ SceneRoots:
   - {fileID: 75358433}
   - {fileID: 1353206753}
   - {fileID: 2068920898}
-  - {fileID: 735805320}
-  - {fileID: 445881761}
-  - {fileID: 980233647}

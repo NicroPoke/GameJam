@@ -26,12 +26,16 @@ public class SkeletonBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+            SpawnAditionaBullets(collision.gameObject);
+            Destroy(gameObject);
+        }
         if (collision.gameObject.CompareTag("Ghost") || collision.gameObject.CompareTag("Angel"))
         {
             var controller = collision.gameObject.GetComponent<BaseGhost>();
             controller.ApplyExternalForce(transform.right * 30);
-
-            Rigidbody2D rb = collision.gameObject.GetComponent<Rigidbody2D>();
 
             SpawnAditionaBullets(collision.gameObject);
 
@@ -71,7 +75,7 @@ public class SkeletonBullet : MonoBehaviour
         {
             collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
         }
-                    Destroy(gameObject);
+        Destroy(gameObject);
     }
 
 }

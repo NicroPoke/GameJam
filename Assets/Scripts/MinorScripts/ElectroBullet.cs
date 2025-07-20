@@ -44,8 +44,8 @@ public class ElectroBullet : MonoBehaviour
         if (collision.gameObject.CompareTag("Boss"))
         {
             collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+            Destroy(gameObject);
         }
-        Destroy(gameObject);
     }
 
 }

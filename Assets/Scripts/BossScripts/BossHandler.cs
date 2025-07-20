@@ -1,9 +1,5 @@
 using System.Collections.Generic;
-using System.Data.Common;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class BossHandler : MonoBehaviour
 {
@@ -34,7 +30,8 @@ public class BossHandler : MonoBehaviour
 
     bool hasAtacked = false;
 
-    
+    private int moveCount = 0;
+    private bool hasSpawnedGhosts = false;
 
     void Awake()
     {
@@ -44,8 +41,6 @@ public class BossHandler : MonoBehaviour
 
     void Update()
     {
-
-        if (StartCD = true) return;
         switch (state)
         {
             case 1:
@@ -77,7 +72,7 @@ public class BossHandler : MonoBehaviour
         if (bulletsLeft > 0)
         {
             timer += Time.deltaTime;
-            if (timer > coolDown)
+            if (timer > 1.2f)
             {
                 timer = 0;
                 Shot(bullets[0]);
@@ -101,6 +96,7 @@ public class BossHandler : MonoBehaviour
                 Instantiate(ghosts[Random.Range(0, 8)], transform.position + 2 * transform.forward, transform.rotation);
             }
             hasAtacked = true;
+            hasSpawnedGhosts = true;
         }
         else
         {
@@ -130,7 +126,6 @@ public class BossHandler : MonoBehaviour
             {
                 doesExplosionExists = false;
                 Destroy(pool);
-
                 GetRandomState();
             }
         }
@@ -174,7 +169,6 @@ public class BossHandler : MonoBehaviour
         for (int i = 0; i < num; i++)
         {
             float deg = i * angleStep * Mathf.Deg2Rad;
-
             Vector2 direction = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
             vectors.Add(direction);
         }
@@ -190,12 +184,10 @@ public class BossHandler : MonoBehaviour
             foreach (Vector2 direction in vectors)
             {
                 float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
                 Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
 
-                GameObject ghostBullet = Instantiate(bullets[4], transform.position, rotation);
+                GameObject ghostBullet = Instantiate(bullets[4], transform.position + (Vector3)direction * 0.5f, rotation);
                 ghostBullet.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed;
-
             }
 
             hasAtacked = true;
@@ -226,7 +218,6 @@ public class BossHandler : MonoBehaviour
                 Vector2 newDir = Quaternion.Euler(0, 0, angleOffset) * direction;
 
                 float angle = Mathf.Atan2(newDir.y, newDir.x) * Mathf.Rad2Deg;
-
                 Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
 
                 GameObject projectile = Instantiate(bullets[0], transform.position, rotation);
@@ -248,7 +239,6 @@ public class BossHandler : MonoBehaviour
                 timer += Time.deltaTime;
             }
         }
-
     }
 
     public void TakeDamege(int damage)
@@ -256,46 +246,40 @@ public class BossHandler : MonoBehaviour
         health -= damage;
     }
 
-    // void ShotLightningSpark()
-    // {
-    //     if (!isLightningInstantiated)
-    //     {
-    //         Vector2 startPosition = (Vector2)transform.position;
-    //         Vector2 direction = (startPosition - (Vector2)target.transform.position);
+    void ShotLightningSpark()
+    {
+        if (!isLightningInstantiated)
+        {
+            Vector2 startPosition = (Vector2)transform.position;
+            Vector2 direction = (startPosition - (Vector2)target.transform.position);
+            Vector2 middlePoint = startPosition + direction / 2;
 
-    //         Vector2 middlePoint = startPosition + direction / 2;
+            float rotationZz = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.Euler(0, 0, rotationZz);
 
-    //         float rotationZz = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-    //         Quaternion rotation = Quaternion.Euler(0, 0, rotationZz);
+            lightning = Instantiate(bullets[2], middlePoint, rotation);
+            lightning.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
 
-    //         lightning = Instantiate(bullets[2], middlePoint, rotation);
+            isLightningInstantiated = true;
+        }
+        else if (isLightningInstantiated)
+        {
+            Vector3 scale = lightning.transform.localScale;
+            float newX = Mathf.Lerp(scale.x, 8f, Time.deltaTime);
+            lightning.transform.localScale = new Vector3(newX, scale.y, scale.z);
 
-    //         lightning.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-
-    //         isLightningInstantiated = true;
-    //     }
-    //     else if (isLightningInstantiated)
-    //     {
-    //         Vector3 scale = lightning.transform.localScale;
-    //         float newX = Mathf.Lerp(scale.x, 20f, Time.deltaTime);
-    //         lightning.transform.localScale = new Vector3(newX, scale.y, scale.z);
-
-
-    //         if (lightning.transform.localScale.x >= 18)
-    //         {
-    //             isLightningInstantiated = false;
-    //             Destroy(lightning);
-
-    //             GetRandomState();
-    //         }
-    //     }
-
-    // }
+            if (lightning.transform.localScale.x >= 1f)
+            {
+                isLightningInstantiated = false;
+                Destroy(lightning);
+                GetRandomState();
+            }
+        }
+    }
 
     void Shot(GameObject bullet)
     {
         Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
-
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
 
@@ -305,7 +289,19 @@ public class BossHandler : MonoBehaviour
 
     void GetRandomState()
     {
-        state = Random.Range(1, numStates + 1);
-        Debug.Log(state);
+        moveCount++;
+
+        if (moveCount % 3 == 0 && !hasSpawnedGhosts)
+        {
+            state = 7;
+        }
+        else
+        {
+            state = Random.Range(1, numStates + 1);
+            if (hasSpawnedGhosts && state == 7)
+            {
+                state = Random.Range(1, 7);
+            }
+        }
     }
 }

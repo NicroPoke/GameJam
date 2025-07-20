@@ -19,7 +19,6 @@ public class BossBullet : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("IdleNormalBullet"));
         if (Time.time - startTime >= timeToLive)
         {
             Destroy(gameObject);

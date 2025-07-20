@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1623849220530612128}
   - component: {fileID: -7805932514043666972}
   - component: {fileID: 1330189188291114207}
+  - component: {fileID: -6115977052744548349}
   m_Layer: 0
   m_Name: BlueWater 1
   m_TagString: Bullet
@@ -80,8 +81,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.39461708, g: 0, b: 0.5, a: 0.6509804}
+  m_Sprite: {fileID: -855298285791758126, guid: d20f9c80dd986b242804bd074b878b98, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.6509804}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -219,3 +220,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   halfLife: 12
+--- !u!95 &-6115977052744548349
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559155685330890492}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -31,6 +31,12 @@ public class FurryBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            collision.gameObject.GetComponent<BossHandler>().TakeDamege(7);
+            Destroy(gameObject);
+        }
+
         if (!collision.gameObject.CompareTag("Ghost") && !collision.gameObject.CompareTag("Angel"))
             return;
 

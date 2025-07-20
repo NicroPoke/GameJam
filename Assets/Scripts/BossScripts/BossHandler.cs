@@ -43,7 +43,7 @@ public class BossHandler : MonoBehaviour
 
     void Update()
     {
-
+        Debug.Log(health);
         switch (state)
         {
             case 1:

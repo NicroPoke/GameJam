@@ -41,7 +41,7 @@ public class Screamer : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(5); 
+            controller.TakeDamege(7); 
             controller.speed = 2f;
             isAttacking = true;
             Debug.Log("Screamer: contact with player and damage dealt.");

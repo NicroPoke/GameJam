@@ -198,7 +198,7 @@ public class BaseGhost : MonoBehaviour
 
         if (collision.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(1);
+            controller.TakeDamege(5);
             isAttacking = true;
             lastDamageTime = Time.time;
         }

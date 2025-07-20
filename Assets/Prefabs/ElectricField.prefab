@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5909607912777444192}
   - component: {fileID: 941961560561166907}
   - component: {fileID: 1956417737745887494}
+  - component: {fileID: 5840067413573223213}
   m_Layer: 0
   m_Name: ElectricField
   m_TagString: Bullet
@@ -165,3 +166,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab806f60a12660b47ad6b3dad365520a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &5840067413573223213
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3559155685330890492}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

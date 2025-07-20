@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-class InventorySlot {
+public class InventorySlot {
     public int amount;
     public string type;
 
@@ -49,7 +49,8 @@ public class InventoryScroll : MonoBehaviour
 
     private Vector2 mousePosition;
     private int currentSlot = 1;
-    private List<InventorySlot> inventory = new List<InventorySlot>();
+    public List<InventorySlot> inventory = new List<InventorySlot>();
+    public int[] ammounts;
     private Vector2 scrollDirenction;
 
     private BoxCollider2D pullCollider;
@@ -136,15 +137,15 @@ public class InventoryScroll : MonoBehaviour
 
     void DebugAddGhostTypes()
     {
-        inventory.Add(new InventorySlot(1, "Contact"));
-        inventory.Add(new InventorySlot(1, "Furry"));
-        inventory.Add(new InventorySlot(1, "Bobj"));
-        inventory.Add(new InventorySlot(1, "Glitch"));
-        inventory.Add(new InventorySlot(1, "Scream"));
-        inventory.Add(new InventorySlot(1, "Toxic"));
-        inventory.Add(new InventorySlot(1, "Electric"));
-        inventory.Add(new InventorySlot(1, "Skeleton"));
-        inventory.Add(new InventorySlot(1, "Angel"));
+        inventory.Add(new InventorySlot(ammounts[0], "Contact"));
+        inventory.Add(new InventorySlot(ammounts[1], "Furry"));
+        inventory.Add(new InventorySlot(ammounts[2], "Bobj"));
+        inventory.Add(new InventorySlot(ammounts[3], "Glitch"));
+        inventory.Add(new InventorySlot(ammounts[4], "Scream"));
+        inventory.Add(new InventorySlot(ammounts[5], "Toxic"));
+        inventory.Add(new InventorySlot(ammounts[6], "Electric"));
+        inventory.Add(new InventorySlot(ammounts[7], "Skeleton"));
+        inventory.Add(new InventorySlot(ammounts[8], "Angel"));
     }
 
     bool IsNotFilled()
@@ -337,6 +338,8 @@ public class InventoryScroll : MonoBehaviour
         {
             Debug.Log("Non ghost");
             string type = ghost.name;
+            type = type.Replace("(Clone)", "");
+            
             Debug.Log(type);
             slot = GetGhostWithNeededType(type);
         }

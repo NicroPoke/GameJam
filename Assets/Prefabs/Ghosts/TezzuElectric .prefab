@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: -5967693931815724709}
   - component: {fileID: 4463168867515878556}
   m_Layer: 8
-  m_Name: TezzuElectric
+  m_Name: 'TezzuElectric '
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_GameObject: {fileID: 7189199752003070066}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -52.223, y: 0.805, z: 0}
+  m_LocalPosition: {x: -41.483315, y: -20.59, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -129,7 +129,7 @@ MonoBehaviour:
   isAttacking: 0
   isPulling: 0
   GhostType: Contact
-  ballLightning: {fileID: 3559155685330890492, guid: e3c0fb8765b795e4bbb02466d9777a0c, type: 3}
+  ballLightning: {fileID: 6390713053841970129, guid: 2009096166646414dbf8337330700b78, type: 3}
   ballSpeed: 3
   AAA: 0
   lightningShotSource: {fileID: 4463168867515878556}

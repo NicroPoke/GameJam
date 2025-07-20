@@ -83,9 +83,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator Die()
     {
         isDead = true;
-        // GameObject.Find("Gun").SetActive(false);
-        // GameObject.Find("Sholder").SetActive(false);
-        // GameObject.Find("bollte1").SetActive(false);
+        GameObject.Find("Gun").SetActive(false);
+        GameObject.Find("Sholder").SetActive(false);
+        GameObject.Find("bollte1").SetActive(false);
         if (Retry != null)
             Retry.SetActive(true);
         yield return new WaitForSeconds(1.4f);
@@ -107,6 +107,14 @@ public class PlayerController : MonoBehaviour
         Vector2 randomDirection = Random.insideUnitCircle.normalized;
         StartCoroutine(ApplyKnockback(randomDirection));
         StartCoroutine(DamageAnimation());
+    }
+
+    public void TakeDamegePool(int damage)
+    {
+        if (isDead) return;
+
+        health -= damage;
+        ChangeSliderHP();
     }
 
     IEnumerator ApplyKnockback(Vector2 direction)

@@ -6,6 +6,11 @@ public class Toxines : MonoBehaviour
     private float invulnerabilityDuration = 0.5f;
     private bool isAttacking = false;
 
+    void Awake()
+    {
+        GetComponent<CircleCollider2D>().includeLayers = LayerMask.GetMask("Default");
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
@@ -18,7 +23,7 @@ public class Toxines : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out PlayerController controller))
         {
-            controller.TakeDamege(1);
+            controller.TakeDamegePool(1);
             controller.speed = 2f;
             isAttacking = true;
             Debug.Log("Contact with player.");

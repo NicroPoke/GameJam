@@ -4,9 +4,13 @@ public class ScreamGhost : BaseGhost
 {
     private Animator animatoooor;
     public GameObject Scream;
-    private float screamCooldown = 5f;
+
+    private float screamCooldownBase = 5f;
+    private float screamCooldownRange = 0.75f;
+    private float currentScreamCooldown;
+
     private float screamActiveDuration = 1f;
-    private float screamTimer = 5f;
+    private float screamTimer = 0f;
     private bool screamActive = false;
 
     protected override void Start()
@@ -17,7 +21,8 @@ public class ScreamGhost : BaseGhost
         GhostType = "Scream";
         isPulling = false;
         Scream.SetActive(false);
-        screamTimer = 2f;
+        ResetScreamCooldown();
+        screamTimer = currentScreamCooldown; 
         HardGhost = true;
     }
 
@@ -29,7 +34,7 @@ public class ScreamGhost : BaseGhost
         animatoooor.SetBool("isScreaming", screamActive);
         screamTimer += Time.deltaTime;
 
-        if (!screamActive && screamTimer >= screamCooldown)
+        if (!screamActive && screamTimer >= currentScreamCooldown)
         {
             Speed = 4f;
             Scream.SetActive(true);
@@ -41,17 +46,17 @@ public class ScreamGhost : BaseGhost
             Speed = 2.5f;
             Scream.SetActive(false);
             screamActive = false;
+            ResetScreamCooldown();
             screamTimer = 0f;
         }
     }
 
-    protected override void OnTriggerStay2D(Collider2D collision)
+    private void ResetScreamCooldown()
     {
-
-    }
-    protected override void AnimationCorrector()
-    {
-
+        currentScreamCooldown = screamCooldownBase + Random.Range(-screamCooldownRange, screamCooldownRange);
     }
 
+    protected override void OnTriggerStay2D(Collider2D collision) { }
+
+    protected override void AnimationCorrector() { }
 }

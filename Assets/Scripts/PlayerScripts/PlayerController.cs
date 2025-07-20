@@ -1,5 +1,4 @@
 using System.Collections;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -7,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     bool isPullerActive = false;
+    private GameObject Retry;
     public Animator animator;
     public int health = 100;
     [SerializeField] private float pullForceMultiplier = 5f;
@@ -23,12 +23,21 @@ public class PlayerController : MonoBehaviour
     private bool isKnockbacked = false;
     private float knockbackDuration = 0.25f;
     private CameraFollow cameraFollow;
-    [HideInInspector]public bool isDead = false;
+    [HideInInspector] public bool isDead = false;
 
     void Awake()
     {
+        Retry = GameObject.Find("Retry");
+        if (Retry != null)
+            Retry.SetActive(false);
+        else
+            Debug.LogWarning("Retry object not found!");
+
         isDead = false;
         rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+            Debug.LogError("Rigidbody2D component missing on PlayerController GameObject!");
+
         lastGhost = null;
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
@@ -39,7 +48,7 @@ public class PlayerController : MonoBehaviour
         {
             health = 0;
         }
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
             StartCoroutine(Die());
         }
@@ -48,7 +57,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("DEAAAAAAAAAAAD");
         }
-    
+
         animator.SetBool("IsDead", isDead);
         animator.SetBool("IsWalking", IsWalking);
         animator.SetBool("IsHurting", IsHurting);
@@ -64,8 +73,6 @@ public class PlayerController : MonoBehaviour
             currentVelocity = movement.sqrMagnitude;
             IsWalking = currentVelocity > 0;
         }
-
-
     }
 
     void OnMove(InputValue value)
@@ -79,15 +86,16 @@ public class PlayerController : MonoBehaviour
         // GameObject.Find("Gun").SetActive(false);
         // GameObject.Find("Sholder").SetActive(false);
         // GameObject.Find("bollte1").SetActive(false);
-
+        if (Retry != null)
+            Retry.SetActive(true);
         yield return new WaitForSeconds(1.4f);
         Time.timeScale = 0f;
     }
 
-
-
     public void TakeDamege(int damage)
     {
+        if (isDead) return;
+
         health -= damage;
         ChangeSliderHP();
 
@@ -127,7 +135,6 @@ public class PlayerController : MonoBehaviour
     void ChangeSliderHP()
     {
         GameObject target = GameObject.Find("HP");
-
         if (target != null)
         {
             target.GetComponent<Image>().fillAmount = health * 0.01f;

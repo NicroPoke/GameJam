@@ -24,10 +24,10 @@ public class BossLightningStrike : MonoBehaviour
 
     void Update()
     {
-        float growthDuration = 2f; 
-        float t = (Time.time - startTime) / growthDuration;
-        t = Mathf.Clamp01(t);
-        t = 1f - Mathf.Exp(-0.1f * t); 
+        float growthDuration = 6f;
+        float t = 0;
+        t = Mathf.Clamp01((Time.time - startTime) / growthDuration);
+        t = Mathf.SmoothStep(0f, 1f, t);
         transform.localScale = Vector3.Lerp(new Vector3(0.0001f, 0.0001f, 0.0001f), desiredSize, t);
         if (Time.time - startTime >= timeToLive)
         {

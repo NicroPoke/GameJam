@@ -19,7 +19,7 @@ public class BossHandler : MonoBehaviour
     public float bulletSpeed = 20f;
 
     private int state = 1;
-    private int numStates = 1;
+    private int numStates = 7;
 
     public float healthPoints = 100;
 
@@ -50,6 +50,7 @@ public class BossHandler : MonoBehaviour
                 ShotRound();
                 break;
             case 2:
+                BulletBarrage();
                 break;
             case 3:
                 GiantExplosion();
@@ -92,15 +93,16 @@ public class BossHandler : MonoBehaviour
     {
         if (!hasAtacked)
         {
-            for (int i = 0; i < 4; i++)
+            int numGhosts = Random.Range(1, 4);
+            for (int i = 0; i < numGhosts; i++)
             {
-                Instantiate(ghosts[0], transform.position + 2 * transform.forward, transform.rotation);
+                Instantiate(ghosts[Random.Range(0, 8)], transform.position + 2 * transform.forward, transform.rotation);
             }
             hasAtacked = true;
         }
         else
         {
-            if (timer > 6f)
+            if (timer > 10f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -198,7 +200,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 3f)
+            if (timer > 6f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -233,7 +235,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 2f)
+            if (timer > 5f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -296,7 +298,7 @@ public class BossHandler : MonoBehaviour
         Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
 
         GameObject projectile = Instantiate(bullet, transform.position, rotation);
-        projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed * 7f;
+        projectile.GetComponent<Rigidbody2D>().linearVelocity = direction * bulletSpeed * 4.5f;
     }
 
     void GetRandomState()

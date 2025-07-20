@@ -47,7 +47,7 @@ public class BossHandler : MonoBehaviour
         switch (state)
         {
             case 1:
-                BulletBarrage();
+                ShotRound();
                 break;
             case 2:
                 break;
@@ -223,7 +223,7 @@ public class BossHandler : MonoBehaviour
 
                 float angle = Mathf.Atan2(newDir.y, newDir.x) * Mathf.Rad2Deg;
 
-                Quaternion rotation = Quaternion.Euler(0, 0, angle);
+                Quaternion rotation = Quaternion.Euler(0, 0, angle - 90f);
 
                 GameObject projectile = Instantiate(bullets[0], transform.position, rotation);
                 projectile.GetComponent<Rigidbody2D>().linearVelocity = newDir * bulletSpeed * 4f;

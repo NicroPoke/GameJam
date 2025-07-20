@@ -2989,9 +2989,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghosts:
-  - {fileID: 0}
+  - {fileID: 7546792536543466878, guid: cead28bec5948e645a123badc0aa4f55, type: 3}
+  - {fileID: 1573893577671540906, guid: d3cdb29133801624ab8ab8d564b8be4c, type: 3}
+  - {fileID: 2305069627398726992, guid: bfdade40dff40bb4ea63838a161d6a8e, type: 3}
+  - {fileID: 7189199752003070066, guid: 8b559c8f14f23984b89dd8db650fc386, type: 3}
+  - {fileID: 8605804642214075953, guid: ca033f8d5e69f3640a1c902f3231a7d8, type: 3}
+  - {fileID: 5698167774636188204, guid: 306dc2f2ef6114d4e900c813f6e14746, type: 3}
+  - {fileID: 6998118747052686773, guid: 1c0b7cdbfc0b7374b836ccdf8d2852f7, type: 3}
+  - {fileID: 7571053545324948084, guid: b8960481cf730974a8e0fd773132c959, type: 3}
+  - {fileID: 5310993579268314535, guid: ee735cc38be6d8d4d9e9ef16f036a340, type: 3}
   bullets:
   - {fileID: 1312240691916774131, guid: 6ca965ce399359747b90ff784ba2ee8a, type: 3}
+  - {fileID: 3559155685330890492, guid: 4d71acce7685643418547089a980c576, type: 3}
+  - {fileID: 1312240691916774131, guid: 6ca965ce399359747b90ff784ba2ee8a, type: 3}
+  - {fileID: 1312240691916774131, guid: 6ca965ce399359747b90ff784ba2ee8a, type: 3}
+  - {fileID: 3559155685330890492, guid: 600fb0c5b014d814fa477527589234bd, type: 3}
   target: {fileID: 0}
   bulletSpeed: 3.23
   healthPoints: 100

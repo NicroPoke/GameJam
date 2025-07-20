@@ -55,6 +55,8 @@ public class GunController : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
+        
         if (body.GetComponent<PlayerController>().currentVelocity != 0)
         {
             ShuffleGun();
@@ -70,14 +72,20 @@ public class GunController : MonoBehaviour
         if (isPulled)
         {
             Pull(mousePos);
-            DrawAirPull();
 
             if (!body.GetComponent<InventoryScroll>().isOverheat)
             {
+                DrawAirPull();
                 // float changeRate = overheatValueRecoveryRate * Time.deltaTime * 100f;
                 // overheatValue += changeRate;
                 ChangeSliderHP();
             }
+            else
+            {
+                StopDrawingAirPull();
+            }
+
+
         }
         else
         {
@@ -96,7 +104,7 @@ public class GunController : MonoBehaviour
 
         if (body.gameObject.GetComponent<InventoryScroll>().overheatValue >= 100)
         {
-            isOverheat = true;
+            // isOverheat = true;
             overheatValue = 100;
             ChangeSliderHP();
         }
@@ -106,8 +114,11 @@ public class GunController : MonoBehaviour
 
     void DrawAirPull()
     {
+        Debug.Log("Pre overheat");
+
         if (body.GetComponent<InventoryScroll>().isOverheat) return;
 
+        Debug.Log("Post overheat");
         if (!pullTriangle.activeSelf) pullTriangle.SetActive(true);
         Vector2 startPosition = (Vector2)transform.position;
 
@@ -232,8 +243,6 @@ public class GunController : MonoBehaviour
     {
         if (body.GetComponent<InventoryScroll>().IsFull()) return;
 
-        if (isOverheat) return;
-
 
         Vector3 mouseToWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mouseToWorld.z = 0;
@@ -256,7 +265,7 @@ public class GunController : MonoBehaviour
             pullCollider.enabled = false;
             playerController.speed = baseSpeed;
         }
-        else if (!isOverheat)
+        else if (!body.GetComponent<InventoryScroll>().isOverheat)
         {
             mousePos = input.Get<Vector2>();
             isPulled = true;
@@ -267,7 +276,7 @@ public class GunController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (isOverheat) return;
+        if (body.GetComponent<InventoryScroll>().isOverheat) return;
         float t = Time.time - timerAnalogue;
         float force = GetExponentialForce(t, pullForceMultiplier, growthRate);
 

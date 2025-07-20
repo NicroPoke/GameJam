@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+<<<<<<< HEAD
+--- !u!28 &-2080950478286714818
+Texture2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: dehinted-RazerF5-Semibold Atlas
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 3
+  m_Width: 1
+  m_Height: 1
+  m_CompleteImageSize: 1
+  m_MipsStripped: 0
+  m_TextureFormat: 1
+  m_MipCount: 1
+  m_IsReadable: 1
+  m_IsPreProcessed: 0
+  m_IgnoreMipmapLimit: 1
+  m_MipmapLimitGroupName: 
+  m_StreamingMipmaps: 0
+  m_StreamingMipmapsPriority: 0
+  m_VTOnly: 0
+  m_AlphaIsTransparency: 0
+  m_ImageCount: 1
+  m_TextureDimension: 2
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 0
+    m_WrapV: 0
+    m_WrapW: 0
+  m_LightmapFormat: 0
+  m_ColorSpace: 1
+  m_PlatformBlob: 
+  image data: 1
+  _typelessdata: cd
+  m_StreamData:
+    serializedVersion: 2
+    offset: 0
+    size: 0
+    path: 
+=======
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,11 +84,19 @@ MonoBehaviour:
     m_StrikethroughOffset: 18
     m_StrikethroughThickness: 2.7
     m_TabWidth: 20
+<<<<<<< HEAD
+  m_Material: {fileID: 2086555909891331082}
+  m_SourceFontFileGUID: 1fd46c9f9e7dd8e4b9d1ddcd59445aa8
+  m_CreationSettings:
+    sourceFontFileName: 
+    sourceFontFileGUID: 1fd46c9f9e7dd8e4b9d1ddcd59445aa8
+=======
   m_Material: {fileID: 8143098495094812473}
   m_SourceFontFileGUID: b35fd8b80a9d0b243bb229975d1d9aeb
   m_CreationSettings:
     sourceFontFileName: 
     sourceFontFileGUID: b35fd8b80a9d0b243bb229975d1d9aeb
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
     faceIndex: 0
     pointSizeSamplingMode: 0
     pointSize: 90
@@ -56,6 +113,16 @@ MonoBehaviour:
     fontStyleModifier: 0
     renderMode: 4165
     includeFontFeatures: 0
+<<<<<<< HEAD
+  m_SourceFontFile: {fileID: 12800000, guid: 1fd46c9f9e7dd8e4b9d1ddcd59445aa8, type: 3}
+  m_SourceFontFilePath: 
+  m_AtlasPopulationMode: 1
+  InternalDynamicOS: 0
+  m_GlyphTable: []
+  m_CharacterTable: []
+  m_AtlasTextures:
+  - {fileID: -2080950478286714818}
+=======
   m_SourceFontFile: {fileID: 12800000, guid: b35fd8b80a9d0b243bb229975d1d9aeb, type: 3}
   m_SourceFontFilePath: 
   m_AtlasPopulationMode: 1
@@ -1299,6 +1366,7 @@ MonoBehaviour:
     m_Scale: 1
   m_AtlasTextures:
   - {fileID: 231206371269617670}
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
   m_AtlasTextureIndex: 0
   m_IsMultiAtlasTexturesEnabled: 0
   m_GetFontFeatures: 1
@@ -1307,6 +1375,18 @@ MonoBehaviour:
   m_AtlasHeight: 1024
   m_AtlasPadding: 9
   m_AtlasRenderMode: 4165
+<<<<<<< HEAD
+  m_UsedGlyphRects: []
+  m_FreeGlyphRects:
+  - m_X: 0
+    m_Y: 0
+    m_Width: 1023
+    m_Height: 1023
+  m_FontFeatureTable:
+    m_MultipleSubstitutionRecords: []
+    m_LigatureSubstitutionRecords: []
+    m_GlyphPairAdjustmentRecords: []
+=======
   m_UsedGlyphRects:
   - m_X: 0
     m_Y: 0
@@ -46827,6 +46907,7 @@ MonoBehaviour:
           m_XAdvance: 0
           m_YAdvance: 0
       m_FeatureLookupFlags: 0
+<<<<<<< HEAD
     - m_FirstAdjustmentRecord:
         m_GlyphIndex: 38
         m_GlyphValueRecord:
@@ -48732,6 +48813,9 @@ MonoBehaviour:
           m_XAdvance: 0
           m_YAdvance: 0
       m_FeatureLookupFlags: 0
+=======
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
+>>>>>>> e27b78f4f9d159fe9aeb0453c2030392085e00e6
     m_MarkToBaseAdjustmentRecords: []
     m_MarkToMarkAdjustmentRecords: []
   m_ShouldReimportFontFeatures: 0
@@ -48791,6 +48875,9 @@ MonoBehaviour:
     kerningPairs: []
   fallbackFontAssets: []
   atlas: {fileID: 0}
+<<<<<<< HEAD
+--- !u!21 &2086555909891331082
+=======
 --- !u!28 &231206371269617670
 Texture2D:
   m_ObjectHideFlags: 0
@@ -48838,6 +48925,7 @@ Texture2D:
     size: 0
     path: 
 --- !u!21 &8143098495094812473
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -48873,7 +48961,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+<<<<<<< HEAD
+        m_Texture: {fileID: -2080950478286714818}
+=======
         m_Texture: {fileID: 231206371269617670}
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OutlineTex:
@@ -48910,9 +49002,15 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
+<<<<<<< HEAD
+    - _ScaleRatioA: 1
+    - _ScaleRatioB: 1
+    - _ScaleRatioC: 1
+=======
     - _ScaleRatioA: 0.9
     - _ScaleRatioB: 0.73125
     - _ScaleRatioC: 0.73125
+>>>>>>> 67f9f914e492659332d893ec8f9f9e9c908194d9
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0

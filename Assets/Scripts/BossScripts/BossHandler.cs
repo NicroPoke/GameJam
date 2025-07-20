@@ -16,7 +16,7 @@ public class BossHandler : MonoBehaviour
     public float bulletSpeed = 20f;
 
     private int state = 1;
-    private int numStates = 7;
+    private int numStates = 6;
 
     public float healthPoints = 100;
 
@@ -44,7 +44,7 @@ public class BossHandler : MonoBehaviour
         switch (state)
         {
             case 1:
-                ShotRound();
+                SpawnGhosts();
                 break;
             case 2:
                 BulletBarrage();
@@ -56,13 +56,10 @@ public class BossHandler : MonoBehaviour
                 Spew();
                 break;
             case 5:
-                ShotRound();
+                SpawnGhosts();
                 break;
             case 6:
                 SkeletonSpew();
-                break;
-            case 7:
-                SpawnGhosts();
                 break;
         }
     }
@@ -88,19 +85,20 @@ public class BossHandler : MonoBehaviour
 
     void SpawnGhosts()
     {
+        Debug.Log("Passed");
         if (!hasAtacked)
         {
-            int numGhosts = Random.Range(1, 4);
+            int numGhosts = Random.Range(1, 7);
             for (int i = 0; i < numGhosts; i++)
             {
-                Instantiate(ghosts[Random.Range(0, 8)], transform.position + 2 * transform.forward, transform.rotation);
+                Instantiate(ghosts[Random.Range(0, 3)], transform.position + 2 * transform.forward, transform.rotation);
             }
             hasAtacked = true;
             hasSpawnedGhosts = true;
         }
         else
         {
-            if (timer > 10f)
+            if (timer > 6f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -122,7 +120,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (pool.transform.localScale.x >= 18f)
+            if (pool.transform.localScale.x >= 2.4f)
             {
                 doesExplosionExists = false;
                 Destroy(pool);
@@ -148,7 +146,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 6f)
+            if (timer > 4f)
             {
                 timer = 0f;
                 hasAtacked = false;
@@ -228,7 +226,7 @@ public class BossHandler : MonoBehaviour
         }
         else
         {
-            if (timer > 5f)
+            if (timer > 3f)
             {
                 timer = 0f;
                 hasAtacked = false;

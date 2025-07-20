@@ -1,13 +1,14 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BossLightningStrike : MonoBehaviour
 {
     public GameObject lightningStrike; 
     private float startTime;
-    private float timeToLive = 5f;
+    private float timeToLive = 4f;
     private float strikeCooldown = 0.6f;
     private float strikeTimer = 0f;
-    private Vector3 desiredSize = new Vector3(20f, 20f, 20f);
+    private Vector3 desiredSize = new Vector3(4.3f, 4.3f, 4.3f);
 
     public float desiredColSize = 13f;
     public float initialRadius = 0.3f;
@@ -18,8 +19,6 @@ public class BossLightningStrike : MonoBehaviour
     {
         startTime = Time.time;
 
-        cirCollider = GetComponent<CircleCollider2D>();
-        cirCollider.radius = initialRadius;
     }
 
     void Update()
@@ -38,8 +37,11 @@ public class BossLightningStrike : MonoBehaviour
         {
             canStrike = true;
         }
+        else
+        {
+            strikeTimer += Time.deltaTime;
+        }
 
-        cirCollider.radius = Mathf.Lerp(initialRadius, desiredColSize, Time.deltaTime * 0.6f);
     }
 
     void OnTriggerStay2D(Collider2D collision)
@@ -49,6 +51,7 @@ public class BossLightningStrike : MonoBehaviour
             if (canStrike)
             {
                 Vector2 playerPos = (Vector2)collision.transform.position;
+                collision.gameObject.GetComponent<PlayerController>().TakeDamege(5);
 
                 ShotLightningSpark(playerPos);
                 canStrike = false;
@@ -64,7 +67,7 @@ public class BossLightningStrike : MonoBehaviour
             if (canStrike)
             {
                 Vector2 playerPos = (Vector2)collision.transform.position;
-
+                collision.gameObject.GetComponent<PlayerController>().TakeDamege(5);
                 ShotLightningSpark(playerPos);
                 canStrike = false;  
                 strikeTimer = 0f;

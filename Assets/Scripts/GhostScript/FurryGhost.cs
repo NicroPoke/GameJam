@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class FurryGhost : BaseGhost
 {
+    public AudioSource roarSource;
+
     private Animator furryAnimatoor;
     protected override void Start()
     {
@@ -33,7 +35,7 @@ public class FurryGhost : BaseGhost
         {
             if (Time.time - lastDamageTime > invulnerabilityDuration)
             {
-                controller.TakeDamege(1);
+                controller.TakeDamege(3);
                 isAttacking = true;
                 lastDamageTime = Time.time;
             }

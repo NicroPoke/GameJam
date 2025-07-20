@@ -12,6 +12,8 @@ public class ElectroGhost : BaseGhost
     [HideInInspector] public bool AAA;
     private float lightningTimer = 0f;
 
+    public AudioSource lightningShotSource;
+
     protected override void Start()
     {
         base.Start();
@@ -65,12 +67,19 @@ public class ElectroGhost : BaseGhost
         float rotationZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler(0, 0, rotationZ);
         AAA = true;
+
+        if (lightningShotSource != null)
+        {
+            lightningShotSource.Play();
+        }
+
         GameObject lightingBall = Instantiate(ballLightning, transform.position, rotation);
         lightingBall.GetComponent<Rigidbody2D>().linearVelocity = direction * ballSpeed;
         yield return new WaitForSeconds(1.4f);
         AAA = false;
     }
+
     protected override void AnimationCorrector() { }
-    
+
     protected override void OnTriggerStay2D(Collider2D collision) { }
 }

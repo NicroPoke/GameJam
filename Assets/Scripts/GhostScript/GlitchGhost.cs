@@ -11,6 +11,14 @@ public class GlitchGhost : BaseGhost
     private bool isTP = false;
     private bool isAttak = false;
 
+    public AudioSource ambientSource;
+    public AudioSource laughSource;
+    public AudioSource teleportSource;
+
+    private float laughTimer = 0f;
+    private float laughInterval = 1f;
+    private float laughChance = 0.1f;
+
     protected override void Start()
     {
         distToTarget = maxDist;
@@ -23,6 +31,12 @@ public class GlitchGhost : BaseGhost
         HardGhost = true;
 
         glitchAnimator = GetComponent<Animator>();
+
+        if (ambientSource != null)
+        {
+            ambientSource.loop = true;
+            ambientSource.Play();
+        }
 
         Collider2D myCol = GetComponent<Collider2D>();
         foreach (Collider2D col in FindObjectsOfType<Collider2D>())
@@ -47,15 +61,24 @@ public class GlitchGhost : BaseGhost
 
         if (!isAggroed) return;
 
+        laughTimer += Time.deltaTime;
+        if (laughTimer >= laughInterval)
+        {
+            laughTimer = 0f;
+            if (Random.value < laughChance && laughSource != null)
+            {
+                laughSource.Play();
+            }
+        }
+
         tpTimer += Time.deltaTime;
         if (tpTimer >= tpDelay)
         {
             tpTimer = 0f;
             StartCoroutine(DoTpGlitch());
         }
-        {
-            distToTarget = Vector2.Distance(velocityPosition, target.position);
-        }
+
+        distToTarget = Vector2.Distance(velocityPosition, target.position);
     }
 
     private System.Collections.IEnumerator DoTpGlitch()
@@ -76,6 +99,11 @@ public class GlitchGhost : BaseGhost
         transform.position = orig;
         isTP = false;
 
+        if (teleportSource != null)
+        {
+            teleportSource.Play();
+        }
+
         DoTeleport();
     }
 
@@ -83,12 +111,22 @@ public class GlitchGhost : BaseGhost
     {
         if (target == null) return;
 
-        float angle = Random.Range(0f, 2f * Mathf.PI);
-        float randDist = Random.Range(2f, maxDist);
-        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * randDist;
+        int maxAttempts = 10;
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            float angle = Random.Range(0f, 2f * Mathf.PI);
+            float randDist = Random.Range(2f, maxDist);
+            Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * randDist;
+            Vector2 candidatePosition = (Vector2)target.position + offset;
 
-        velocityPosition = (Vector2)target.position + offset;
-        rb.MovePosition(velocityPosition);
+            Collider2D hit = Physics2D.OverlapPoint(candidatePosition, LayerMask.GetMask("Ground"));
+            if (hit != null)
+            {
+                velocityPosition = candidatePosition;
+                rb.MovePosition(velocityPosition);
+                return;
+            }
+        }
     }
 
     protected override void OnTriggerStay2D(Collider2D collision)
@@ -125,6 +163,7 @@ public class GlitchGhost : BaseGhost
         isDead = true;
         base.Die();
     }
+
     private System.Collections.IEnumerator DelayedTeleportAfterAttack(float delay)
     {
         yield return new WaitForSeconds(delay);

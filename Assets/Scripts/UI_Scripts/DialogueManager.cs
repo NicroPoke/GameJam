@@ -8,6 +8,7 @@ using System.Data.Common;
 public class DialogueManager : MonoBehaviour
 {
     public GameObject door;
+    private BossHandler bossHandler;
     private SceneFader sceneFader;
     public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
@@ -54,8 +55,9 @@ public class DialogueManager : MonoBehaviour
 
     private float[] pitchVariants = new float[] { 1.1f, 1.2f, 1.3f, 1.4f};
 
-    void Start()
+    void Start() 
     {
+        bossHandler = FindObjectOfType<BossHandler>();
         sceneFader = FindObjectOfType<SceneFader>();
         dialoguePanel.SetActive(false);
         ParseRawText();
@@ -295,6 +297,12 @@ public class DialogueManager : MonoBehaviour
                 waitingForE = true;
                 return;
             }
+            if (index == 15 && SceneManager.GetActiveScene().buildIndex == 7)
+            {
+                StartCoroutine(BossTimer());
+                return;
+            }
+
 
             typingCoroutine = StartCoroutine(TypeLine());
         }
@@ -317,6 +325,19 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.Log("Last scene.");
+        }
+    }
+
+    IEnumerator BossTimer()
+    {
+        yield return new WaitForSeconds(7f);
+        if (bossHandler != null)
+        {
+            bossHandler.StartCD = false;
+        }
+        else
+        {
+            Debug.LogWarning("соси");
         }
     }
 

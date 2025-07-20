@@ -11,6 +11,7 @@ public class BossHandler : MonoBehaviour
     public GameObject[] bullets;
     public Transform target;
 
+    [HideInInspector] public bool StartCD = true;
     private int health = 100;
 
     private float coolDown = 0.7f;
@@ -44,6 +45,7 @@ public class BossHandler : MonoBehaviour
     void Update()
     {
 
+        if (StartCD = true) return;
         switch (state)
         {
             case 1:

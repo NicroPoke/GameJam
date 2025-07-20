@@ -246,37 +246,6 @@ public class BossHandler : MonoBehaviour
         health -= damage;
     }
 
-    void ShotLightningSpark()
-    {
-        if (!isLightningInstantiated)
-        {
-            Vector2 startPosition = (Vector2)transform.position;
-            Vector2 direction = (startPosition - (Vector2)target.transform.position);
-            Vector2 middlePoint = startPosition + direction / 2;
-
-            float rotationZz = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, 0, rotationZz);
-
-            lightning = Instantiate(bullets[2], middlePoint, rotation);
-            lightning.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-
-            isLightningInstantiated = true;
-        }
-        else if (isLightningInstantiated)
-        {
-            Vector3 scale = lightning.transform.localScale;
-            float newX = Mathf.Lerp(scale.x, 8f, Time.deltaTime);
-            lightning.transform.localScale = new Vector3(newX, scale.y, scale.z);
-
-            if (lightning.transform.localScale.x >= 1f)
-            {
-                isLightningInstantiated = false;
-                Destroy(lightning);
-                GetRandomState();
-            }
-        }
-    }
-
     void Shot(GameObject bullet)
     {
         Vector2 direction = ((Vector2)target.position - (Vector2)transform.position).normalized;
